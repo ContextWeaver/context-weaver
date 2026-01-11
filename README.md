@@ -130,7 +130,7 @@ node demo.js
 This will demonstrate various features including event generation, chains, time progression, and customization options.
 
 ### Web Demo
-Access the live interactive demo at: [https://contextweaver.github.io/content-weaver/](https://contextweaver.github.io/content-weaver/)
+Access the live interactive demo at: [https://contextweaver.github.io/context-weaver/](https://contextweaver.github.io/context-weaver/)
 
 ## Usage Guide
 
