@@ -2,7 +2,7 @@
 
 A powerful procedural content generation system for creating narratives, events, and interactive experiences across games, stories, and applications.
 
-> ⚠️ **Package Migration Notice**: This package was previously published as `rpg-event-generator`. If you're upgrading from the old package, all APIs remain compatible. The old package will be deprecated - please use `npm install context-weaver` for new installations.
+> ⚠️ **Package Migration Notice**: This package was previously published as `rpg-event-generator`. If you're upgrading from the old package, all APIs remain compatible. The old package will be deprecated - please use `npm install content-weaver` for new installations.
 
 ## ✨ What's New in v2.0.2
 
@@ -94,13 +94,13 @@ const uxIssue = uxGenerator.generateEvent();
 ## Installation
 
 ```bash
-npm install context-weaver
+npm install content-weaver
 ```
 
 ## Quick Start
 
 ```javascript
-import { RPGEventGenerator, generateRPGEvent } from 'context-weaver';
+import { RPGEventGenerator, generateRPGEvent } from 'content-weaver';
 
 // Simple event generation
 const event = generateRPGEvent({
@@ -130,7 +130,7 @@ node demo.js
 This will demonstrate various features including event generation, chains, time progression, and customization options.
 
 ### Web Demo
-Access the live interactive demo at: [https://contextweaver.github.io/context-weaver/](https://contextweaver.github.io/context-weaver/)
+Access the live interactive demo at: [https://contextweaver.github.io/content-weaver/](https://contextweaver.github.io/content-weaver/)
 
 ## Usage Guide
 
@@ -1675,7 +1675,7 @@ function onNewGameDay() {
 
 ```javascript
 import React, { useState, useEffect } from 'react';
-import { RPGEventGenerator } from 'context-weaver';
+import { RPGEventGenerator } from 'content-weaver';
 
 function GameEventSystem({ playerStats }) {
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -1836,7 +1836,7 @@ function loadGame() {
 
 ## 🔄 Migration Guide
 
-### From rpg-event-generator to context-weaver
+### From rpg-event-generator to content-weaver
 
 If you're migrating from the deprecated `rpg-event-generator` package:
 
@@ -1846,7 +1846,7 @@ If you're migrating from the deprecated `rpg-event-generator` package:
 npm uninstall rpg-event-generator
 
 # Install new package
-npm install context-weaver
+npm install content-weaver
 ```
 
 #### Code Changes Required
@@ -1857,11 +1857,11 @@ The API remains **100% backward compatible**. No code changes are needed:
 import { RPGEventGenerator } from 'rpg-event-generator';
 
 // New way (recommended)
-import { RPGEventGenerator } from 'context-weaver';
+import { RPGEventGenerator } from 'content-weaver';
 ```
 
 #### What Changed
-- **Package Name**: `rpg-event-generator` → `context-weaver`
+- **Package Name**: `rpg-event-generator` → `content-weaver`
 - **Branding**: Emphasizes broader applications beyond gaming
 - **Documentation**: Enhanced with enterprise use cases
 - **Homepage**: Updated to GitHub Pages deployment
@@ -1881,8 +1881,8 @@ We welcome contributions! Please feel free to submit issues, feature requests, a
 
 ```bash
 # Clone the repository
-git clone https://github.com/ContextWeaver/context-weaver.git
-cd context-weaver
+git clone https://github.com/ContextWeaver/content-weaver.git
+cd content-weaver
 
 # Install dependencies
 npm install
