@@ -1001,13 +1001,6 @@ Saloon bars serve synthetic whiskey to cyborg cowboys
                         <label for="enableDependencies">🔗 Event Dependencies</label>
                     </div>
 
-                    <label for="language">🌍 Language:</label>
-                    <select id="language">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                    </select>
-
                     <label for="demoMode">🎪 Demo Mode:</label>
                     <select id="demoMode">
                         <option value="single">Single Event</option>
@@ -1383,16 +1376,6 @@ Saloon bars serve synthetic whiskey to cyborg cowboys
 
                 <h4>🚀 Added</h4>
 
-                <h5>Multi-Language Support 🌍</h5>
-                <ul>
-                    <li><strong>Translation System</strong>: Complete internationalisation framework with locale support</li>
-                    <li><strong>Built-in Languages</strong>: English (default), Spanish (<code>es</code>), French (<code>fr</code>)</li>
-                    <li><strong>Dynamic Language Switching</strong>: <code>setLanguage()</code> method for runtime language changes</li>
-                    <li><strong>Custom Language Packs</strong>: <code>loadLanguagePack()</code> for adding new languages</li>
-                    <li><strong>Variable Substitution</strong>: Support for parameterised translations (<code>{{variable}}</code> syntax)</li>
-                    <li><strong>Cultural Adaptation</strong>: Language-specific cultural context and formatting</li>
-                </ul>
-
                 <h5>Environmental Modifiers 🌤️</h5>
                 <ul>
                     <li><strong>Weather Effects</strong>: Rain, storm, snow, and clear weather modifiers</li>
@@ -1568,7 +1551,6 @@ const generator = new ContextWeaver({
   enableModifiers: true,      // Weather/season effects
   enableRelationships: true,  // NPC relationship networks
   enableDependencies: true,   // Complex event prerequisites
-  language: 'en'              // Multi-language support
 });
 </code></pre>
 
@@ -1607,7 +1589,6 @@ const generator = new ContextWeaver({
   enableModifiers: true,      // Weather/season effects
   enableRelationships: true,  // NPC relationship networks
   enableDependencies: true,   // Complex event prerequisites
-  language: 'es'              // Multi-language support
 });
 </code></pre>
 
@@ -1622,7 +1603,6 @@ const generator = new ContextWeaver({
   enableModifiers: true,      // Weather/season effects
   enableRelationships: true,  // NPC relationship networks
   enableDependencies: true,   // Complex event prerequisites
-  language: 'en',             // Multi-language support
 
   // New options (v2.0.0+)
   enableRuleEngine: true,     // Enable custom rule engine
@@ -1658,8 +1638,8 @@ const generator = new ContextWeaver({
         document.addEventListener('DOMContentLoaded', function() {
             // Check if ContextWeaver is loaded
             if (typeof window.ContextWeaver === 'undefined') {
-                console.error('ContextWeaver not loaded. Make sure rpg-event-generator.js is included.');
-                alert('Error: RPG Event Generator library not loaded. Please check the browser console.');
+                console.error('ContextWeaver not loaded. Make sure content-weaver.js is included.');
+                alert('Error: Context Weaver library not loaded. Please check the browser console.');
                 return;
             }
 
@@ -1672,6 +1652,7 @@ const generator = new ContextWeaver({
             let currentChain = null;
             let gameTime = { day: 1, season: 'spring' };
 
+
             function initializeGenerator() {
                 try {
 
@@ -1679,11 +1660,11 @@ const generator = new ContextWeaver({
                         enableModifiers: document.getElementById('enableModifiers').checked,
                         enableRelationships: document.getElementById('enableRelationships').checked,
                         enableDependencies: document.getElementById('enableDependencies').checked,
-                        language: document.getElementById('language').value,
                         theme: document.getElementById('theme').value
                     };
 
                     generator = new window.ContextWeaver(options);
+
 
                     // Load some sample NPCs and relationships for demo
                     if (options.enableRelationships) {
@@ -1930,11 +1911,12 @@ const generator = new ContextWeaver({
             });
 
             // Feature toggles reinitialize generator
-            ['enableModifiers', 'enableRelationships', 'enableDependencies', 'language', 'theme'].forEach(id => {
+            ['enableModifiers', 'enableRelationships', 'enableDependencies', 'theme'].forEach(id => {
                 document.getElementById(id).addEventListener('change', function() {
                     generator = null; // Force reinitialization
                 });
             });
+
 
             // Update button visibility based on demo mode
             document.getElementById('demoMode').addEventListener('change', function() {

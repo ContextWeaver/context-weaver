@@ -50,7 +50,6 @@ describe('EventEconomy', () => {
       tags: ['test', 'sample'],
       theme: 'fantasy',
       culture: 'medieval',
-      language: 'en',
       enableRuleEngine: true,
       enableTemplates: true,
       pureMarkovMode: false,
@@ -212,7 +211,6 @@ describe('EventEconomy', () => {
         settings: {
           theme: 'sci-fi',
           culture: 'cyberpunk',
-          language: 'en',
           enableRuleEngine: false,
           enableTemplates: true,
           pureMarkovMode: false

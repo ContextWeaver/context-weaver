@@ -1,10 +1,10 @@
-const { RPGEventGenerator, generateRPGEvent } = require('../src/index.js');
+const { ContextWeaver, generateContent } = require('../src/index.js');
 
 describe('RPG Event Generator', () => {
   let generator;
 
   beforeEach(() => {
-    generator = new RPGEventGenerator();
+    generator = new ContextWeaver();
   });
 
   describe('Basic Generation', () => {
@@ -111,8 +111,8 @@ describe('RPG Event Generator', () => {
   });
 
   describe('Convenience Functions', () => {
-    test('generateRPGEvent should work', () => {
-      const event = generateRPGEvent();
+    test('generateContent should work', () => {
+      const event = generateContent();
 
       expect(event).toHaveProperty('id');
       expect(event).toHaveProperty('title');
@@ -134,7 +134,7 @@ describe('RPG Event Generator', () => {
   describe('Training Data', () => {
     test('should accept custom training data', () => {
       const customData = ['A dragon appears', 'You find a sword'];
-      const customGenerator = new RPGEventGenerator({
+      const customGenerator = new ContextWeaver({
         trainingData: customData
       });
 
@@ -143,7 +143,7 @@ describe('RPG Event Generator', () => {
     });
 
     test('should handle Markov generation failures gracefully', () => {
-      const failingGenerator = new RPGEventGenerator({
+      const failingGenerator = new ContextWeaver({
         trainingData: []
       });
 
@@ -184,9 +184,9 @@ describe('RPG Event Generator', () => {
 
   describe('Thematic Training Sets', () => {
     test('should support different themes', () => {
-      const fantasyGen = new RPGEventGenerator({ theme: 'fantasy' });
-      const sciFiGen = new RPGEventGenerator({ theme: 'sci-fi' });
-      const historicalGen = new RPGEventGenerator({ theme: 'historical' });
+      const fantasyGen = new ContextWeaver({ theme: 'fantasy' });
+      const sciFiGen = new ContextWeaver({ theme: 'sci-fi' });
+      const historicalGen = new ContextWeaver({ theme: 'historical' });
 
       const fantasyEvent = fantasyGen.generateEvent();
       const sciFiEvent = sciFiGen.generateEvent();
@@ -198,7 +198,7 @@ describe('RPG Event Generator', () => {
     });
 
     test('should default to fantasy theme', () => {
-      const defaultGen = new RPGEventGenerator();
+      const defaultGen = new ContextWeaver();
       const event = defaultGen.generateEvent();
 
       expect(defaultGen.theme).toBe('fantasy');
@@ -206,9 +206,9 @@ describe('RPG Event Generator', () => {
     });
 
     test('should support cultural variants', () => {
-      const norseGen = new RPGEventGenerator({ theme: 'fantasy', culture: 'norse' });
-      const cyberpunkGen = new RPGEventGenerator({ theme: 'sci-fi', culture: 'cyberpunk' });
-      const victorianGen = new RPGEventGenerator({ theme: 'historical', culture: 'victorian' });
+      const norseGen = new ContextWeaver({ theme: 'fantasy', culture: 'norse' });
+      const cyberpunkGen = new ContextWeaver({ theme: 'sci-fi', culture: 'cyberpunk' });
+      const victorianGen = new ContextWeaver({ theme: 'historical', culture: 'victorian' });
 
       expect(norseGen.culture).toBe('norse');
       expect(cyberpunkGen.culture).toBe('cyberpunk');
@@ -360,7 +360,7 @@ describe('RPG Event Generator', () => {
       expect(gameState).toHaveProperty('timeSystem');
       expect(gameState).toHaveProperty('activeChains');
 
-      const newGenerator = new RPGEventGenerator();
+      const newGenerator = new ContextWeaver();
       const loadResult = newGenerator.loadGameState(gameState);
 
       expect(loadResult).toBe(true);
@@ -499,7 +499,7 @@ describe('RPG Event Generator', () => {
       expect(exported.trainingData).toHaveProperty('export');
       expect(exported.chains).toHaveProperty('EXPORT_CHAIN');
 
-      const newGenerator = new RPGEventGenerator();
+      const newGenerator = new ContextWeaver();
       const importResults = newGenerator.importCustomContent(exported);
 
       expect(importResults.templates.success).toBe(1);
@@ -529,7 +529,7 @@ describe('RPG Event Generator', () => {
     });
 
     test('should handle invalid theme gracefully', () => {
-      const invalidThemeGen = new RPGEventGenerator({ theme: 'invalid' });
+      const invalidThemeGen = new ContextWeaver({ theme: 'invalid' });
       const event = invalidThemeGen.generateEvent();
 
       expect(event).toHaveProperty('description');
@@ -537,7 +537,7 @@ describe('RPG Event Generator', () => {
     });
 
     test('should handle invalid culture gracefully', () => {
-      const invalidCultureGen = new RPGEventGenerator({
+      const invalidCultureGen = new ContextWeaver({
         theme: 'fantasy',
         culture: 'invalid'
       });
@@ -548,56 +548,10 @@ describe('RPG Event Generator', () => {
   });
 
   describe('Enhanced Features (v1.2.0)', () => {
-    describe('Multi-Language Support', () => {
-      test('should initialize with English by default', () => {
-        const generator = new RPGEventGenerator();
-        expect(generator.language).toBe('en');
-        expect(generator.locales.has('en')).toBe(true);
-      });
-
-      test('should load and switch languages', () => {
-        const generator = new RPGEventGenerator();
-
-        const spanishPack = {
-          ui: {
-            'choice.fight': 'Luchar',
-            'choice.flee': 'Huir'
-          }
-        };
-
-        generator.loadLanguagePack('es', spanishPack);
-        expect(generator.locales.has('es')).toBe(true);
-
-        generator.setLanguage('es');
-        expect(generator.language).toBe('es');
-
-        expect(generator.translate('choice.fight')).toBe('Luchar');
-        expect(generator.translate('choice.flee')).toBe('Huir');
-      });
-
-      test('should fallback to English for missing translations', () => {
-        const generator = new RPGEventGenerator();
-        generator.setLanguage('es');
-        expect(generator.translate('event.title.default')).toBe('Unexpected Event');
-      });
-
-      test('should handle variable substitution in translations', () => {
-        const generator = new RPGEventGenerator();
-        generator.loadLanguagePack('test', {
-          ui: {
-            'greeting': 'Hello {{name}}, welcome to {{place}}!'
-          }
-        });
-        generator.setLanguage('test');
-
-        const result = generator.translate('greeting', { name: 'Hero', place: 'the tavern' });
-        expect(result).toBe('Hello Hero, welcome to the tavern!');
-      });
-    });
 
     describe('Environmental Modifiers', () => {
       test('should initialize built-in modifiers', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: true });
+        const generator = new ContextWeaver({ enableModifiers: true });
         expect(generator.modifiers.has('rain')).toBe(true);
         expect(generator.modifiers.has('storm')).toBe(true);
         expect(generator.modifiers.has('winter')).toBe(true);
@@ -605,7 +559,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should apply weather modifiers to events', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: true });
+        const generator = new ContextWeaver({ enableModifiers: true });
 
         const baseEvent = {
           title: 'A Journey',
@@ -624,7 +578,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should apply seasonal modifiers', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: true });
+        const generator = new ContextWeaver({ enableModifiers: true });
 
         const baseEvent = {
           title: 'Winter Journey',
@@ -643,7 +597,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should combine multiple modifiers', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: true });
+        const generator = new ContextWeaver({ enableModifiers: true });
 
         const baseEvent = {
           title: 'Storm in Winter',
@@ -663,7 +617,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should not apply modifiers when disabled', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: false });
+        const generator = new ContextWeaver({ enableModifiers: false });
 
         const baseEvent = {
           title: 'A Journey',
@@ -680,7 +634,7 @@ describe('RPG Event Generator', () => {
 
     describe('Event Dependencies', () => {
       test('should register and check event completion dependencies', () => {
-        const generator = new RPGEventGenerator({ enableDependencies: true });
+        const generator = new ContextWeaver({ enableDependencies: true });
 
         generator.registerEventDependency('ROYAL_BALL', {
           type: 'event_completed',
@@ -695,7 +649,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle stat requirement dependencies', () => {
-        const generator = new RPGEventGenerator({ enableDependencies: true });
+        const generator = new ContextWeaver({ enableDependencies: true });
 
         generator.registerEventDependency('ADVANCED_QUEST', {
           type: 'stat_requirement',
@@ -711,7 +665,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle complex AND conditions', () => {
-        const generator = new RPGEventGenerator({ enableDependencies: true });
+        const generator = new ContextWeaver({ enableDependencies: true });
 
         generator.registerEventDependency('ELITE_MISSION', {
           operator: 'AND',
@@ -735,7 +689,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle OR conditions', () => {
-        const generator = new RPGEventGenerator({ enableDependencies: true });
+        const generator = new ContextWeaver({ enableDependencies: true });
 
         generator.registerEventDependency('SOCIAL_EVENT', {
           operator: 'OR',
@@ -756,7 +710,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should not check dependencies when disabled', () => {
-        const generator = new RPGEventGenerator({ enableDependencies: false });
+        const generator = new ContextWeaver({ enableDependencies: false });
         generator.registerEventDependency('TEST_EVENT', { type: 'event_completed', eventId: 'TEST' });
         expect(generator.checkEventDependencies('TEST_EVENT', {})).toBe(true);
       });
@@ -764,7 +718,7 @@ describe('RPG Event Generator', () => {
 
     describe('NPC Relationships', () => {
       test('should add and track NPCs', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({
           id: 'merchant_john',
@@ -779,7 +733,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should update relationship strength', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({ id: 'guard_captain', name: 'Captain Valeria' });
 
@@ -790,7 +744,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should apply relationship evolution rules', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({ id: 'villager_sue', name: 'Sue the Villager' });
 
@@ -800,7 +754,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle relationship history', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({ id: 'nobleman', name: 'Lord Harrington' });
 
@@ -814,7 +768,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should clamp relationship strength to valid range', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({ id: 'test_npc', name: 'Test NPC' });
 
@@ -828,7 +782,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should not process relationships when disabled', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: false });
+        const generator = new ContextWeaver({ enableRelationships: false });
 
         generator.addNPC({ id: 'test', name: 'Test' });
         generator.updateRelationship('test', 'player', 10, 'test');
@@ -839,7 +793,7 @@ describe('RPG Event Generator', () => {
 
     describe('Enhanced Event Generation', () => {
       test('should generate enhanced events with all features enabled', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableModifiers: true,
           enableRelationships: true,
           enableDependencies: true
@@ -860,7 +814,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should apply modifiers in enhanced generation', () => {
-        const generator = new RPGEventGenerator({ enableModifiers: true });
+        const generator = new ContextWeaver({ enableModifiers: true });
 
         const context = {
           environment: { weather: 'rain' }
@@ -873,7 +827,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should include relationship context when available', () => {
-        const generator = new RPGEventGenerator({ enableRelationships: true });
+        const generator = new ContextWeaver({ enableRelationships: true });
 
         generator.addNPC({ id: 'king', name: 'King Arthur' });
         generator.updateRelationship('king', 'player', 80, 'loyal service');
@@ -888,13 +842,13 @@ describe('RPG Event Generator', () => {
       });
 
       test('should maintain backward compatibility', () => {
-        const enhancedGenerator = new RPGEventGenerator({
+        const enhancedGenerator = new ContextWeaver({
           enableModifiers: true,
           enableRelationships: true,
           enableDependencies: true
         });
 
-        const legacyGenerator = new RPGEventGenerator();
+        const legacyGenerator = new ContextWeaver();
 
         // Both should generate valid events
         const enhancedEvent = enhancedGenerator.generateEvent();
@@ -910,7 +864,7 @@ describe('RPG Event Generator', () => {
   describe('Event Templates Library (v1.3.0)', () => {
     describe('Template Loading', () => {
       test('should initialize template system without errors', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -920,7 +874,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should load templates from valid genres', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -932,7 +886,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle invalid template genres gracefully', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'nonexistent_genre'
         });
@@ -946,7 +900,7 @@ describe('RPG Event Generator', () => {
       let templateGenerator;
 
       beforeEach(() => {
-        templateGenerator = new RPGEventGenerator({
+        templateGenerator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -1003,7 +957,7 @@ describe('RPG Event Generator', () => {
 
     describe('Template Structure Validation', () => {
       test('should generate events with valid choice structure', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -1020,7 +974,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should generate events with valid difficulty levels', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -1031,7 +985,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should generate events with proper metadata', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -1046,17 +1000,17 @@ describe('RPG Event Generator', () => {
 
     describe('Cross-Genre Compatibility', () => {
       test('should support multiple genres', () => {
-        const sciFiGenerator = new RPGEventGenerator({
+        const sciFiGenerator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'sci-fi'
         });
 
-        const horrorGenerator = new RPGEventGenerator({
+        const horrorGenerator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'horror'
         });
 
-        const historicalGenerator = new RPGEventGenerator({
+        const historicalGenerator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'historical'
         });
@@ -1071,7 +1025,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should maintain genre-specific event characteristics', () => {
-        const horrorGenerator = new RPGEventGenerator({
+        const horrorGenerator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'horror'
         });
@@ -1092,13 +1046,13 @@ describe('RPG Event Generator', () => {
   describe('v2.0.0 Features', () => {
     describe('Rule Engine', () => {
       test('should initialize with rule engine enabled', () => {
-        const ruleGenerator = new RPGEventGenerator({ enableRuleEngine: true });
+        const ruleGenerator = new ContextWeaver({ enableRuleEngine: true });
         expect(ruleGenerator.enableRuleEngine).toBe(true);
         expect(ruleGenerator.customRules).toEqual({});
       });
 
       test('should add and validate custom rules', () => {
-        const generator = new RPGEventGenerator({ enableRuleEngine: true });
+        const generator = new ContextWeaver({ enableRuleEngine: true });
 
         const validRule = {
           conditions: [
@@ -1117,7 +1071,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should reject invalid rules', () => {
-        const generator = new RPGEventGenerator({ enableRuleEngine: true });
+        const generator = new ContextWeaver({ enableRuleEngine: true });
 
         const invalidRule = {
           conditions: 'not an array',
@@ -1130,7 +1084,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should apply rules based on conditions', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableRuleEngine: true,
           enableTemplates: true
         });
@@ -1154,7 +1108,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle complex rule conditions', () => {
-        const generator = new RPGEventGenerator({ enableRuleEngine: true });
+        const generator = new ContextWeaver({ enableRuleEngine: true });
 
         const complexRule = {
           conditions: [
@@ -1180,7 +1134,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should manage rule lifecycle', () => {
-        const generator = new RPGEventGenerator({ enableRuleEngine: true });
+        const generator = new ContextWeaver({ enableRuleEngine: true });
 
         generator.addCustomRule('test_rule', { conditions: [], effects: {} });
         expect(Object.keys(generator.getCustomRules())).toHaveLength(1);
@@ -1199,7 +1153,7 @@ describe('RPG Event Generator', () => {
 
     describe('Pure Markov Mode', () => {
       test('should initialize in pure Markov mode', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           pureMarkovMode: true,
           trainingData: ['Test sentence one.', 'Test sentence two.']
         });
@@ -1210,7 +1164,7 @@ describe('RPG Event Generator', () => {
 
       test('should generate events purely from Markov chains', () => {
         const customData = ['The hero fights bravely', 'The dragon breathes fire', 'The knight charges forward'];
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           pureMarkovMode: true,
           trainingData: customData
         });
@@ -1226,7 +1180,7 @@ describe('RPG Event Generator', () => {
 
       test('should use custom training data in generation', () => {
         const uniqueData = ['Xylophone wizard magic', 'Quantum cheese paradox', 'Banana spaceship captain'];
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           pureMarkovMode: true,
           trainingData: uniqueData
         });
@@ -1245,7 +1199,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should generate different events each time', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           pureMarkovMode: true,
           trainingData: ['The quick brown fox', 'Jumps over the lazy dog']
         });
@@ -1262,7 +1216,7 @@ describe('RPG Event Generator', () => {
     describe('Theme Creation', () => {
       test('should create generator with custom theme', () => {
         const customTraining = ['Space cowboys ride starships', 'Laser guns fire in the void', 'Alien saloons serve cosmic beer'];
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           trainingData: customTraining,
           theme: 'sci-fi',
           culture: 'western'
@@ -1273,7 +1227,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle null theme for pure custom generation', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           theme: null,
           trainingData: ['Custom story elements here']
         });
@@ -1283,7 +1237,7 @@ describe('RPG Event Generator', () => {
 
       test('should integrate theme creation with rule engine', () => {
         const trainingData = ['Medieval knights duel', 'Castles dot the landscape', 'Dragons guard ancient hoards'];
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           trainingData: trainingData,
           enableRuleEngine: true,
           pureMarkovMode: false // Use template enhancement
@@ -1305,7 +1259,7 @@ describe('RPG Event Generator', () => {
 
     describe('Cross-Platform Export Integration', () => {
       test('should maintain functionality after export preparation', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableRuleEngine: true,
           enableTemplates: true
         });
@@ -1321,7 +1275,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should handle template loading for export', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableTemplates: true,
           templateLibrary: 'fantasy'
         });
@@ -1338,7 +1292,7 @@ describe('RPG Event Generator', () => {
     describe('Backward Compatibility', () => {
       test('should maintain v1.x functionality', () => {
         // Test that all existing functionality still works
-        const generator = new RPGEventGenerator();
+        const generator = new ContextWeaver();
 
         const event = generator.generateEvent();
         expect(event).toHaveProperty('id');
@@ -1351,7 +1305,7 @@ describe('RPG Event Generator', () => {
       });
 
       test('should work without new features enabled', () => {
-        const generator = new RPGEventGenerator({
+        const generator = new ContextWeaver({
           enableRuleEngine: false,
           enableModifiers: false,
           enableRelationships: false

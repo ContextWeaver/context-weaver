@@ -40,7 +40,6 @@ class EventEconomy {
             settings: themeData.settings || {
                 theme: themeData.theme,
                 culture: themeData.culture,
-                language: themeData.language || 'en',
                 enableRuleEngine: themeData.enableRuleEngine,
                 enableTemplates: themeData.enableTemplates,
                 pureMarkovMode: themeData.pureMarkovMode

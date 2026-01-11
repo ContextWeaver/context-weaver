@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const { RPGEventGenerator } = require('./dist/index.js');
+const { ContextWeaver } = require('./dist/index.js');
 
 const DEMO_CONFIG = {
-  version: '2.0.0',
+  version: '3.0.0',
   showErrors: true,
   pauseBetweenDemos: false
 };
@@ -40,7 +40,7 @@ console.log('=' .repeat(60));
 function demoBasicEventGeneration() {
   printSection('⚡ Demo 1: Basic Event Generation');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
   const event = safeExecute(() => generator.generateEvent(), 'basic event generation');
 
   if (event) {
@@ -55,7 +55,7 @@ function demoBasicEventGeneration() {
 function demoDynamicDifficultyScaling() {
   printSection('📊 Demo 2: Dynamic Difficulty Scaling');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const weakling = {
     gold: 50,
@@ -81,7 +81,7 @@ function demoDynamicDifficultyScaling() {
 function demoContextAwareEvents() {
   printSection('🎯 Demo 3: Context-Aware Events');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const playerContext = {
     age: 35,
@@ -109,7 +109,7 @@ function demoContextAwareEvents() {
 function demoCustomTrainingData() {
   printSection('📚 Demo 4: Custom Training Data');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const trainingData = [
     'The ancient dragon hoards glittering treasures in its mountain lair',
@@ -132,7 +132,7 @@ function demoCustomTrainingData() {
 function demoModularEventSystem() {
   printSection('🧩 Demo 5: Modular Event System');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const customTemplate = {
     title: 'Mystic Vision',
@@ -170,7 +170,7 @@ function demoModularEventSystem() {
     printResult('Exported templates', Object.keys(exportedContent.templates).length);
   }
 
-  const newGenerator = new RPGEventGenerator();
+  const newGenerator = new ContextWeaver();
   const importResult = safeExecute(() => newGenerator.importCustomContent(exportedContent), 'importing content');
   if (importResult) {
     printResult('Imported templates', importResult.templates.success);
@@ -180,7 +180,7 @@ function demoModularEventSystem() {
 function demoEventChains() {
   printSection('⛓️ Demo 6: Event Chains');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const chainResult = safeExecute(() => generator.startChain('BANDIT_RISING'), 'starting event chain');
 
@@ -207,7 +207,7 @@ function demoEventChains() {
 function demoTemplateLibrary() {
   printSection('📚 Demo 7: Template Library');
 
-  const generator = new RPGEventGenerator({
+  const generator = new ContextWeaver({
     enableTemplates: true,
     templateLibrary: 'fantasy'
   });
@@ -235,7 +235,7 @@ function demoTemplateLibrary() {
 function demoTimeBasedEvents() {
   printSection('⏰ Demo 8: Time-Based Events');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const dueEvents = safeExecute(() => generator.advanceGameDay(), 'advancing game day');
   const currentTime = safeExecute(() => generator.getCurrentTime(), 'getting current time');
@@ -260,7 +260,7 @@ function demoTimeBasedEvents() {
 function demoGameStateManagement() {
   printSection('💾 Demo 9: Game State Management');
 
-  const generator = new RPGEventGenerator();
+  const generator = new ContextWeaver();
 
   const gameState = {
     player: { level: 5, gold: 1000 },
@@ -279,55 +279,6 @@ function demoGameStateManagement() {
   }
 }
 
-// Multi-Language Support
-function demoMultiLanguageSupport() {
-
-  const generator = new RPGEventGenerator({
-    enableModifiers: true,
-    enableRelationships: true,
-    enableDependencies: true,
-    language: 'en'
-  });
-
-  printSection('🌍 Demo 10: Multi-Language Support');
-
-  const spanishPack = {
-    ui: {
-      'event.title.default': 'Evento Inesperado',
-      'choice.fight': 'Luchar',
-      'choice.flee': 'Huir',
-      'choice.negotiate': 'Negociar'
-    },
-    culture: {
-      nameFormats: ['western'],
-      currencySymbols: ['oro']
-    }
-  };
-
-  const frenchPack = {
-    ui: {
-      'event.title.default': 'Événement Inattendu',
-      'choice.fight': 'Combattre',
-      'choice.flee': 'Fuire',
-      'choice.negotiate': 'Négocier'
-    }
-  };
-
-  safeExecute(() => generator.loadLanguagePack('es', spanishPack), 'loading Spanish pack');
-  safeExecute(() => generator.loadLanguagePack('fr', frenchPack), 'loading French pack');
-
-  printResult('English', generator.translate('choice.fight'));
-
-  safeExecute(() => generator.setLanguage('es'), 'switching to Spanish');
-  printResult('Spanish', generator.translate('choice.fight'));
-
-  safeExecute(() => generator.setLanguage('fr'), 'switching to French');
-  printResult('French', generator.translate('choice.fight'));
-
-  safeExecute(() => generator.setLanguage('en'), 'switching back to English');
-
-  return generator;
-}
 
 // Environmental Modifiers
 function demoEnvironmentalModifiers(generator) {
@@ -491,13 +442,13 @@ function demoCombinedFeatures(generator) {
 function demoBackwardCompatibility() {
   printSection('🔄 Demo 15: Backward Compatibility');
 
-  const legacyGenerator = new RPGEventGenerator();
+  const legacyGenerator = new ContextWeaver();
   const legacyEvent = safeExecute(() => legacyGenerator.generateEvent(), 'legacy generator test');
   if (legacyEvent) {
     printResult('Basic generator works', legacyEvent.title);
   }
 
-  const partialGenerator = new RPGEventGenerator({
+  const partialGenerator = new ContextWeaver({
     enableModifiers: false,
     enableRelationships: true,
     enableDependencies: false
@@ -507,7 +458,7 @@ function demoBackwardCompatibility() {
     printResult('Partial features work', partialEvent.title);
   }
 
-  const oldApiGenerator = new RPGEventGenerator({
+  const oldApiGenerator = new ContextWeaver({
     theme: 'fantasy',
     culture: 'norse'
   });
@@ -523,8 +474,6 @@ function demoSystemStatus(generator) {
   const status = safeExecute(() => generator.getSystemStatus(), 'getting system status');
 
   if (status) {
-    printResult('Current language', status.language);
-    printResult('Available languages', status.availableLanguages.join(', '));
     printResult('Modifiers enabled', status.modifiersEnabled);
     printResult('Relationships enabled', status.relationshipsEnabled);
     printResult('Dependencies enabled', status.dependenciesEnabled);
@@ -570,7 +519,11 @@ function runDemo() {
   demoTimeBasedEvents();
   demoGameStateManagement();
 
-  const enhancedGenerator = demoMultiLanguageSupport();
+  const enhancedGenerator = new ContextWeaver({
+    enableModifiers: true,
+    enableRelationships: true,
+    enableDependencies: true
+  });
   demoEnvironmentalModifiers(enhancedGenerator);
   demoEventDependencies(enhancedGenerator);
   demoNPCRelationships(enhancedGenerator);
@@ -579,25 +532,25 @@ function runDemo() {
   demoSystemStatus(enhancedGenerator);
   demoAdvancedUsage(enhancedGenerator);
 
-  printHeader('🚀 v2.0.0 FEATURE DEMOS');
+  printHeader('🚀 v3.0.0 FEATURE DEMOS');
 
-  // v2.0.0 Feature Demos
+  // v3.0.0 Feature Demos
   demoCustomRuleEngine();
   demoThemeCreator();
   demoPureMarkovMode();
   demoEventEconomy();
 
   printHeader('✅ DEMO COMPLETE');
-  console.log('🎉 All v2.0.0 features demonstrated successfully!');
-  console.log('📦 Version 2.0.0 delivers revolutionary new capabilities with full backward compatibility.');
+  console.log('🎉 All v3.0.0 features demonstrated successfully!');
+  console.log('📦 Version 3.0.0 delivers revolutionary new capabilities with full backward compatibility.');
   console.log('🚀 Production-ready for game development!');
 }
 
-// v2.0.0 Feature Demos
+// v3.0.0 Feature Demos
 function demoCustomRuleEngine() {
-  printSection('🧠 Demo 18: Custom Rule Engine (v2.0.0)');
+  printSection('🧠 Demo 18: Custom Rule Engine (v3.0.0)');
 
-  const generator = new RPGEventGenerator({ enableRuleEngine: true });
+  const generator = new ContextWeaver({ enableRuleEngine: true });
 
   // Create a custom rule for wealthy players
   const wealthyRule = {
@@ -632,7 +585,7 @@ function demoCustomRuleEngine() {
 }
 
 function demoThemeCreator() {
-  printSection('🎨 Demo 19: Theme Creator (v2.0.0)');
+  printSection('🎨 Demo 19: Theme Creator (v3.0.0)');
 
   const customTrainingData = [
     'Neon-lit cantinas pulse with quantum energy',
@@ -643,7 +596,7 @@ function demoThemeCreator() {
   ];
 
   safeExecute(() => {
-    const generator = new RPGEventGenerator({
+    const generator = new ContextWeaver({
       trainingData: customTrainingData,
       theme: 'space-opera',
       culture: 'cyberpunk'
@@ -657,7 +610,7 @@ function demoThemeCreator() {
 }
 
 function demoPureMarkovMode() {
-  printSection('🎲 Demo 20: Pure Markov Mode (v2.0.0)');
+  printSection('🎲 Demo 20: Pure Markov Mode (v3.0.0)');
 
   const pureTrainingData = [
     'Crystal caves echo with ancient magical resonances',
@@ -668,7 +621,7 @@ function demoPureMarkovMode() {
   ];
 
   safeExecute(() => {
-    const pureGenerator = new RPGEventGenerator({
+    const pureGenerator = new ContextWeaver({
       trainingData: pureTrainingData,
       pureMarkovMode: true,
       enableTemplates: false
@@ -683,7 +636,7 @@ function demoPureMarkovMode() {
 }
 
 function demoEventEconomy() {
-  printSection('💰 Demo 21: Event Economy (v2.0.0)');
+  printSection('💰 Demo 21: Event Economy (v3.0.0)');
 
   safeExecute(() => {
     // Import the EventEconomy class

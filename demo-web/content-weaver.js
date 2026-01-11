@@ -1,11 +1,11 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ContextWeaver = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (__dirname){(function (){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RPGEventGenerator = void 0;
+exports.ContextWeaver = void 0;
 const {
   Chance
 } = require('chance');
@@ -116,7 +116,7 @@ class SimpleMarkovGenerator {
  * RPG Event Generator - Procedural event generation for RPG games
  * @class
  */
-class RPGEventGenerator {
+class ContextWeaver {
   /**
    * Create a new event generator
    * @param {Object} options - Configuration options
@@ -141,7 +141,6 @@ class RPGEventGenerator {
     this.enableDependencies = options.enableDependencies !== false;
     this.enableModifiers = options.enableModifiers !== false;
     this.enableRelationships = options.enableRelationships !== false;
-    this.language = options.language || 'en';
     this.pureMarkovMode = options.pureMarkovMode || false;
     this.enableTemplates = this.pureMarkovMode ? false : options.enableTemplates !== false;
     this.templateLibrary = this.pureMarkovMode ? null : options.templateLibrary || null;
@@ -1206,7 +1205,6 @@ class RPGEventGenerator {
    * @param {Object} options - Constructor options
    */
   initializeEnhancedFeatures(options) {
-    this.locales = new Map();
     this.dependencies = new Map();
     this.modifiers = new Map();
     this.relationships = new Map();
@@ -3018,66 +3016,7 @@ class RPGEventGenerator {
    * Load default English locale
    * @private
    */
-  loadDefaultLocale() {
-    this.locales.set('en', {
-      templates: {},
-      trainingData: [],
-      ui: {
-        'event.title.default': 'Unexpected Event',
-        'event.description.default': 'Something unexpected occurs...',
-        'choice.accept': 'Accept',
-        'choice.decline': 'Decline',
-        'choice.fight': 'Fight',
-        'choice.flee': 'Flee',
-        'choice.negotiate': 'Negotiate'
-      },
-      culture: {
-        nameFormats: ['western'],
-        dateFormats: ['MM/DD/YYYY'],
-        currencySymbols: ['$'],
-        honorifics: ['Sir', 'Lady', 'Lord']
-      }
-    });
-  }
-
-  /**
-   * Load a language pack
-   * @param {string} language - Language code
-   * @param {Object} languagePack - Language pack data
-   */
-  loadLanguagePack(language, languagePack) {
-    this.locales.set(language, languagePack);
-  }
-
-  /**
-   * Set the current language
-   * @param {string} language - Language code
-   */
-  setLanguage(language) {
-    if (this.locales.has(language)) {
-      this.language = language;
-    } else {
-      console.warn(`Language '${language}' not loaded, staying with '${this.language}'`);
-    }
-  }
-
-  /**
-   * Get translated text
-   * @param {string} key - Translation key
-   * @param {Object} variables - Substitution variables
-   * @returns {string} Translated text
-   */
-  translate(key, variables = {}) {
-    const locale = this.locales.get(this.language) || this.locales.get('en');
-    if (!locale || !locale.ui[key]) {
-      return key;
-    }
-    let text = locale.ui[key];
-    Object.entries(variables).forEach(([varKey, value]) => {
-      text = text.replace(new RegExp(`{{${varKey}}}`, 'g'), value);
-    });
-    return text;
-  }
+  loadDefaultLocale() {}
 
   /**
    * Initialize built-in modifiers
@@ -3556,15 +3495,12 @@ class RPGEventGenerator {
    */
   getSystemStatus() {
     return {
-      version: '2.0.0',
-      language: this.language,
-      availableLanguages: Array.from(this.locales.keys()),
+      version: '3.0.0',
       modifiersEnabled: this.enableModifiers,
       relationshipsEnabled: this.enableRelationships,
       dependenciesEnabled: this.enableDependencies,
       totalNPCs: this.enableRelationships ? this.relationships.size : 0,
       activeModifiers: this.enableModifiers ? Array.from(this.activeModifiers) : [],
-      totalLocales: this.locales.size,
       timeSystem: {
         currentDay: this.timeSystem.currentDay,
         currentSeason: this.timeSystem.currentSeason
@@ -3597,14 +3533,20 @@ class RPGEventGenerator {
     return enhancedEvent;
   }
 }
-exports.RPGEventGenerator = RPGEventGenerator;
-function generateRPGEvent(playerContext = {}) {
-  const generator = new RPGEventGenerator();
-  return generator.generateEvent(playerContext);
+exports.ContextWeaver = ContextWeaver;
+function generateContent(userContext = {}) {
+  const generator = new ContextWeaver();
+  return generator.generateEvent(userContext);
+}
+
+// For browser compatibility
+if (typeof window !== 'undefined') {
+  window.ContextWeaver = ContextWeaver;
+  window.generateContent = generateContent;
 }
 module.exports = {
-  RPGEventGenerator: RPGEventGenerator,
-  generateRPGEvent: generateRPGEvent
+  ContextWeaver: ContextWeaver,
+  generateContent: generateContent
 };
 }).call(this)}).call(this,"/dist")
 },{"chance":5,"fs":3,"path":7}],2:[function(require,module,exports){
@@ -18050,5 +17992,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[1])(1)
-});
+},{}]},{},[1]);

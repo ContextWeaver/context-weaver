@@ -1,7 +1,7 @@
 {
   "name": "content-weaver",
-  "version": "2.0.2",
-  "description": "Context Weaver v2.0.2 - Powerful procedural content generation system for narratives, events, and interactive experiences",
+  "version": "3.0.0",
+  "description": "Context Weaver v3.0.0 - Intelligent procedural content generation for dynamic narratives and adaptive experiences",
   "repository": {
     "type": "git",
     "url": "https://github.com/ContextWeaver/context-weaver.git"
@@ -17,7 +17,7 @@
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
-    "build:browser": "npm run build && browserify dist/index.js --standalone ContextWeaver -o demo-web/content-weaver.js",
+    "build:browser": "npm run build && browserify dist/index.js -o demo-web/content-weaver.js",
     "prepublishOnly": "npm run build",
     "demo": "node demo.js",
     "economy:list": "node scripts/event-economy.js list-themes",

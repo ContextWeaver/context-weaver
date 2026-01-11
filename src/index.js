@@ -126,7 +126,7 @@ class SimpleMarkovGenerator {
  * RPG Event Generator - Procedural event generation for RPG games
  * @class
  */
-export class RPGEventGenerator {
+export class ContextWeaver {
   /**
    * Create a new event generator
    * @param {Object} options - Configuration options
@@ -154,7 +154,6 @@ export class RPGEventGenerator {
     this.enableDependencies = options.enableDependencies !== false;
     this.enableModifiers = options.enableModifiers !== false;
     this.enableRelationships = options.enableRelationships !== false;
-    this.language = options.language || 'en';
 
     this.pureMarkovMode = options.pureMarkovMode || false;
     this.enableTemplates = this.pureMarkovMode ? false : (options.enableTemplates !== false);
@@ -773,7 +772,6 @@ export class RPGEventGenerator {
    * @param {Object} options - Constructor options
    */
   initializeEnhancedFeatures(options) {
-    this.locales = new Map();
     this.dependencies = new Map();
     this.modifiers = new Map();
     this.relationships = new Map();
@@ -3046,67 +3044,8 @@ export class RPGEventGenerator {
    * @private
    */
   loadDefaultLocale() {
-    this.locales.set('en', {
-      templates: {},
-      trainingData: [],
-      ui: {
-        'event.title.default': 'Unexpected Event',
-        'event.description.default': 'Something unexpected occurs...',
-        'choice.accept': 'Accept',
-        'choice.decline': 'Decline',
-        'choice.fight': 'Fight',
-        'choice.flee': 'Flee',
-        'choice.negotiate': 'Negotiate'
-      },
-      culture: {
-        nameFormats: ['western'],
-        dateFormats: ['MM/DD/YYYY'],
-        currencySymbols: ['$'],
-        honorifics: ['Sir', 'Lady', 'Lord']
-      }
-    });
   }
 
-  /**
-   * Load a language pack
-   * @param {string} language - Language code
-   * @param {Object} languagePack - Language pack data
-   */
-  loadLanguagePack(language, languagePack) {
-    this.locales.set(language, languagePack);
-  }
-
-  /**
-   * Set the current language
-   * @param {string} language - Language code
-   */
-  setLanguage(language) {
-    if (this.locales.has(language)) {
-      this.language = language;
-    } else {
-      console.warn(`Language '${language}' not loaded, staying with '${this.language}'`);
-    }
-  }
-
-  /**
-   * Get translated text
-   * @param {string} key - Translation key
-   * @param {Object} variables - Substitution variables
-   * @returns {string} Translated text
-   */
-  translate(key, variables = {}) {
-    const locale = this.locales.get(this.language) || this.locales.get('en');
-    if (!locale || !locale.ui[key]) {
-      return key;
-    }
-
-    let text = locale.ui[key];
-    Object.entries(variables).forEach(([varKey, value]) => {
-      text = text.replace(new RegExp(`{{${varKey}}}`, 'g'), value);
-    });
-
-    return text;
-  }
 
   /**
    * Initialize built-in modifiers
@@ -3589,15 +3528,12 @@ export class RPGEventGenerator {
    */
   getSystemStatus() {
     return {
-      version: '2.0.0',
-      language: this.language,
-      availableLanguages: Array.from(this.locales.keys()),
+      version: '3.0.0',
       modifiersEnabled: this.enableModifiers,
       relationshipsEnabled: this.enableRelationships,
       dependenciesEnabled: this.enableDependencies,
       totalNPCs: this.enableRelationships ? this.relationships.size : 0,
       activeModifiers: this.enableModifiers ? Array.from(this.activeModifiers) : [],
-      totalLocales: this.locales.size,
       timeSystem: {
         currentDay: this.timeSystem.currentDay,
         currentSeason: this.timeSystem.currentSeason
@@ -3634,12 +3570,18 @@ export class RPGEventGenerator {
   }
 }
 
-function generateRPGEvent(playerContext = {}) {
-  const generator = new RPGEventGenerator();
-  return generator.generateEvent(playerContext);
+function generateContent(userContext = {}) {
+  const generator = new ContextWeaver();
+  return generator.generateEvent(userContext);
+}
+
+// For browser compatibility
+if (typeof window !== 'undefined') {
+  window.ContextWeaver = ContextWeaver;
+  window.generateContent = generateContent;
 }
 
 module.exports = {
-  RPGEventGenerator: RPGEventGenerator,
-  generateRPGEvent: generateRPGEvent
+  ContextWeaver: ContextWeaver,
+  generateContent: generateContent
 };

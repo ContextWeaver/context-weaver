@@ -103,14 +103,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚀 Added
 
-#### Multi-Language Support 🌍
-- **Translation System**: Complete internationalisation framework with locale support
-- **Built-in Languages**: English (default), Spanish (`es`), French (`fr`)
-- **Dynamic Language Switching**: `setLanguage()` method for runtime language changes
-- **Custom Language Packs**: `loadLanguagePack()` for adding new languages
-- **Variable Substitution**: Support for parameterised translations (`{{variable}}` syntax)
-- **Cultural Adaptation**: Language-specific cultural context and formatting
-
 #### Environmental Modifiers 🌤️
 - **Weather Effects**: Rain, storm, snow, and clear weather modifiers
 - **Seasonal Effects**: Spring, summer, autumn, winter environmental impacts
@@ -259,7 +251,6 @@ const generator = new RPGEventGenerator({
   enableModifiers: true,
   enableRelationships: true,
   enableDependencies: true,
-  language: 'en',
 
   // New options (v1.3.0+)
   enableTemplates: true,      // Enable template library
