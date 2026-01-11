@@ -1,0 +1,44 @@
+{
+  "title": "Diplomacy at Court",
+  "narrative": "Terror grips your heart as diplomacy at court manifests in the foreboding haunted-town.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 50
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "DIPLOMACY",
+  "tags": [
+    "horror",
+    "hauntedtown",
+    "people",
+    "conversation",
+    "diplomacy"
+  ],
+  "context_requirements": {
+    "location": "haunted-town",
+    "career": "merchant",
+    "min_level": 19
+  }
+}

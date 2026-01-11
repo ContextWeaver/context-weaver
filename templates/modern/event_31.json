@@ -1,0 +1,42 @@
+{
+  "title": "Betrayal at Court",
+  "narrative": "Modern conveniences fail you as betrayal at court demands immediate attention.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 13
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "BETRAYAL",
+  "tags": [
+    "modern",
+    "park",
+    "people",
+    "conversation",
+    "betrayal"
+  ],
+  "context_requirements": {
+    "location": "park"
+  }
+}

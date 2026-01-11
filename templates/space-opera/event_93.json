@@ -1,0 +1,43 @@
+{
+  "title": "the Alliance Gathering",
+  "narrative": "Alien artifacts pulse with energy as the alliance gathering unfolds in the starship.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 50
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "ALLIANCE",
+  "tags": [
+    "space-opera",
+    "starship",
+    "people",
+    "conversation",
+    "alliance"
+  ],
+  "context_requirements": {
+    "location": "starship",
+    "min_level": 14
+  }
+}

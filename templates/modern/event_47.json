@@ -1,0 +1,43 @@
+{
+  "title": "Cult Nightmare",
+  "narrative": "Modern conveniences fail you as cult nightmare demands immediate attention.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "CULT",
+  "tags": [
+    "modern",
+    "office",
+    "fear",
+    "terror",
+    "cult"
+  ],
+  "context_requirements": {
+    "location": "office",
+    "min_level": 16
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Ambush in the Starship",
+  "narrative": "Faster-than-light communications carry news of ambush in the starship throughout the galaxy.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 10,
+        "reward": 45
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 5
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "AMBUSH",
+  "tags": [
+    "space-opera",
+    "starship",
+    "battle",
+    "fight",
+    "ambush"
+  ],
+  "context_requirements": {
+    "location": "starship"
+  }
+}

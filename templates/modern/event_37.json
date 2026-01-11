@@ -1,0 +1,42 @@
+{
+  "title": "Trade Deal Gone Wrong",
+  "narrative": "City lights illuminate trade deal gone wrong as it unfolds in the bustling suburb.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 33,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 20,
+        "risk": 3
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -13,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "TRADE",
+  "tags": [
+    "modern",
+    "suburb",
+    "trade",
+    "money",
+    "trade"
+  ],
+  "context_requirements": {
+    "location": "suburb"
+  }
+}

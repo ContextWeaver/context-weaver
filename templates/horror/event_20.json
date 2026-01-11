@@ -1,0 +1,43 @@
+{
+  "title": "HUNT for Hire",
+  "narrative": "Terror grips your heart as hunt for hire manifests in the foreboding mansion.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "HUNT",
+  "tags": [
+    "horror",
+    "mansion",
+    "adventure",
+    "mission",
+    "hunt"
+  ],
+  "context_requirements": {
+    "location": "mansion",
+    "min_level": 16
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Apartment Exploration",
+  "narrative": "Social media buzzes with rumors of apartment exploration occurring right now in apartment.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 15,
+        "risk": 10
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "RUINS",
+  "tags": [
+    "modern",
+    "apartment",
+    "discovery",
+    "search",
+    "ruins"
+  ],
+  "context_requirements": {
+    "location": "apartment"
+  }
+}

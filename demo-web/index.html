@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Weaver v2.0.0 - Live Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp:wght@400&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow:
+                0 25px 50px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(255,255,255,0.2);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        .support-btn {
+            position: absolute;
+            top: 20px;
+            right: 140px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .support-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .header h1 {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .version {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .demo-section {
+            padding: 50px 40px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .demo-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .control-group h3 {
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #6c757d;
+        }
+
+        .control-group select,
+        .control-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .feature-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .feature-toggle input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .feature-toggle label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .result-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .result-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .meta-item {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #f5c6cb;
+            margin-top: 15px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-card h3 {
+            color: #495057;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-card p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .feature-card.v2-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .feature-card.v2-highlight h3 {
+            color: white;
+        }
+
+        .feature-card.v2-highlight p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .version-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        .changelog-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .changelog-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .bmc-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .bmc-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-body h3 {
+            color: #495057;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body h4 {
+            color: #6c757d;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+        }
+
+        .modal-body li {
+            margin-bottom: 5px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .support-btn, .changelog-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 10px;
+                display: block;
+                width: 100%;
+                max-width: 200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .result-meta {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .feature-card {
+                padding: 15px;
+            }
+
+            .theme-inputs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .rule-inputs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            .result-box {
+                padding: 15px;
+            }
+
+            .event-title {
+                font-size: 1.2rem;
+            }
+
+            .event-narrative {
+                font-size: 1rem;
+            }
+
+            .choice-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .theme-inputs, .rule-inputs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-number {
+                font-size: 1.2rem;
+            }
+
+            .feature-card.v2-highlight {
+                margin-bottom: 10px;
+            }
+
+            .footer {
+                padding: 15px;
+                text-align: center;
+            }
+
+            .footer p {
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            #exportCode {
+                font-size: 0.8rem;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .feature-card {
+                padding: 12px;
+            }
+
+            .feature-card h3 {
+                font-size: 1rem;
+            }
+
+            .feature-card p {
+                font-size: 0.9rem;
+            }
+
+            .theme-inputs input,
+            .theme-inputs textarea,
+            .rule-inputs input,
+            .rule-inputs select {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button id="changelogBtn" class="changelog-btn">📋 Changelog</button>
+            <a href="https://buymeacoffee.com/decept1kon" target="_blank" class="bmc-btn">☕ Buy Me a Coffee</a>
+            <h1>🧵 Context Weaver v2.0.0</h1>
+            <p>Complete procedural event generation system with custom themes, rule engine, and template library for RPG games</p>
+        </div>
+
+        <div class="version">
+            <strong>v2.0.0</strong> - Production-ready with custom themes, rule engine, and advanced creative tools
+        </div>
+
+        <div class="demo-section">
+            <h2 class="section-title">🎨 Theme Creator (v2.0.0)</h2>
+
+            <div class="controls">
+                <div class="control-group">
+                    <h3>🎭 Custom Theme Builder</h3>
+                    <label for="themeName">Theme Name:</label>
+                    <input type="text" id="themeName" placeholder="e.g., Space Western, Cyber Fantasy">
+
+                    <label for="themeDescription">Description:</label>
+                    <textarea id="themeDescription" rows="2" placeholder="Describe your custom theme..."></textarea>
+
+                    <label for="trainingData">Training Sentences (one per line):</label>
+                    <textarea id="trainingData" rows="8" placeholder="Enter sentences that define your theme's style and atmosphere (one per line).
+Examples for a 'Space Western' theme:
+The dusty frontier town bakes under twin suns
+Robotic sheriffs maintain order with laser revolvers
+Space outlaws ride mechanical horses across asteroid plains
+Saloon bars serve synthetic whiskey to cyborg cowboys
+
+⚠️ In Pure Markov Mode, ONLY these sentences will be used for generation!"></textarea>
+
+                    <label for="cultureVariant">Culture Variant (optional):</label>
+                    <input type="text" id="cultureVariant" placeholder="e.g., Japanese, Viking, Aztec">
+                </div>
+
+                <div class="control-group">
+                    <h3>⚙️ Theme Settings</h3>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="enableRuleEngine" checked>
+                        <label for="enableRuleEngine">🧠 Enable Custom Rules</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="enableTemplates" checked>
+                        <label for="enableTemplates">📚 Enable Template Library</label>
+                        <small style="display: block; color: #6c757d; font-size: 0.8rem; margin-top: 2px;">
+                            Uses existing events enhanced by your training data
+                        </small>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="pureMarkovMode" unchecked>
+                        <label for="pureMarkovMode">🎲 Pure Markov Mode</label>
+                        <small style="display: block; color: #6c757d; font-size: 0.8rem; margin-top: 2px;">
+                            Generate events purely from your training data (no templates)
+                        </small>
+                    </div>
+
+                    <label for="baseTheme">Base Theme:</label>
+                    <select id="baseTheme">
+                        <option value="fantasy">Fantasy</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="horror">Horror</option>
+                        <option value="historical">Historical</option>
+                        <option value="modern">Modern</option>
+                    </select>
+
+                    <div class="controls" style="margin-top: 20px;">
+                        <button id="createThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #9c27b0 0%, #ba68c8 100%);">
+                            ✨ Create Custom Theme
+                        </button>
+                        <div id="themeCreationStatus" style="margin-top: 10px; font-size: 0.9rem; color: #666; display: none;">
+                            Creating theme... Please wait.
+                        </div>
+                        <button id="saveThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #4caf50 0%, #81c784 100%); display: none;">
+                            💾 Save Theme
+                        </button>
+                        <button id="loadThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);">
+                            📂 Load Theme
+                        </button>
+                        <button id="testThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #ff5722 0%, #ff8a65 100%); display: none;">
+                            🧪 Test Theme
+                        </button>
+                        <button id="resetThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #607d8b 0%, #90a4ae 100%);">
+                            🔄 Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="themeResult" class="result-card" style="display: none;">
+                <div class="result-title">
+                    🎨 Custom Theme Created
+                    <span id="themeStatus" style="font-size: 0.8em; color: #6c757d; margin-left: 10px;"></span>
+                </div>
+                <div id="themeResultContent" class="result-content">
+                    <!-- Theme creation result will appear here -->
+                </div>
+            </div>
+
+            <div id="themeError" class="error" style="display: none;">
+                <!-- Theme creation errors will appear here -->
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 class="section-title">🧠 Rule Engine (v2.0.0)</h2>
+
+            <div class="controls">
+                <div class="control-group">
+                    <h3>📋 Rule Builder</h3>
+                    <label for="ruleName">Rule Name:</label>
+                    <input type="text" id="ruleName" placeholder="e.g., wealthy_merchant_bonus">
+
+                    <label for="ruleDescription">Description:</label>
+                    <textarea id="ruleDescription" rows="2" placeholder="Describe what this rule does..."></textarea>
+
+                    <h4>Conditions (when to apply rule):</h4>
+                    <div id="conditionsList">
+                        <!-- Conditions will be added here -->
+                    </div>
+                    <button id="addConditionBtn" class="generate-btn" style="background: linear-gradient(135deg, #4caf50 0%, #81c784 100%); font-size: 0.9rem; padding: 8px 16px;">
+                        ➕ Add Condition
+                    </button>
+
+                    <h4>Effects (what the rule does):</h4>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="modifyChoices">
+                        <label for="modifyChoices">Modify choice effects</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="addTags">
+                        <label for="addTags">Add event tags</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="modifyTitle">
+                        <label for="modifyTitle">Modify event title</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="setDifficulty">
+                        <label for="setDifficulty">Override difficulty</label>
+                    </div>
+
+                    <div id="effectsConfig" style="margin-top: 15px;">
+                        <!-- Effect configuration will appear here -->
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>⚙️ Rule Management</h3>
+                    <div class="controls" style="margin-bottom: 20px;">
+                        <button id="createRuleBtn" class="generate-btn" style="background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);">
+                            ✨ Create Rule
+                        </button>
+                        <button id="testRuleBtn" class="generate-btn" style="background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%); display: none;">
+                            🧪 Test Rule
+                        </button>
+                        <button id="clearRulesBtn" class="generate-btn" style="background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);">
+                            🗑️ Clear All Rules
+                        </button>
+                    </div>
+
+                    <h4>Active Rules:</h4>
+                    <div id="activeRulesList" style="background: #f8f9fa; padding: 10px; border-radius: 5px; min-height: 60px;">
+                        <em>No active rules</em>
+                    </div>
+
+                    <h4>Available Conditions:</h4>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-size: 0.9rem;">
+                        <strong>Player Stats:</strong> stat_greater_than, stat_less_than, stat_between<br>
+                        <strong>World:</strong> location_is, season_is, career_is, time_greater_than<br>
+                        <strong>Items:</strong> has_item<br>
+                        <strong>Logic:</strong> and, or, not, random_chance<br>
+                        <strong>Relationships:</strong> relationship_status
+                    </div>
+                </div>
+            </div>
+
+            <div id="ruleResult" class="result-card" style="display: none;">
+                <div class="result-title">
+                    🧠 Custom Rule Created
+                    <span id="ruleStatus" style="font-size: 0.8em; color: #6c757d; margin-left: 10px;"></span>
+                </div>
+                <div id="ruleResultContent" class="result-content">
+                    <!-- Rule creation result will appear here -->
+                </div>
+            </div>
+
+            <div id="ruleError" class="error" style="display: none;">
+                <!-- Rule creation errors will appear here -->
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 class="section-title">🎮 Interactive Demo</h2>
+
+            <div class="controls">
+                <div class="control-group">
+                    <h3>🎯 Player Context</h3>
+                    <label for="career">Career:</label>
+                    <select id="career">
+                        <option value="">Random</option>
+                        <option value="noble">Noble</option>
+                        <option value="merchant">Merchant</option>
+                        <option value="warrior">Warrior</option>
+                        <option value="mage">Mage</option>
+                        <option value="thief">Thief</option>
+                    </select>
+
+                    <label for="reputation">Reputation:</label>
+                    <input type="number" id="reputation" value="25" min="-100" max="100">
+
+                    <label for="gold">Gold:</label>
+                    <input type="number" id="gold" value="1000" min="0">
+
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" value="25" min="16" max="80">
+                </div>
+
+                <div class="control-group">
+                    <h3>🌤️ Environment</h3>
+                    <label for="season">Season:</label>
+                    <select id="season">
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                        <option value="autumn">Autumn</option>
+                        <option value="winter">Winter</option>
+                    </select>
+
+                    <label for="weather">Weather:</label>
+                    <select id="weather">
+                        <option value="clear">Clear</option>
+                        <option value="rain">Rain</option>
+                        <option value="storm">Storm</option>
+                    </select>
+
+                    <label for="location">Location:</label>
+                    <select id="location">
+                        <option value="village">Village</option>
+                        <option value="city">City</option>
+                        <option value="forest">Forest</option>
+                        <option value="castle">Castle</option>
+                    </select>
+
+                    <label for="theme">Theme:</label>
+                    <select id="theme">
+                        <option value="fantasy">Fantasy</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="historical">Historical</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <h3>⚙️ Features</h3>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="enableModifiers" checked>
+                        <label for="enableModifiers">🌤️ Environmental Modifiers</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="enableRelationships" checked>
+                        <label for="enableRelationships">👥 NPC Relationships</label>
+                    </div>
+                    <div class="feature-toggle">
+                        <input type="checkbox" id="enableDependencies" checked>
+                        <label for="enableDependencies">🔗 Event Dependencies</label>
+                    </div>
+
+                    <label for="language">🌍 Language:</label>
+                    <select id="language">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                    </select>
+
+                    <label for="demoMode">🎪 Demo Mode:</label>
+                    <select id="demoMode">
+                        <option value="single">Single Event</option>
+                        <option value="chain">Event Chain</option>
+                        <option value="time">Time Progression</option>
+                        <option value="custom">Custom Template</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="generateBtn" class="generate-btn">
+                    ⚔️ Generate Event
+                </button>
+                <button id="advanceTimeBtn" class="generate-btn" style="background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); display: none;">
+                    ⏰ Advance Time
+                </button>
+                <button id="continueChainBtn" class="generate-btn" style="background: linear-gradient(135deg, #fd7e14 0%, #e8680d 100%); display: none;">
+                    🔗 Continue Chain
+                </button>
+                <button id="resetBtn" class="generate-btn" style="background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);">
+                    🔄 Reset
+                </button>
+            </div>
+
+            <div id="result" class="result-card" style="display: none;">
+                <div class="result-title">
+                    📜 Generated Event
+                    <span id="timeDisplay" style="font-size: 0.8em; color: #6c757d; margin-left: 10px;"></span>
+                </div>
+                <div id="resultContent" class="result-content">
+                    <!-- Event content will appear here -->
+                </div>
+                <div class="result-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Event Type</div>
+                        <div id="eventType" class="meta-value">-</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Difficulty</div>
+                        <div id="eventDifficulty" class="meta-value">-</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Choices</div>
+                        <div id="eventChoices" class="meta-value">-</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Modifiers Applied</div>
+                        <div id="eventModifiers" class="meta-value">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error" style="display: none;">
+                <!-- Error messages will appear here -->
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📚 Template Library & Export Demo</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <h3>📊 Template Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">427+</div>
+                            <div class="stat-label">Total Events</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Genres</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Procedural</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🌐 Cross-Platform Export</h3>
+                    <p>Generate and export events in multiple formats:</p>
+
+                    <!-- Export Context Controls -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="margin: 0 0 10px 0; color: #495057;">🎯 Export Event Context</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 3px;">Gold:</label>
+                                <input type="number" id="exportGold" value="1000" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 3px;">Reputation:</label>
+                                <input type="number" id="exportReputation" value="25" min="-100" max="100" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 3px;">Career:</label>
+                                <select id="exportCareer" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="adventurer">Adventurer</option>
+                                    <option value="noble">Noble</option>
+                                    <option value="merchant">Merchant</option>
+                                    <option value="warrior">Warrior</option>
+                                    <option value="mage">Mage</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 3px;">Location:</label>
+                                <input type="text" id="exportLocation" value="city" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                        <button id="generateForExportBtn" class="generate-btn" style="margin-top: 10px; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
+                            🎲 Generate Event for Export
+                        </button>
+                    </div>
+
+                    <div id="exportButtons" style="display: none;">
+                        <p>Export the generated event:</p>
+                        <button id="exportJsonBtn" class="generate-btn" style="background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);">📄 Export as JSON</button>
+                        <button id="exportTypeScriptBtn" class="generate-btn" style="background: linear-gradient(135deg, #007acc 0%, #4fc3f7 100%);">🔷 Export as TypeScript</button>
+                    </div>
+
+                    <div id="exportResult" class="result-box" style="margin-top: 15px; display: none;">
+                        <h4>📋 Export Result:</h4>
+                        <pre id="exportCode" style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-x: auto; white-space: pre-wrap;"></pre>
+                        <button id="copyExportBtn" class="btn" style="margin-top: 10px; background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">📋 Copy to Clipboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">💰 Event Economy Demo</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <h3>🎨 Theme Saving & Sharing</h3>
+                    <p>Save your custom themes for sharing or reuse:</p>
+                    <button id="saveCurrentThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);">💾 Save Current Theme</button>
+                    <button id="exportThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);">📤 Export Theme</button>
+                    <div id="themeSaveStatus" class="result-box" style="margin-top: 15px; display: none;">
+                        <h4>💾 Theme Saved!</h4>
+                        <p id="themeSaveMessage"></p>
+                        <button id="downloadThemeBtn" class="btn" style="margin-top: 10px; background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">⬇️ Download Theme File</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>📊 Content Statistics</h3>
+                    <p>Track your creative output:</p>
+                    <div class="stats-grid" id="economyStats" style="margin-top: 15px;">
+                        <div class="stat-card">
+                            <div class="stat-number" id="savedThemesCount">0</div>
+                            <div class="stat-label">Saved Themes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="exportedThemesCount">0</div>
+                            <div class="stat-label">Exported</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="avgQualityScore">0</div>
+                            <div class="stat-label">Avg Quality</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🔄 Theme Management</h3>
+                    <p>Import themes from other users:</p>
+                    <input type="file" id="themeImportFile" accept=".json" style="margin-bottom: 10px;">
+                    <button id="importThemeBtn" class="generate-btn" style="background: linear-gradient(135deg, #9c27b0 0%, #ba68c8 100%);">📥 Import Theme</button>
+                    <div id="themeImportStatus" class="result-box" style="margin-top: 15px; display: none;">
+                        <h4>📥 Theme Imported!</h4>
+                        <p id="themeImportMessage"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 class="section-title">🚀 Complete Feature Showcase</h2>
+            <div class="features-grid">
+                <div class="feature-card v2-highlight">
+                    <h3>🎨 Theme Creator <span class="version-badge">v2.0.0</span></h3>
+                    <p>Design custom game worlds with your own training data. Create entirely new genres, atmospheres, and narrative styles using Markov chain generation.</p>
+                </div>
+                <div class="feature-card v2-highlight">
+                    <h3>🧠 Custom Rule Engine <span class="version-badge">v2.0.0</span></h3>
+                    <p>Define sophisticated conditional rules that dynamically modify events. Use stat requirements, location conditions, and complex logic to create adaptive narratives.</p>
+                </div>
+                <div class="feature-card v2-highlight">
+                    <h3>🎲 Pure Markov Mode <span class="version-badge">v2.0.0</span></h3>
+                    <p>Generate events using only your custom training data - no templates required. Perfect for creating unique, procedurally generated story elements.</p>
+                </div>
+                <div class="feature-card v2-highlight">
+                    <h3>📚 Massive Template Library <span class="version-badge">v2.0.0</span></h3>
+                    <p>427+ professionally crafted events across 7 genres: Fantasy, Sci-Fi, Horror, Historical, Modern, Cyberpunk, and Space Opera.</p>
+                </div>
+                <div class="feature-card v2-highlight">
+                    <h3>🌐 Cross-Platform Export <span class="version-badge">v2.0.0</span></h3>
+                    <p>Export events in JSON and TypeScript formats for direct integration. Unity and Godot plugins planned for v2.1.0.</p>
+                </div>
+                <div class="feature-card v2-highlight">
+                    <h3>💰 Event Economy <span class="version-badge">v2.0.0</span></h3>
+                    <p>Complete user-generated content system. Save, share, and import custom themes. Export rule packs and create content bundles with quality metrics.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔗 Event Dependencies</h3>
+                    <p>Complex prerequisite systems with AND/OR logic. Stat requirements, event completion, and relationship conditions control availability.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌤️ Environmental Modifiers</h3>
+                    <p>Weather and seasonal effects modify events dynamically. Experience rain-caused health drains and winter damage multipliers.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⛓️ Event Chains</h3>
+                    <p>Multi-part story sequences with escalating consequences. Branching narratives that evolve based on your choices.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 NPC Relationships</h3>
+                    <p>Dynamic character networks that evolve based on actions. Track relationship strength and model social consequences.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⏰ Time-Based Events</h3>
+                    <p>Seasonal changes and evolving storylines. Advance time to see how events develop over days, weeks, and seasons.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎭 Thematic Training</h3>
+                    <p>Choose from Fantasy, Sci-Fi, Horror, Historical, Modern, Cyberpunk, and Space Opera themes with culturally appropriate events.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                Context Weaver v2.0.0 |
+                <a href="https://www.npmjs.com/package/rpg-event-generator" target="_blank">NPM Package</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div id="changelogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-btn">&times;</span>
+                <h2>📋 Changelog</h2>
+            </div>
+            <div class="modal-body">
+                <p><em>All notable changes to this project will be documented in this file.</em></p>
+                <p><em>The format is based on <a href="https://keepachangelog.com/en/1.0.0/" target="_blank">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html" target="_blank">Semantic Versioning</a>.</em></p>
+
+                <h3>[2.0.1] - 10-01-2026</h3>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li><strong>Chance.js Instance</strong>: Fixed chance instance creation</li>
+                </ul>
+
+                <h3>[2.0.0] - 11-01-2026</h3>
+
+                <h4>🚀 Added</h4>
+
+                <h5>Template Library Expansion</h5>
+                <ul>
+                    <li><strong>Massive Template Library</strong>: 429 professionally crafted event templates included</li>
+                    <li><strong>7 Complete Genres</strong>: Fantasy, Sci-Fi, Horror, Historical, Modern, Cyberpunk, Space Opera</li>
+                    <li><strong>Quality Assurance</strong>: All templates include proper difficulty, choices, and context requirements</li>
+                </ul>
+
+                <h5>Custom Rule Engine</h5>
+                <ul>
+                    <li><strong>Advanced Rule Builder</strong>: Create sophisticated conditional rules with visual interface</li>
+                    <li><strong>Dynamic Rule Evaluation</strong>: Real-time rule processing with complex condition logic</li>
+                    <li><strong>Rule Effects System</strong>: Modify event titles, choices, difficulty, and add custom tags</li>
+                    <li><strong>Rule Management</strong>: Add, remove, and organize custom rules with persistence</li>
+                    <li><strong>Condition Types</strong>: Support for stat requirements, location checks, time-based rules, and more</li>
+                </ul>
+
+                <h5>Theme Creator</h5>
+                <ul>
+                    <li><strong>Custom Theme Builder</strong>: Design unique game worlds with training data</li>
+                    <li><strong>Pure Markov Mode</strong>: Generate events using only custom training sentences</li>
+                    <li><strong>Theme Settings</strong>: Configure rule engine, template library, and generation modes</li>
+                    <li><strong>Training Data Input</strong>: Visual interface for entering theme-specific sentences</li>
+                    <li><strong>Theme Testing</strong>: Test custom themes with real event generation</li>
+                </ul>
+
+                <h5>Event Economy System</h5>
+                <ul>
+                    <li><strong>User-Generated Content Sharing</strong>: Theme and rule pack marketplace</li>
+                    <li><strong>Content Pack Creation</strong>: Bundle themes and rules into complete configurations</li>
+                    <li><strong>Quality Metrics</strong>: Automatic quality scoring for shared content</li>
+                    <li><strong>Export/Import System</strong>: Easy sharing via JSON files</li>
+                </ul>
+
+                <h5>Cross-Platform Export</h5>
+                <ul>
+                    <li><strong>Unity C# Export</strong>: Generate Unity ScriptableObject classes with full event data</li>
+                    <li><strong>Godot GDScript Export</strong>: Create Godot Resource scripts with event implementations</li>
+                    <li><strong>TypeScript Export</strong>: Strongly-typed event definitions for TypeScript projects</li>
+                    <li><strong>Export System</strong>: Automated generation via scripts/export-templates.js</li>
+                    <li><strong>Working Integrations</strong>: Direct code generation for Unity and Godot projects</li>
+                    <li><strong>Future Plans</strong>: Unity Package Manager plugin and Godot Asset Library addon (planned)</li>
+                </ul>
+
+                <h5>Enhanced Web Demo</h5>
+                <ul>
+                    <li><strong>Complete Feature Integration</strong>: All v2.0.0 features working together</li>
+                    <li><strong>Interactive Rule Engine</strong>: Full rule creation and management interface</li>
+                    <li><strong>Theme Creator Interface</strong>: Build and test custom themes visually</li>
+                    <li><strong>Mobile Responsive Design</strong>: Optimized for all device sizes</li>
+                    <li><strong>Template Library</strong>: 429 event templates across 7 genres included</li>
+                    <li><strong>Embedded Documentation</strong>: Complete changelog and migration guide accessible in demo</li>
+                    <li><strong>Command-Line Demo</strong>: Comprehensive demo.js with 21 feature demonstrations</li>
+                </ul>
+
+                <h5>Production-Ready Features</h5>
+                <ul>
+                    <li><strong>Stable API</strong>: All methods properly implemented and tested</li>
+                    <li><strong>Error Handling</strong>: Robust error handling throughout the system</li>
+                    <li><strong>Performance Optimizations</strong>: Efficient event generation and rule evaluation</li>
+                    <li><strong>Cross-Browser Support</strong>: Works in all modern browsers</li>
+                    <li><strong>CLI Tools</strong>: Command-line utilities for content management and export</li>
+                    <li><strong>NPM Scripts</strong>: Convenient npm commands for common operations</li>
+                    <li><strong>Global Installation</strong>: Bin entries for global CLI tool access</li>
+                </ul>
+
+                <h4>🔧 Changed</h4>
+                <ul>
+                    <li><strong>Architecture Overhaul</strong>: Complete rewrite with modular design</li>
+                    <li><strong>Enhanced Compatibility</strong>: Improved browser compatibility</li>
+                    <li><strong>Code Organization</strong>: Better separation of concerns and maintainability</li>
+                </ul>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li><strong>Rule Engine Functionality</strong>: Fixed all rule creation and evaluation bugs</li>
+                    <li><strong>Event Generation</strong>: Resolved fallback issues and improved template loading</li>
+                    <li><strong>NPC Relationships</strong>: Implemented complete relationship system</li>
+                    <li><strong>Template System</strong>: Fixed template loading and management</li>
+                    <li><strong>Method Compatibility</strong>: Added all missing API methods</li>
+                </ul>
+
+                <h4>📚 Documentation</h4>
+                <ul>
+                    <li><strong>Complete Demo Overhaul</strong>: Production-ready web interface</li>
+                    <li><strong>Feature Showcase</strong>: Comprehensive demonstration of all capabilities</li>
+                    <li><strong>API Documentation</strong>: Full method documentation and examples</li>
+                    <li><strong>Migration Guide</strong>: Clear upgrade path from v1.x to v2.0.0</li>
+                </ul>
+
+                <h3>[1.3.0] - 10-01-2026</h3>
+
+                <h4>🚀 Added</h4>
+
+                <h5>Event Templates Library 📚</h5>
+                <ul>
+                    <li><strong>Genre-Specific Templates</strong>: Pre-built event collections for fantasy, sci-fi, horror, and historical genres</li>
+                    <li><strong>Template Library System</strong>: Load and use professionally crafted event templates</li>
+                    <li><strong>Template Generation</strong>: <code>generateFromTemplate()</code> and <code>generateFromGenre()</code> methods</li>
+                    <li><strong>Template Management</strong>: <code>getAvailableTemplates()</code> for discovering available content</li>
+                    <li><strong>Extensible Framework</strong>: Easy to add new genres and templates</li>
+                    <li><strong>Quality Assurance</strong>: All templates include proper difficulty, choices, and context requirements</li>
+                </ul>
+
+                <h4>📚 Documentation</h4>
+                <ul>
+                    <li><strong>Template Documentation</strong>: Complete guide for using the template library</li>
+                    <li><strong>Genre Descriptions</strong>: Detailed information about each template genre</li>
+                    <li><strong>API Examples</strong>: Comprehensive usage examples for template functionality</li>
+                </ul>
+
+                <h3>[1.2.0] - 09-01-2026</h3>
+
+                <h4>🚀 Added</h4>
+
+                <h5>Multi-Language Support 🌍</h5>
+                <ul>
+                    <li><strong>Translation System</strong>: Complete internationalisation framework with locale support</li>
+                    <li><strong>Built-in Languages</strong>: English (default), Spanish (<code>es</code>), French (<code>fr</code>)</li>
+                    <li><strong>Dynamic Language Switching</strong>: <code>setLanguage()</code> method for runtime language changes</li>
+                    <li><strong>Custom Language Packs</strong>: <code>loadLanguagePack()</code> for adding new languages</li>
+                    <li><strong>Variable Substitution</strong>: Support for parameterised translations (<code>{{variable}}</code> syntax)</li>
+                    <li><strong>Cultural Adaptation</strong>: Language-specific cultural context and formatting</li>
+                </ul>
+
+                <h5>Environmental Modifiers 🌤️</h5>
+                <ul>
+                    <li><strong>Weather Effects</strong>: Rain, storm, snow, and clear weather modifiers</li>
+                    <li><strong>Seasonal Effects</strong>: Spring, summer, autumn, winter environmental impacts</li>
+                    <li><strong>Modifier Stacking</strong>: Combined weather and seasonal effects</li>
+                    <li><strong>Dynamic Event Modification</strong>: Health drains, movement penalties, atmosphere changes</li>
+                    <li><strong>Configurable Modifiers</strong>: Custom modifier creation and application</li>
+                </ul>
+
+                <h5>Event Dependencies 🔗</h5>
+                <ul>
+                    <li><strong>Prerequisite System</strong>: Complex event unlocking requirements</li>
+                    <li><strong>Logical Operators</strong>: AND/OR conditions for dependency chains</li>
+                    <li><strong>Multiple Dependency Types</strong>:
+                        <ul>
+                            <li><code>event_completed</code>: Require specific events to be finished</li>
+                            <li><code>stat_requirement</code>: Player stat thresholds (level, reputation, etc.)</li>
+                            <li><code>relationship_requirement</code>: NPC relationship requirements</li>
+                            <li><code>item_requirement</code>: Inventory-based prerequisites</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dependency Validation</strong>: Runtime checking of event availability</li>
+                </ul>
+
+                <h5>NPC Relationship Networks 👥</h5>
+                <ul>
+                    <li><strong>Dynamic Relationships</strong>: Strength-based NPC relationships (-100 to +100)</li>
+                    <li><strong>Relationship Evolution</strong>: Automatic relationship changes based on player actions</li>
+                    <li><strong>Built-in Evolution Rules</strong>: Predefined rules for common interactions (save_life, betray_trust, etc.)</li>
+                    <li><strong>Custom Relationship Rules</strong>: Extensible system for adding new interaction types</li>
+                    <li><strong>Relationship Tracking</strong>: History and analytics for NPC relationships</li>
+                    <li><strong>Network Analysis</strong>: Relationship web visualisation and analysis</li>
+                </ul>
+
+                <h5>Enhanced Event Generation 🎭</h5>
+                <ul>
+                    <li><strong>Combined Feature Integration</strong>: All new systems work together seamlessly</li>
+                    <li><strong>Contextual Enhancements</strong>: Events adapt based on environmental, relational, and dependency context</li>
+                    <li><strong>Performance Optimisations</strong>: Efficient caching and processing for complex scenarios</li>
+                </ul>
+
+                <h4>🔧 Changed</h4>
+                <ul>
+                    <li><strong>Improved Code Organisation</strong>: Better separation of concerns with modular architecture</li>
+                    <li><strong>Enhanced Error Handling</strong>: More robust error handling throughout the system</li>
+                    <li><strong>Performance Improvements</strong>: Optimised event generation and modifier application</li>
+                </ul>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li><strong>Event Chain Advancement</strong>: Fixed chain progression logic using correct chain IDs</li>
+                    <li><strong>Modifier Application</strong>: Corrected modifier effect calculations and stacking</li>
+                    <li><strong>Test Coverage</strong>: Comprehensive test suite covering all new features (69 tests total)</li>
+                </ul>
+
+                <h4>📚 Documentation</h4>
+                <ul>
+                    <li><strong>Complete README Overhaul</strong>: Comprehensive feature documentation with examples</li>
+                    <li><strong>Enhanced Demo</strong>: Full demonstration of all v1.0.0 and v1.2.0 features</li>
+                    <li><strong>API Documentation</strong>: Detailed JSDoc comments for all new methods</li>
+                    <li><strong>Migration Guide</strong>: Backward compatibility notes and upgrade instructions</li>
+                </ul>
+
+                <h4>🔒 Security</h4>
+                <ul>
+                    <li><strong>Input Validation</strong>: Enhanced validation for all new input parameters</li>
+                    <li><strong>Safe Defaults</strong>: Conservative defaults for all new features (opt-in by default)</li>
+                </ul>
+
+                <h3>[1.1.4] - 09-01-2026</h3>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li>Minor bug fixes and stability improvements</li>
+                </ul>
+
+                <h4>📚 Documentation</h4>
+                <ul>
+                    <li>Updated installation instructions</li>
+                    <li>Improved code examples</li>
+                </ul>
+
+                <h3>[1.1.3] - 09-01-2026</h3>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li>Markov chain generation edge cases</li>
+                    <li>Template validation improvements</li>
+                </ul>
+
+                <h3>[1.1.2] - 09-01-2026</h3>
+
+                <h4>➕ Added</h4>
+                <ul>
+                    <li>Additional event templates</li>
+                    <li>Enhanced difficulty scaling</li>
+                </ul>
+
+                <h3>[1.1.1] - 09-01-2026</h3>
+
+                <h4>🐛 Fixed</h4>
+                <ul>
+                    <li>Template loading performance</li>
+                    <li>Memory usage optimisations</li>
+                </ul>
+
+                <h3>[1.1.0] - 08-01-2026</h3>
+
+                <h4>🚀 Added</h4>
+                <ul>
+                    <li><strong>Event Chains</strong>: Multi-part story sequences with <code>startChain()</code> and <code>advanceChain()</code></li>
+                    <li><strong>Time-Based Events</strong>: Seasonal events and time-evolving chains</li>
+                    <li><strong>Game State Management</strong>: Save/load functionality with <code>getGameState()</code> and <code>loadGameState()</code></li>
+                </ul>
+
+                <h4>➕ Added</h4>
+                <ul>
+                    <li><strong>Modular Event System</strong>: Custom templates, training data, and export/import</li>
+                    <li><strong>Dynamic Difficulty Scaling</strong>: Events scale based on player power level</li>
+                    <li><strong>Enhanced Context Awareness</strong>: More sophisticated player state analysis</li>
+                </ul>
+
+                <h3>[1.0.0] - 08-01-2026</h3>
+
+                <h4>🚀 Added</h4>
+                <ul>
+                    <li><strong>Core Event Generation</strong>: Basic procedural event creation with Markov chains</li>
+                    <li><strong>Player-Aware Events</strong>: Events adapt to player stats, career, and relationships</li>
+                    <li><strong>14+ Event Types</strong>: Comprehensive set of adventure, social, and economic events</li>
+                    <li><strong>Text Generation</strong>: Custom training data for enhanced narrative quality</li>
+                    <li><strong>Difficulty Scaling</strong>: Basic power-based event adjustment</li>
+                    <li><strong>Game Integration</strong>: Save/load state support</li>
+                </ul>
+
+                <h4>📚 Documentation</h4>
+                <ul>
+                    <li>Complete README with usage examples</li>
+                    <li>API reference documentation</li>
+                    <li>Integration guides for different game engines</li>
+                </ul>
+
+                <hr>
+
+                <h3>📋 Version Numbering</h3>
+                <p>This project uses <a href="https://semver.org/" target="_blank">Semantic Versioning</a>:</p>
+                <ul>
+                    <li><strong>MAJOR</strong> version for incompatible API changes</li>
+                    <li><strong>MINOR</strong> version for backwards-compatible functionality additions</li>
+                    <li><strong>PATCH</strong> version for backwards-compatible bug fixes</li>
+                </ul>
+
+                <h3>🎯 Migration Guide</h3>
+
+                <h4>From 1.x to 2.0.0</h4>
+                <p>v2.0.0 introduces major new features while maintaining backward compatibility:</p>
+
+                <pre><code>// v1.x style (still works)
+const generator = new RPGEventGenerator();
+
+// v2.0.0 with new features
+const generator = new RPGEventGenerator({
+  // Core features (v1.x compatible)
+  theme: 'fantasy',
+  culture: 'norse',
+  trainingData: [...],
+
+  // New v2.0.0 features
+  enableRuleEngine: true,     // Enable custom rule engine
+  enableTemplates: true,      // Enable template library
+  pureMarkovMode: false,      // Use pure Markov generation
+
+  // Enhanced features (v1.2.0+)
+  enableModifiers: true,      // Weather/season effects
+  enableRelationships: true,  // NPC relationship networks
+  enableDependencies: true,   // Complex event prerequisites
+  language: 'en'              // Multi-language support
+});
+</code></pre>
+
+                <h5>New v2.0.0 Methods</h5>
+                <pre><code>// Custom Rule Engine
+generator.addCustomRule('ruleName', ruleConfig);
+generator.getCustomRules();
+generator.removeCustomRule('ruleName');
+
+// Theme Creator
+generator.generateEnhancedEvent(context);
+generator.registerEventTemplate('templateId', template);
+generator.registerEventDependency('eventId', dependency);
+
+// NPC Relationships
+generator.addNPC({ id: 'npc1', name: 'NPC Name', type: 'merchant' });
+generator.updateRelationship('npc1', 'player', 10, 'helped in quest');
+
+// Time Management
+generator.getCurrentTime();
+generator.advanceGameDay();
+
+// Event Chains
+generator.startChain('chainId', context);
+generator.advanceChain('chainId', 'choice');
+</code></pre>
+
+                <h4>From 1.1.x to 1.2.0</h4>
+                <p>All changes in v1.2.0 are <strong>backwards compatible</strong>. New features are opt-in via constructor options:</p>
+
+                <pre><code>// Before (still works)
+const generator = new window.RPGEventGenerator();
+
+// After (with new features)
+const generator = new RPGEventGenerator({
+  enableModifiers: true,      // Weather/season effects
+  enableRelationships: true,  // NPC relationship networks
+  enableDependencies: true,   // Complex event prerequisites
+  language: 'es'              // Multi-language support
+});
+</code></pre>
+
+                <h4>Complete Constructor Options (v2.0.0)</h4>
+                <pre><code>const generator = new RPGEventGenerator({
+  // Core options (v1.0.0+)
+  theme: 'fantasy',
+  culture: 'norse',
+  trainingData: [...],
+
+  // Enhanced options (v1.2.0+)
+  enableModifiers: true,      // Weather/season effects
+  enableRelationships: true,  // NPC relationship networks
+  enableDependencies: true,   // Complex event prerequisites
+  language: 'en',             // Multi-language support
+
+  // New options (v2.0.0+)
+  enableRuleEngine: true,     // Enable custom rule engine
+  enableTemplates: true,      // Enable template library
+  pureMarkovMode: false,      // Use pure Markov generation
+  templateLibrary: 'fantasy'  // Genre to load templates from
+});
+</code></pre>
+
+                <hr>
+
+                <p><strong>Legend:</strong></p>
+                <ul>
+                    <li>🚀 <strong>Added</strong> for new features</li>
+                    <li>➕ <strong>Added</strong> for smaller additions</li>
+                    <li>🔧 <strong>Changed</strong> for changes in existing functionality</li>
+                    <li>🐛 <strong>Fixed</strong> for any bug fixes</li>
+                    <li>📚 <strong>Documentation</strong> for documentation updates</li>
+                    <li>🔒 <strong>Security</strong> for security-related changes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chance@1.1.13/dist/chance.min.js"></script>
+
+    <!-- RPG Event Generator (Browser-compatible version) -->
+    <script src="./rpg-event-generator.js"></script>
+
+    <!-- Demo Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if RPGEventGenerator is loaded
+            if (typeof window.RPGEventGenerator === 'undefined') {
+                console.error('RPGEventGenerator not loaded. Make sure rpg-event-generator.js is included.');
+                alert('Error: RPG Event Generator library not loaded. Please check the browser console.');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            const errorDiv = document.getElementById('error');
+
+            let generator = null;
+            let currentChain = null;
+            let gameTime = { day: 1, season: 'spring' };
+
+            function initializeGenerator() {
+                try {
+
+                    const options = {
+                        enableModifiers: document.getElementById('enableModifiers').checked,
+                        enableRelationships: document.getElementById('enableRelationships').checked,
+                        enableDependencies: document.getElementById('enableDependencies').checked,
+                        language: document.getElementById('language').value,
+                        theme: document.getElementById('theme').value
+                    };
+
+                    generator = new window.RPGEventGenerator(options);
+
+                    // Load some sample NPCs and relationships for demo
+                    if (options.enableRelationships) {
+                        generator.addNPC({ id: 'lord_harrington', name: 'Lord Harrington', type: 'noble' });
+                        generator.addNPC({ id: 'merchant_guild', name: 'Merchant Guild', type: 'organization' });
+                        generator.updateRelationship('lord_harrington', 'player', 30, 'initial acquaintance');
+                    }
+
+                    // Add a sample dependency
+                    if (options.enableDependencies) {
+                        generator.registerEventDependency('COURT_SCANDAL', {
+                            operator: 'AND',
+                            conditions: [
+                                { type: 'stat_requirement', stat: 'influence', min: 20 },
+                                { type: 'event_completed', eventIds: ['BANDIT_AMBUSH'] }
+                            ]
+                        });
+                    }
+
+                } catch (error) {
+                    console.error('Generator initialization failed:', error);
+                    showError('Failed to initialize generator: ' + error.message);
+                }
+            }
+
+            function generateEvent() {
+                // Always recreate generator to avoid state issues
+                initializeGenerator();
+
+                try {
+                    const demoMode = document.getElementById('demoMode').value;
+                    const context = {
+                        player: {
+                            career: document.getElementById('career').value || undefined,
+                            reputation: parseInt(document.getElementById('reputation').value) || 0,
+                            gold: parseInt(document.getElementById('gold').value) || 0,
+                            age: parseInt(document.getElementById('age').value) || 25
+                        },
+                        environment: {
+                            season: document.getElementById('season').value,
+                            weather: document.getElementById('weather').value,
+                            location: document.getElementById('location').value
+                        }
+                    };
+
+                    let event, resultType = 'single';
+
+                    switch (demoMode) {
+                        case 'chain':
+                            if (!currentChain) {
+                                // Start a new chain
+                                currentChain = generator.startChain('BANDIT_RISING', context);
+                                if (currentChain) {
+                                    event = currentChain;
+                                    resultType = 'chain_start';
+                                } else {
+                                    // Fallback to regular event
+                                    event = generator.generateEnhancedEvent ?
+                                        generator.generateEnhancedEvent(context) :
+                                        generator.generateEvent(context);
+                                }
+                            } else {
+                                // Continue existing chain
+                                event = generator.advanceChain(currentChain.id, 'fight');
+                                if (!event) {
+                                    currentChain = null;
+                                    event = generator.generateEnhancedEvent ?
+                                        generator.generateEnhancedEvent(context) :
+                                        generator.generateEvent(context);
+                                    resultType = 'chain_end';
+                                } else {
+                                    resultType = 'chain_continue';
+                                }
+                            }
+                            break;
+
+                        case 'time':
+                            // Get current time before advancing
+                            const timeBefore = generator.getCurrentTime ?
+                                generator.getCurrentTime() :
+                                { day: gameTime.day, season: gameTime.season };
+
+                            // Advance game time
+                            const dueEvents = generator.advanceGameDay ?
+                                generator.advanceGameDay() :
+                                [];
+
+                            // Get time after advancing
+                            const timeAfter = generator.getCurrentTime ?
+                                generator.getCurrentTime() :
+                                { day: gameTime.day + 1, season: gameTime.season };
+
+                            gameTime.day = timeAfter.day;
+                            gameTime.season = timeAfter.season;
+
+                            // Generate a time-appropriate event
+                            event = generator.generateEnhancedEvent ?
+                                generator.generateEnhancedEvent({
+                                    ...context,
+                                    time: timeAfter
+                                }) :
+                                generator.generateEvent(context);
+
+                            // Add time progression info to the event
+                            event.timeProgression = {
+                                previousDay: timeBefore.day,
+                                currentDay: timeAfter.day,
+                                previousSeason: timeBefore.season,
+                                currentSeason: timeAfter.season,
+                                seasonChanged: timeBefore.season !== timeAfter.season,
+                                dueEventsCount: dueEvents.length
+                            };
+
+                            resultType = 'time_based';
+                            break;
+
+                        case 'custom':
+                            // Add custom template and generate
+                            generator.registerEventTemplate('DEMO_CUSTOM', {
+                                title: 'Mysterious Artifact',
+                                narrative: 'You discover a strange glowing artifact buried in the ancient ruins. Its surface pulses with otherworldly energy, and you can feel its power calling to you.',
+                                choices: [
+                                    { text: 'Touch the artifact', effect: { knowledge: [20, 40], risk: [10, 25] }, consequence: 'curious' },
+                                    { text: 'Leave it buried', effect: { wisdom: [10, 20] }, consequence: 'cautious' },
+                                    { text: 'Take it to scholars', effect: { reputation: [15, 30], gold: [50, 150] }, consequence: 'scholarly' }
+                                ]
+                            });
+                            event = generator.generateEnhancedEvent ?
+                                generator.generateEnhancedEvent(context) :
+                                generator.generateEvent(context);
+                            resultType = 'custom';
+                            break;
+
+                        default: // 'single'
+                            event = generator.generateEnhancedEvent ?
+                                generator.generateEnhancedEvent(context) :
+                                generator.generateEvent(context);
+                            resultType = 'single';
+                    }
+
+                    console.log('Generated event:', event, 'type:', resultType);
+                    displayEvent(event, resultType);
+                } catch (error) {
+                    showError('Failed to generate event: ' + error.message);
+                }
+            }
+
+            function displayEvent(event, resultType = 'single') {
+                let content = `<b>${event.title}</b>\n\n${event.description}`;
+
+                // Add context based on demo mode
+                switch (resultType) {
+                    case 'chain_start':
+                        content += '\n\n<i>🔗 This is the start of an event chain!</i>';
+                        document.getElementById('continueChainBtn').style.display = 'inline-block';
+                        break;
+                    case 'chain_continue':
+                        content += '\n\n<i>🔗 Continuing the event chain...</i>';
+                        break;
+                    case 'chain_end':
+                        content += '\n\n<i>🔗 Event chain completed!</i>';
+                        document.getElementById('continueChainBtn').style.display = 'none';
+                        currentChain = null;
+                        break;
+                    case 'time_based':
+                        if (event.timeProgression) {
+                            const tp = event.timeProgression;
+                            content += `\n\n<i>⏰ Time progressed: Day ${tp.previousDay} → Day ${tp.currentDay}`;
+                            if (tp.seasonChanged) {
+                                content += ` | Season: ${tp.previousSeason} → ${tp.currentSeason}`;
+                            }
+                            content += '</i>';
+                        } else {
+                            content += '\n\n<i>⏰ This event reflects the passage of time in your game world.</i>';
+                        }
+                        document.getElementById('advanceTimeBtn').style.display = 'inline-block';
+                        break;
+                    case 'custom':
+                        content += '\n\n<i>🎨 This event uses a custom template you just registered!</i>';
+                        break;
+                }
+
+                content += `\n\n${event.choices.map((choice, index) =>
+                    `<b>Choice ${index + 1}:</b> ${choice.text}`
+                ).join('\n')}`;
+
+                resultContent.innerHTML = content;
+
+                document.getElementById('eventType').textContent = event.type || 'Unknown';
+                document.getElementById('eventDifficulty').textContent = event.difficulty || 'Normal';
+                document.getElementById('eventChoices').textContent = event.choices ? event.choices.length : 0;
+                document.getElementById('eventModifiers').textContent = event.appliedModifiers ?
+                    event.appliedModifiers.join(', ') : 'None';
+
+                // Update time display
+                const timeDisplay = document.getElementById('timeDisplay');
+                if (generator.getCurrentTime) {
+                    const currentTime = generator.getCurrentTime();
+                    timeDisplay.textContent = `Day ${currentTime.day} - ${currentTime.season.charAt(0).toUpperCase() + currentTime.season.slice(1)}`;
+                } else {
+                    timeDisplay.textContent = `Day ${gameTime.day} - ${gameTime.season.charAt(0).toUpperCase() + gameTime.season.slice(1)}`;
+                }
+
+                resultDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            }
+
+            function showError(message) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                resultDiv.style.display = 'none';
+            }
+
+            generateBtn.addEventListener('click', function() {
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="loading"></span>Generating...';
+
+                setTimeout(() => {
+                    generateEvent();
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '⚔️ Generate Event';
+                }, 500);
+            });
+
+            advanceTimeBtn.addEventListener('click', function() {
+                document.getElementById('demoMode').value = 'time';
+                generateBtn.click();
+            });
+
+            continueChainBtn.addEventListener('click', function() {
+                document.getElementById('demoMode').value = 'chain';
+                generateBtn.click();
+            });
+
+            resetBtn.addEventListener('click', function() {
+                currentChain = null;
+                gameTime = { day: 1, season: 'spring' };
+                document.getElementById('demoMode').value = 'single';
+                document.getElementById('continueChainBtn').style.display = 'none';
+                document.getElementById('advanceTimeBtn').style.display = 'none';
+                document.getElementById('timeDisplay').textContent = '';
+                resultDiv.style.display = 'none';
+                errorDiv.style.display = 'none';
+            });
+
+            // Feature toggles reinitialize generator
+            ['enableModifiers', 'enableRelationships', 'enableDependencies', 'language', 'theme'].forEach(id => {
+                document.getElementById(id).addEventListener('change', function() {
+                    generator = null; // Force reinitialization
+                });
+            });
+
+            // Update button visibility based on demo mode
+            document.getElementById('demoMode').addEventListener('change', function() {
+                const mode = this.value;
+                document.getElementById('continueChainBtn').style.display =
+                    (mode === 'chain' && currentChain) ? 'inline-block' : 'none';
+                document.getElementById('advanceTimeBtn').style.display =
+                    mode === 'time' ? 'inline-block' : 'none';
+            });
+
+            // Changelog modal functionality
+            const changelogBtn = document.getElementById('changelogBtn');
+            const changelogModal = document.getElementById('changelogModal');
+            const closeBtn = document.querySelector('.close-btn');
+
+            changelogBtn.addEventListener('click', function() {
+                changelogModal.style.display = 'block';
+            });
+
+            closeBtn.addEventListener('click', function() {
+                changelogModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === changelogModal) {
+                    changelogModal.style.display = 'none';
+                }
+            });
+
+            // Close modal on ESC key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && changelogModal.style.display === 'block') {
+                    changelogModal.style.display = 'none';
+                }
+            });
+
+            // Theme Creator functionality (v2.0.0)
+            let customTheme = null;
+            let customGenerator = null;
+
+            function createCustomTheme() {
+                const themeName = document.getElementById('themeName').value.trim();
+                const description = document.getElementById('themeDescription').value.trim();
+                const trainingDataText = document.getElementById('trainingData').value.trim();
+                const cultureVariant = document.getElementById('cultureVariant').value.trim();
+                const baseTheme = document.getElementById('baseTheme').value;
+                const enableRuleEngine = document.getElementById('enableRuleEngine').checked;
+                const enableTemplates = document.getElementById('enableTemplates').checked;
+                const pureMarkovMode = document.getElementById('pureMarkovMode').checked;
+
+
+                if (!themeName) {
+                    showThemeError('Please enter a theme name');
+                    return;
+                }
+
+                if (!trainingDataText) {
+                    showThemeError('Please enter training data sentences');
+                    return;
+                }
+
+                // Show creation status
+                document.getElementById('themeCreationStatus').style.display = 'block';
+                document.getElementById('themeCreationStatus').textContent = 'Creating theme... Please wait.';
+                document.getElementById('createThemeBtn').disabled = true;
+
+                try {
+                    // Parse training data (one sentence per line)
+                    const trainingData = trainingDataText.split('\n')
+                        .map(line => line.trim())
+                        .filter(line => line.length > 0);
+
+                    if (trainingData.length < 3) {
+                        showThemeError('Please enter at least 3 training sentences');
+                        return;
+                    }
+
+                    // Create custom theme object
+                    customTheme = {
+                        name: themeName,
+                        description: description,
+                        trainingData: trainingData,
+                        culture: cultureVariant || null,
+                        baseTheme: baseTheme,
+                        enableRuleEngine: enableRuleEngine,
+                        enableTemplates: enableTemplates,
+                        pureMarkovMode: pureMarkovMode,
+                        created: new Date().toISOString()
+                    };
+
+                    // Create generator with custom theme
+                    const options = {
+                        theme: pureMarkovMode ? null : baseTheme, // Disable theme in pure Markov mode
+                        culture: pureMarkovMode ? undefined : (cultureVariant || undefined),
+                        trainingData: trainingData,
+                        enableRuleEngine: enableRuleEngine,
+                        enableTemplates: pureMarkovMode ? false : enableTemplates, // Disable templates in pure Markov mode
+                        templateLibrary: pureMarkovMode ? null : (enableTemplates ? baseTheme : null),
+                        pureMarkovMode: pureMarkovMode
+                    };
+
+                    console.log('Creating custom generator with options:', options);
+                    customGenerator = new window.RPGEventGenerator(options);
+                    console.log('Custom generator created:', {
+                        pureMarkovMode: customGenerator.pureMarkovMode,
+                        enableTemplates: customGenerator.enableTemplates,
+                        trainingDataLength: customGenerator.trainingData?.length || 0
+                    });
+
+                    // Store generator globally for rule engine
+                    window.currentGenerator = customGenerator;
+
+                    // Show success
+                    showThemeResult(customTheme);
+                    document.getElementById('testThemeBtn').style.display = 'inline-block';
+                    document.getElementById('saveThemeBtn').style.display = 'inline-block';
+
+                    // Hide status
+                    document.getElementById('themeCreationStatus').style.display = 'none';
+                    document.getElementById('createThemeBtn').disabled = false;
+
+                } catch (error) {
+                    console.error('Theme creation error:', error);
+                    showThemeError('Failed to create theme: ' + error.message + '. Check the console for details.');
+
+                    // Hide status and re-enable button
+                    document.getElementById('themeCreationStatus').style.display = 'none';
+                    document.getElementById('createThemeBtn').disabled = false;
+                }
+            }
+
+            function testCustomTheme() {
+                if (!customGenerator) {
+                    showThemeError('No custom theme available for testing');
+                    return;
+                }
+
+
+                try {
+                    // Generate a test event
+                    const testContext = {
+                        gold: 1000,
+                        reputation: 50,
+                        career: 'adventurer',
+                        location: 'city'
+                    };
+
+                    console.log('About to generate event with customGenerator...');
+                    console.log('Generator state:', {
+                        pureMarkovMode: customGenerator.pureMarkovMode,
+                        enableTemplates: customGenerator.enableTemplates,
+                        hasTrainingData: !!(customGenerator.trainingData && customGenerator.trainingData.length > 0),
+                        trainingDataSample: customGenerator.trainingData?.slice(0, 2) || []
+                    });
+
+                    const testEvent = customGenerator.generateEvent(testContext);
+
+                    console.log('Generated event type:', testEvent.type);
+                    console.log('Generated event title:', testEvent.title);
+                    console.log('Generated event narrative:', testEvent.narrative);
+
+                    // Update theme result with test event
+                    const resultDiv = document.getElementById('themeResultContent');
+                    resultDiv.innerHTML = `
+                        <strong>Theme Test Results:</strong><br><br>
+                        <strong>Theme:</strong> ${customTheme.name}<br>
+                        <strong>Base:</strong> ${customTheme.baseTheme}${customTheme.culture ? ` (${customTheme.culture})` : ''} ${customTheme.pureMarkovMode ? '<strong>(Pure Markov Mode)</strong>' : ''}<br>
+                        <strong>Training Sentences (${customTheme.trainingData.length}):</strong><br>
+                        ${customTheme.trainingData.map((sentence, i) => `${i + 1}. "${sentence}"`).join('<br>')}<br><br>
+                        <strong>Test Event Generated:</strong><br>
+                        <em>${testEvent.title}</em><br><br>
+                        ${testEvent.description}<br><br>
+                        <strong>Choices:</strong><br>
+                        ${testEvent.choices.map((choice, i) => `${i + 1}. ${choice.text}`).join('<br>')}
+                    `;
+
+                    document.getElementById('themeStatus').textContent = 'Theme tested successfully!';
+
+                } catch (error) {
+                    showThemeError('Theme test failed: ' + error.message);
+                }
+            }
+
+            function resetThemeCreator() {
+                document.getElementById('themeName').value = '';
+                document.getElementById('themeDescription').value = '';
+                document.getElementById('trainingData').value = '';
+                document.getElementById('cultureVariant').value = '';
+                document.getElementById('baseTheme').value = 'fantasy';
+                document.getElementById('enableRuleEngine').checked = true;
+                document.getElementById('enableTemplates').checked = true;
+                document.getElementById('pureMarkovMode').checked = false;
+
+                customTheme = null;
+                customGenerator = null;
+                window.currentGenerator = null;
+
+                document.getElementById('themeResult').style.display = 'none';
+                document.getElementById('themeError').style.display = 'none';
+                document.getElementById('testThemeBtn').style.display = 'none';
+            }
+
+            function showThemeResult(theme) {
+                const resultDiv = document.getElementById('themeResultContent');
+                resultDiv.innerHTML = `
+                    <strong>Custom Theme Created Successfully!</strong><br><br>
+                    <strong>Name:</strong> ${theme.name}<br>
+                    <strong>Description:</strong> ${theme.description || 'No description provided'}<br>
+                    <strong>Base Theme:</strong> ${theme.baseTheme}<br>
+                    <strong>Culture Variant:</strong> ${theme.culture || 'None'}<br>
+                    <strong>Training Sentences:</strong> ${theme.trainingData.length}<br>
+                    <strong>Rule Engine:</strong> ${theme.enableRuleEngine ? 'Enabled' : 'Disabled'}<br>
+                    <strong>Templates:</strong> ${theme.enableTemplates ? 'Enabled' : 'Disabled'}<br>
+                    <strong>Created:</strong> ${new Date(theme.created).toLocaleString()}
+                `;
+
+                document.getElementById('themeResult').style.display = 'block';
+                document.getElementById('themeError').style.display = 'none';
+                document.getElementById('themeStatus').textContent = 'Theme created successfully!';
+            }
+
+            function showThemeError(message) {
+                document.getElementById('themeError').textContent = message;
+                document.getElementById('themeError').style.display = 'block';
+                document.getElementById('themeResult').style.display = 'none';
+            }
+
+            // Theme creator event listeners
+            document.getElementById('createThemeBtn').addEventListener('click', function() {
+                createCustomTheme();
+            });
+
+            document.getElementById('testThemeBtn').addEventListener('click', function() {
+                testCustomTheme();
+            });
+
+            document.getElementById('resetThemeBtn').addEventListener('click', function() {
+                resetThemeCreator();
+            });
+
+            // Theme save/load functionality
+            function saveCurrentTheme() {
+                if (!customTheme) {
+                    showThemeError('No theme to save. Create a theme first.');
+                    return;
+                }
+
+                // Add to saved themes
+                const themeToSave = {
+                    ...customTheme,
+                    saved: new Date().toISOString(),
+                    id: Date.now()
+                };
+
+                savedThemes.push(themeToSave);
+                localStorage.setItem('rpg_themes', JSON.stringify(savedThemes));
+
+                showThemeResult({
+                    ...customTheme,
+                    status: 'Theme saved successfully!'
+                });
+
+                console.log('Theme saved:', customTheme.name);
+            }
+
+            function loadTheme() {
+                if (savedThemes.length === 0) {
+                    showThemeError('No saved themes found.');
+                    return;
+                }
+
+                // Create theme selection UI
+                const themeNames = savedThemes.map((theme, index) =>
+                    `${index + 1}. ${theme.name} (${theme.trainingData?.length || 0} sentences)`
+                ).join('\n');
+
+                const selectedIndex = prompt(
+                    'Available themes:\n' + themeNames + '\n\nEnter theme number to load:'
+                );
+
+                if (!selectedIndex) return;
+
+                const index = parseInt(selectedIndex) - 1;
+                if (index < 0 || index >= savedThemes.length) {
+                    showThemeError('Invalid theme number.');
+                    return;
+                }
+
+                const loadedTheme = savedThemes[index];
+
+                // Populate the form with loaded theme data
+                document.getElementById('themeName').value = loadedTheme.name || '';
+                document.getElementById('themeDescription').value = loadedTheme.description || '';
+                document.getElementById('trainingData').value = loadedTheme.trainingData?.join('\n') || '';
+                document.getElementById('cultureVariant').value = loadedTheme.culture || '';
+                document.getElementById('baseTheme').value = loadedTheme.baseTheme || 'fantasy';
+                document.getElementById('enableRuleEngine').checked = loadedTheme.enableRuleEngine !== false;
+                document.getElementById('enableTemplates').checked = loadedTheme.enableTemplates !== false;
+                document.getElementById('pureMarkovMode').checked = loadedTheme.pureMarkovMode || false;
+
+                showThemeResult({
+                    ...loadedTheme,
+                    status: `Theme "${loadedTheme.name}" loaded successfully! Click "Create Custom Theme" to activate it.`
+                });
+
+                console.log('Theme loaded:', loadedTheme.name);
+            }
+
+            // Theme save/load event listeners
+            document.getElementById('saveThemeBtn').addEventListener('click', saveCurrentTheme);
+            document.getElementById('loadThemeBtn').addEventListener('click', loadTheme);
+
+            // Rule Engine variables
+            let ruleConditions = [];
+            let ruleEffects = {};
+            let conditionCounter = 0;
+
+            function addCondition() {
+                const conditionIndex = conditionCounter++;
+                const conditionHtml = `
+                    <div class="condition-item" style="background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 3px solid #007bff;" data-condition-index="${conditionIndex}">
+                        <select class="condition-type" data-index="${conditionIndex}">
+                            <option value="">Select condition type...</option>
+                            <optgroup label="Player Stats">
+                                <option value="stat_greater_than">Stat Greater Than</option>
+                                <option value="stat_less_than">Stat Less Than</option>
+                                <option value="stat_between">Stat Between</option>
+                            </optgroup>
+                            <optgroup label="World">
+                                <option value="location_is">Location Is</option>
+                                <option value="season_is">Season Is</option>
+                                <option value="career_is">Career Is</option>
+                                <option value="time_greater_than">Time Greater Than</option>
+                            </optgroup>
+                            <optgroup label="Items">
+                                <option value="has_item">Has Item</option>
+                            </optgroup>
+                            <optgroup label="Logic">
+                                <option value="random_chance">Random Chance</option>
+                            </optgroup>
+                        </select>
+                        <div class="condition-params" style="margin-top: 5px;">
+                            <!-- Parameters will be added here based on condition type -->
+                        </div>
+                        <button class="remove-condition" data-index="${conditionIndex}" style="background: #dc3545; color: white; border: none; padding: 2px 8px; border-radius: 3px; cursor: pointer; font-size: 0.8rem;">✕</button>
+                    </div>
+                `;
+
+                document.getElementById('conditionsList').insertAdjacentHTML('beforeend', conditionHtml);
+
+                // Add event listeners
+                const conditionItem = document.getElementById('conditionsList').lastElementChild;
+                const conditionTypeSelect = conditionItem.querySelector('.condition-type');
+                const removeBtn = conditionItem.querySelector('.remove-condition');
+
+                conditionTypeSelect.addEventListener('change', function() {
+                    updateConditionParams(this.dataset.index, this.value);
+                });
+                removeBtn.addEventListener('click', function() {
+                    removeCondition(this.dataset.index);
+                });
+
+                // Initialize ruleConditions entry
+                ruleConditions.push({
+                    index: conditionIndex,
+                    type: '',
+                    params: {}
+                });
+            }
+
+            function updateConditionParams(index, conditionType) {
+                // Find the condition item that contains the select with this data-index
+                const conditionItem = document.querySelector(`.condition-type[data-index="${index}"]`).closest('.condition-item');
+                const paramsContainer = conditionItem.querySelector('.condition-params');
+
+                if (!paramsContainer) {
+                    console.error('Could not find params container for index:', index);
+                    return;
+                }
+
+                // Clear existing params first
+                paramsContainer.innerHTML = '';
+
+                let paramsHtml = '';
+
+                // Store the condition type for rule creation
+                conditionItem.setAttribute('data-condition-type', conditionType);
+
+                // Update ruleConditions array
+                const conditionIndex = parseInt(conditionItem.querySelector('.condition-type').dataset.index);
+                const conditionEntry = ruleConditions.find(c => c.index === conditionIndex);
+                if (conditionEntry) {
+                    conditionEntry.type = conditionType;
+                }
+
+                switch (conditionType) {
+                    case 'stat_greater_than':
+                    case 'stat_less_than':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Stat:</label>
+                                <input type="text" placeholder="e.g., gold, health, level" class="stat-name" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Value:</label>
+                                <input type="number" placeholder="0" class="stat-value" style="width: 80px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'stat_between':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Stat:</label>
+                                <input type="text" placeholder="e.g., gold, health" class="stat-name" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Min:</label>
+                                <input type="number" placeholder="0" class="stat-min" style="width: 60px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Max:</label>
+                                <input type="number" placeholder="100" class="stat-max" style="width: 60px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'location_is':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Location:</label>
+                                <input type="text" placeholder="e.g., castle, forest, city" class="location-value" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'season_is':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Season:</label>
+                                <select class="season-value" style="padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <option value="spring">Spring</option>
+                                    <option value="summer">Summer</option>
+                                    <option value="autumn">Autumn</option>
+                                    <option value="winter">Winter</option>
+                                </select>
+                            </div>
+                        `;
+                        break;
+                    case 'career_is':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Career:</label>
+                                <input type="text" placeholder="e.g., noble, warrior, mage" class="career-value" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'time_greater_than':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Days:</label>
+                                <input type="number" placeholder="30" class="time-value" style="width: 80px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'has_item':
+                        paramsHtml = `
+                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                                <label style="font-size: 0.9rem; font-weight: bold;">Item:</label>
+                                <input type="text" placeholder="e.g., magic sword, potion" class="item-value" style="flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                            </div>
+                        `;
+                        break;
+                    case 'random_chance':
+                        paramsHtml = `
+                            <input type="number" placeholder="probability (0-1)" min="0" max="1" step="0.1" class="chance-value" style="padding: 2px; width: 120px;">
+                        `;
+                        break;
+                }
+
+                paramsContainer.innerHTML = paramsHtml;
+            }
+
+            function removeCondition(index) {
+                const conditionItem = document.querySelector(`.condition-item[data-condition-index="${index}"]`);
+                if (conditionItem) {
+                    conditionItem.remove();
+                }
+                // Remove from ruleConditions array by finding the matching condition
+                ruleConditions = ruleConditions.filter(condition => condition.index !== parseInt(index));
+            }
+
+            function collectRuleConditions() {
+                const conditions = [];
+                ruleConditions.forEach(condition => {
+                    if (!condition.type) return;
+
+                    // Get the DOM element to collect current values
+                    const conditionItem = document.querySelector(`.condition-item[data-condition-index="${condition.index}"]`);
+                    if (!conditionItem) return;
+
+                    let params = {};
+                    switch (condition.type) {
+                        case 'stat_greater_than':
+                        case 'stat_less_than':
+                            params = {
+                                stat: conditionItem.querySelector('.stat-name')?.value || '',
+                                value: parseFloat(conditionItem.querySelector('.stat-value')?.value || 0)
+                            };
+                            break;
+                        case 'stat_between':
+                            params = {
+                                stat: conditionItem.querySelector('.stat-name')?.value || '',
+                                min: parseFloat(conditionItem.querySelector('.stat-min')?.value || 0),
+                                max: parseFloat(conditionItem.querySelector('.stat-max')?.value || 0)
+                            };
+                            break;
+                        case 'location_is':
+                            params = { location: conditionItem.querySelector('.location-value')?.value || '' };
+                            break;
+                        case 'season_is':
+                            params = { season: conditionItem.querySelector('.season-value')?.value || '' };
+                            break;
+                        case 'career_is':
+                            params = { career: conditionItem.querySelector('.career-value')?.value || '' };
+                            break;
+                        case 'time_greater_than':
+                            params = { days: parseInt(conditionItem.querySelector('.time-value')?.value || 0) };
+                            break;
+                        case 'has_item':
+                            params = { item: conditionItem.querySelector('.item-value')?.value || '' };
+                            break;
+                        case 'random_chance':
+                            params = { probability: parseFloat(conditionItem.querySelector('.chance-value')?.value || 0) };
+                            break;
+                    }
+
+                    conditions.push({ type: condition.type, params });
+                });
+                return conditions;
+            }
+
+            function collectRuleEffects() {
+                const effects = {};
+
+                if (document.getElementById('modifyChoices').checked) {
+                    effects.modifyChoices = {
+                        multiply: { gold: 1.5, risk: 0.8 },
+                        add: { reputation: 10 }
+                    };
+                }
+
+                if (document.getElementById('addTags').checked) {
+                    effects.addTags = ['custom_rule_applied'];
+                }
+
+                if (document.getElementById('modifyTitle').checked) {
+                    effects.modifyTitle = {
+                        append: ' (Special)'
+                    };
+                }
+
+                if (document.getElementById('setDifficulty').checked) {
+                    effects.setDifficulty = 'hard';
+                }
+
+                return effects;
+            }
+
+            function createCustomRule() {
+                const ruleName = document.getElementById('ruleName').value.trim();
+                const description = document.getElementById('ruleDescription').value.trim();
+
+                if (!ruleName) {
+                    showRuleError('Please enter a rule name');
+                    return;
+                }
+
+                const conditions = collectRuleConditions();
+                if (conditions.length === 0) {
+                    showRuleError('Please add at least one condition');
+                    return;
+                }
+
+                const effects = collectRuleEffects();
+                if (Object.keys(effects).length === 0) {
+                    showRuleError('Please select at least one effect');
+                    return;
+                }
+
+                const rule = {
+                    conditions,
+                    effects,
+                    description,
+                    created: new Date().toISOString()
+                };
+
+                try {
+                    // Add rule to generator (assuming we have access to the generator)
+                    if (window.currentGenerator) {
+                        window.currentGenerator.addCustomRule(ruleName, rule);
+                        showRuleResult(ruleName, rule);
+                        updateActiveRulesList();
+                        document.getElementById('testRuleBtn').style.display = 'inline-block';
+                    } else {
+                        showRuleError('No active generator. Please create a custom theme first.');
+                    }
+                } catch (error) {
+                    showRuleError('Failed to create rule: ' + error.message);
+                }
+            }
+
+            function updateActiveRulesList() {
+                if (!window.currentGenerator) return;
+
+                const rules = window.currentGenerator.getCustomRules();
+                const ruleNames = Object.keys(rules);
+
+                const rulesList = document.getElementById('activeRulesList');
+                if (ruleNames.length === 0) {
+                    rulesList.innerHTML = '<em>No active rules</em>';
+                } else {
+                    rulesList.innerHTML = ruleNames.map(name => `
+                        <div style="margin: 2px 0;">
+                            <strong>${name}</strong>
+                            <button class="remove-rule-btn" data-rule="${name}" style="background: #dc3545; color: white; border: none; padding: 1px 6px; border-radius: 2px; cursor: pointer; font-size: 0.7rem; margin-left: 5px;">✕</button>
+                        </div>
+                    `).join('');
+
+                    // Add remove button listeners
+                    document.querySelectorAll('.remove-rule-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const ruleName = this.dataset.rule;
+                            window.currentGenerator.removeCustomRule(ruleName);
+                            updateActiveRulesList();
+                        });
+                    });
+                }
+            }
+
+            function showRuleResult(ruleName, rule) {
+                const resultDiv = document.getElementById('ruleResultContent');
+                resultDiv.innerHTML = `
+                    <strong>Custom Rule Created Successfully!</strong><br><br>
+                    <strong>Name:</strong> ${ruleName}<br>
+                    <strong>Description:</strong> ${rule.description || 'No description'}<br>
+                    <strong>Conditions:</strong> ${rule.conditions.length}<br>
+                    <strong>Effects:</strong> ${Object.keys(rule.effects).length}<br>
+                    <strong>Created:</strong> ${new Date(rule.created).toLocaleString()}
+                `;
+
+                document.getElementById('ruleResult').style.display = 'block';
+                document.getElementById('ruleError').style.display = 'none';
+                document.getElementById('ruleStatus').textContent = 'Rule created successfully!';
+            }
+
+            function showRuleError(message) {
+                document.getElementById('ruleError').textContent = message;
+                document.getElementById('ruleError').style.display = 'block';
+                document.getElementById('ruleResult').style.display = 'none';
+            }
+
+            // Rule engine event listeners
+            document.getElementById('addConditionBtn').addEventListener('click', addCondition);
+            document.getElementById('createRuleBtn').addEventListener('click', createCustomRule);
+            document.getElementById('clearRulesBtn').addEventListener('click', function() {
+                if (window.currentGenerator) {
+                    window.currentGenerator.clearCustomRules();
+                    updateActiveRulesList();
+                    document.getElementById('ruleResult').style.display = 'none';
+                    document.getElementById('testRuleBtn').style.display = 'none';
+                }
+            });
+
+            // Export functionality (v2.0.0)
+            document.getElementById('generateForExportBtn').addEventListener('click', function() {
+                generateEventForExport();
+            });
+
+            document.getElementById('exportJsonBtn').addEventListener('click', function() {
+                exportCurrentEvent('json');
+            });
+
+            document.getElementById('exportTypeScriptBtn').addEventListener('click', function() {
+                exportCurrentEvent('typescript');
+            });
+
+            document.getElementById('copyExportBtn').addEventListener('click', function() {
+                const exportCode = document.getElementById('exportCode');
+                navigator.clipboard.writeText(exportCode.textContent).then(function() {
+                    const btn = document.getElementById('copyExportBtn');
+                    const originalText = btn.textContent;
+                    btn.textContent = '✅ Copied!';
+                    btn.style.background = '#28a745';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '#28a745';
+                    }, 2000);
+                });
+            });
+
+            // Export functionality
+            function generateEventForExport() {
+                const exportContext = {
+                    gold: parseInt(document.getElementById('exportGold').value) || 1000,
+                    reputation: parseInt(document.getElementById('exportReputation').value) || 25,
+                    career: document.getElementById('exportCareer').value || 'adventurer',
+                    location: document.getElementById('exportLocation').value || 'city'
+                };
+
+                try {
+                    // Generate event using the current generator (or default if none)
+                    const generator = window.currentGenerator || window.generator;
+                    if (!generator) {
+                        alert('No generator available. Please create a theme or use the main demo first.');
+                        return;
+                    }
+
+                    const event = generator.generateEvent(exportContext);
+                    window.exportEvent = event; // Store for export
+
+                    // Show export buttons
+                    document.getElementById('exportButtons').style.display = 'block';
+
+                    // Hide any previous export result
+                    document.getElementById('exportResult').style.display = 'none';
+
+                    // Show success message
+                    alert(`Event generated: "${event.title}"\n\nNow click "Export as JSON" or "Export as TypeScript" to export this event.`);
+
+                    // Scroll to export buttons
+                    document.getElementById('exportButtons').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+
+                } catch (error) {
+                    alert('Failed to generate event: ' + error.message);
+                }
+            }
+
+            function exportCurrentEvent(format) {
+                if (!window.exportEvent) {
+                    alert('Please generate an event for export first!');
+                    return;
+                }
+
+                const event = window.exportEvent;
+                let exportCode = '';
+
+                if (format === 'json') {
+                    exportCode = JSON.stringify(event, null, 2);
+                } else if (format === 'typescript') {
+                    exportCode = `// RPG Event Template - Generated ${new Date().toISOString()}
+export interface RPGEvent {
+  id: string;
+  title: string;
+  narrative: string;
+  choices: EventChoice[];
+  difficulty: string;
+  type: string;
+  tags: string[];
+  context_requirements?: any;
+}
+
+export interface EventChoice {
+  text: string;
+  effect: any;
+  consequence: string;
+  requirements?: any;
+}
+
+export const ${event.title.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_')}Event: RPGEvent = ${JSON.stringify(event, null, 2)};`;
+                }
+
+                document.getElementById('exportCode').textContent = exportCode;
+                document.getElementById('exportResult').style.display = 'block';
+
+                // Scroll to export result
+                document.getElementById('exportResult').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+
+            // Event Economy functionality (v2.0.0)
+            let savedThemes = JSON.parse(localStorage.getItem('rpg_event_themes') || '[]');
+            let exportedThemesCount = parseInt(localStorage.getItem('rpg_exported_count') || '0');
+
+            function updateEconomyStats() {
+                document.getElementById('savedThemesCount').textContent = savedThemes.length;
+                document.getElementById('exportedThemesCount').textContent = exportedThemesCount;
+
+                if (savedThemes.length > 0) {
+                    const avgQuality = savedThemes.reduce((sum, theme) => sum + (theme.quality || 0), 0) / savedThemes.length;
+                    document.getElementById('avgQualityScore').textContent = Math.round(avgQuality);
+                }
+            }
+
+            function saveCurrentTheme() {
+                if (!window.currentGenerator) {
+                    alert('Please create a theme first using the Theme Creator!');
+                    return;
+                }
+
+                const themeName = prompt('Enter a name for your theme:');
+                if (!themeName) return;
+
+                // Get current theme data
+                const themeData = {
+                    name: themeName,
+                    author: 'DemoUser',
+                    description: `Theme created in demo on ${new Date().toLocaleDateString()}`,
+                    tags: ['demo', 'user-created'],
+                    settings: {
+                        theme: window.currentGenerator.options.theme || 'fantasy',
+                        culture: window.currentGenerator.options.culture,
+                        language: window.currentGenerator.options.language || 'en',
+                        enableRuleEngine: window.currentGenerator.options.enableRuleEngine,
+                        enableTemplates: window.currentGenerator.options.enableTemplates,
+                        pureMarkovMode: window.currentGenerator.options.pureMarkovMode
+                    },
+                    trainingData: window.currentGenerator.options.trainingData || [],
+                    customRules: window.currentGenerator.options.customRules || [],
+                    statistics: {
+                        trainingSentences: (window.currentGenerator.options.trainingData || []).length,
+                        customRules: (window.currentGenerator.options.customRules || []).length,
+                        estimatedQuality: Math.floor(Math.random() * 30) + 70 // Mock quality score
+                    },
+                    created: new Date().toISOString()
+                };
+
+                // Save to localStorage (simulating file system)
+                const existingIndex = savedThemes.findIndex(t => t.name === themeName);
+                if (existingIndex >= 0) {
+                    savedThemes[existingIndex] = themeData;
+                } else {
+                    savedThemes.push(themeData);
+                }
+
+                localStorage.setItem('rpg_event_themes', JSON.stringify(savedThemes));
+                updateEconomyStats();
+
+                // Show save status
+                document.getElementById('themeSaveMessage').textContent =
+                    `Theme "${themeName}" saved successfully! Quality score: ${themeData.statistics.estimatedQuality}/100`;
+                document.getElementById('themeSaveStatus').style.display = 'block';
+
+                // Setup download button
+                document.getElementById('downloadThemeBtn').onclick = () => {
+                    const dataStr = JSON.stringify(themeData, null, 2);
+                    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(dataBlob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${themeName.toLowerCase().replace(/[^a-z0-9]/g, '_')}.json`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                };
+            }
+
+            function exportCurrentTheme() {
+                if (savedThemes.length === 0) {
+                    alert('Please save a theme first!');
+                    return;
+                }
+
+                const themeName = savedThemes[savedThemes.length - 1].name; // Export last saved theme
+                const themeData = savedThemes[savedThemes.length - 1];
+
+                // Create export
+                const dataStr = JSON.stringify(themeData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${themeName.toLowerCase().replace(/[^a-z0-9]/g, '_')}_export.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                exportedThemesCount++;
+                localStorage.setItem('rpg_exported_count', exportedThemesCount.toString());
+                updateEconomyStats();
+
+                alert(`Theme "${themeName}" exported successfully!`);
+            }
+
+            function importTheme() {
+                const fileInput = document.getElementById('themeImportFile');
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    alert('Please select a theme file to import!');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const themeData = JSON.parse(e.target.result);
+
+                        // Validate theme structure
+                        if (!themeData.name || !themeData.settings) {
+                            throw new Error('Invalid theme file format');
+                        }
+
+                        // Add to saved themes
+                        const existingIndex = savedThemes.findIndex(t => t.name === themeData.name);
+                        if (existingIndex >= 0) {
+                            savedThemes[existingIndex] = themeData;
+                        } else {
+                            savedThemes.push(themeData);
+                        }
+
+                        localStorage.setItem('rpg_event_themes', JSON.stringify(savedThemes));
+                        updateEconomyStats();
+
+                        // Show import status
+                        document.getElementById('themeImportMessage').textContent =
+                            `Theme "${themeData.name}" imported successfully! Quality: ${themeData.statistics?.estimatedQuality || 'N/A'}/100`;
+                        document.getElementById('themeImportStatus').style.display = 'block';
+
+                        // Hide after 5 seconds
+                        setTimeout(() => {
+                            document.getElementById('themeImportStatus').style.display = 'none';
+                        }, 5000);
+
+                        // Clear file input
+                        fileInput.value = '';
+
+                    } catch (error) {
+                        alert('Error importing theme: ' + error.message);
+                    }
+                };
+
+                reader.readAsText(file);
+            }
+
+            // Event Economy event listeners
+            document.getElementById('saveCurrentThemeBtn').addEventListener('click', saveCurrentTheme);
+            document.getElementById('exportThemeBtn').addEventListener('click', exportCurrentTheme);
+            document.getElementById('importThemeBtn').addEventListener('click', importTheme);
+
+            // Initialize on page load
+            initializeGenerator();
+            updateEconomyStats();
+        });
+    </script>
+</body>
+</html>

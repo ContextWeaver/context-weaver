@@ -1,0 +1,43 @@
+{
+  "title": "Terrifying Undead in Starship",
+  "narrative": "Alien artifacts pulse with energy as terrifying undead in starship unfolds in the starship.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 12,
+        "risk": 14
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "UNDEAD",
+  "tags": [
+    "space-opera",
+    "starship",
+    "fear",
+    "terror",
+    "undead"
+  ],
+  "context_requirements": {
+    "location": "starship",
+    "min_level": 7
+  }
+}

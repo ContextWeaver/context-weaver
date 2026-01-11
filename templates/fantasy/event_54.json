@@ -1,0 +1,43 @@
+{
+  "title": "Escort for Hire",
+  "narrative": "Legends speak of escort for hire in the tavern. Today, you face this ancient challenge.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 12,
+        "risk": 14
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "ESCORT",
+  "tags": [
+    "fantasy",
+    "tavern",
+    "adventure",
+    "mission",
+    "escort"
+  ],
+  "context_requirements": {
+    "location": "tavern",
+    "min_level": 5
+  }
+}

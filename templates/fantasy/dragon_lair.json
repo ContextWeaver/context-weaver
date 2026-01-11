@@ -1,0 +1,28 @@
+{
+  "title": "Ancient Dragon's Lair",
+  "narrative": "You discover a hidden cave entrance leading to what appears to be an ancient dragon's lair. The air is thick with the scent of sulfur and treasure. Golden coins and jewels are scattered across the floor, but you hear heavy breathing from deeper within.",
+  "choices": [
+    {
+      "text": "Carefully approach to investigate the breathing sound",
+      "effect": { "risk": 30, "reward": 50 },
+      "consequence": "investigate_dragon"
+    },
+    {
+      "text": "Quickly grab what treasure you can and leave",
+      "effect": { "gold": 100, "risk": 10 },
+      "consequence": "grab_treasure"
+    },
+    {
+      "text": "Set up an ambush and wait",
+      "effect": { "strategy": 20, "time": 2 },
+      "consequence": "ambush_setup"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "TREASURE_HUNT",
+  "tags": ["dragon", "treasure", "danger", "combat"],
+  "context_requirements": {
+    "location": "mountains",
+    "season": "any"
+  }
+}

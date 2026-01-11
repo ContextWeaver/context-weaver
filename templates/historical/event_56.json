@@ -1,0 +1,42 @@
+{
+  "title": "Alliance at Court",
+  "narrative": "The weight of history presses upon you as alliance at court occurs in the ancient-ruins.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 13
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "ALLIANCE",
+  "tags": [
+    "historical",
+    "ancientruins",
+    "people",
+    "conversation",
+    "alliance"
+  ],
+  "context_requirements": {
+    "location": "ancient-ruins"
+  }
+}

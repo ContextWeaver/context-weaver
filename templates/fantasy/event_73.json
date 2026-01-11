@@ -1,0 +1,42 @@
+{
+  "title": "Trade Deal Gone Wrong",
+  "narrative": "The mountain holds many secrets. Today you discover trade deal gone wrong, testing your mettle as a hero.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 33,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 20,
+        "risk": 3
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -13,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "TRADE",
+  "tags": [
+    "fantasy",
+    "mountain",
+    "trade",
+    "money",
+    "trade"
+  ],
+  "context_requirements": {
+    "location": "mountain"
+  }
+}

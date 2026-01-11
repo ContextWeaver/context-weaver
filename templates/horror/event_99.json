@@ -1,0 +1,42 @@
+{
+  "title": "Mansion Rescue",
+  "narrative": "Shadows whisper secrets in the mansion. mansion rescue emerges from the darkness, chilling your very soul.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "RESCUE",
+  "tags": [
+    "horror",
+    "mansion",
+    "adventure",
+    "mission",
+    "rescue"
+  ],
+  "context_requirements": {
+    "location": "mansion"
+  }
+}

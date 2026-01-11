@@ -1,0 +1,42 @@
+{
+  "title": "Trading-post Intrigue",
+  "narrative": "In the annals of history, trading-post intrigue in trading-post will be remembered as a pivotal moment.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "TREATY",
+  "tags": [
+    "historical",
+    "tradingpost",
+    "politics",
+    "power",
+    "treaty"
+  ],
+  "context_requirements": {
+    "location": "trading-post"
+  }
+}

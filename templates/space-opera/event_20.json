@@ -1,0 +1,43 @@
+{
+  "title": "Discovery in Wormhole",
+  "narrative": "Star fields twinkle as discovery in wormhole erupts across multiple systems from wormhole.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "MOUNTAIN",
+  "tags": [
+    "space-opera",
+    "wormhole",
+    "discovery",
+    "search",
+    "mountain"
+  ],
+  "context_requirements": {
+    "location": "wormhole",
+    "min_level": 13
+  }
+}

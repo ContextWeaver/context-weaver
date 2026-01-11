@@ -1,0 +1,42 @@
+{
+  "title": "Economic Contract Opportunity",
+  "narrative": "The net comes alive with data streams heralding economic contract opportunity in the megacity.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "CONTRACT",
+  "tags": [
+    "cyberpunk",
+    "megacity",
+    "trade",
+    "money",
+    "contract"
+  ],
+  "context_requirements": {
+    "location": "megacity"
+  }
+}

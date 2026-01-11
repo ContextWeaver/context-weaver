@@ -1,0 +1,42 @@
+{
+  "title": "Economic BLACK_MARKET Opportunity",
+  "narrative": "Technological marvels surround you in space-station. Suddenly, economic black_market opportunity demands your immediate attention.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "BLACK_MARKET",
+  "tags": [
+    "sci-fi",
+    "spacestation",
+    "trade",
+    "money",
+    "black_market"
+  ],
+  "context_requirements": {
+    "location": "space-station"
+  }
+}

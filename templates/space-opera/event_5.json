@@ -1,0 +1,44 @@
+{
+  "title": "Alien-world Exploration",
+  "narrative": "Alien artifacts pulse with energy as alien-world exploration unfolds in the alien-world.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "FOREST",
+  "tags": [
+    "space-opera",
+    "alienworld",
+    "discovery",
+    "search",
+    "forest"
+  ],
+  "context_requirements": {
+    "location": "alien-world",
+    "career": "noble",
+    "min_level": 11
+  }
+}

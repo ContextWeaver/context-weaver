@@ -1,0 +1,42 @@
+{
+  "title": "Hack Breakthrough",
+  "narrative": "Eerie silence falls over the haunted-town as hack breakthrough begins its terrifying work.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 15,
+        "risk": 10
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "HACK",
+  "tags": [
+    "horror",
+    "hauntedtown",
+    "technology",
+    "science",
+    "hack"
+  ],
+  "context_requirements": {
+    "location": "haunted-town"
+  }
+}

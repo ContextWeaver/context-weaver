@@ -1,0 +1,43 @@
+{
+  "title": "Trade Deal Gone Wrong",
+  "narrative": "Eerie silence falls over the haunted-town as trade deal gone wrong begins its terrifying work.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 20,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 12,
+        "risk": 7
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -8,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "TRADE",
+  "tags": [
+    "horror",
+    "hauntedtown",
+    "trade",
+    "money",
+    "trade"
+  ],
+  "context_requirements": {
+    "location": "haunted-town",
+    "min_level": 6
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Cyber_attack Malfunction",
+  "narrative": "The weight of history presses upon you as cyber_attack malfunction occurs in the colonial-town.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 12,
+        "risk": 14
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "CYBER_ATTACK",
+  "tags": [
+    "historical",
+    "colonialtown",
+    "technology",
+    "science",
+    "cyber_attack"
+  ],
+  "context_requirements": {
+    "location": "colonial-town",
+    "min_level": 7
+  }
+}

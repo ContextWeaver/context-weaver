@@ -1,0 +1,43 @@
+{
+  "title": "The BATTLE of ancient-ruins",
+  "narrative": "In the annals of history, the battle of ancient-ruins in ancient-ruins will be remembered as a pivotal moment.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 28,
+        "reward": 21
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 14
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "BATTLE",
+  "tags": [
+    "historical",
+    "ancientruins",
+    "battle",
+    "fight",
+    "battle"
+  ],
+  "context_requirements": {
+    "location": "ancient-ruins",
+    "min_level": 5
+  }
+}

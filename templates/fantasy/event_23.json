@@ -1,0 +1,42 @@
+{
+  "title": "Exploring the Castle",
+  "narrative": "Crystal chimes echo through the castle as exploring the castle demands your attention.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "FOREST",
+  "tags": [
+    "fantasy",
+    "castle",
+    "discovery",
+    "search",
+    "forest"
+  ],
+  "context_requirements": {
+    "location": "castle"
+  }
+}

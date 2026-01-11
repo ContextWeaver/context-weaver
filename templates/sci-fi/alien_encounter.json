@@ -1,0 +1,28 @@
+{
+  "title": "First Contact Protocol",
+  "narrative": "Your ship's sensors detect an unknown vessel approaching at high speed. As it comes into visual range, you see it's unlike any spacecraft in the galactic database - sleek, organic curves that seem to pulse with internal light. A holographic message appears on your viewscreen in an unknown language.",
+  "choices": [
+    {
+      "text": "Attempt to communicate using universal translator",
+      "effect": { "diplomacy": 20, "risk": 15 },
+      "consequence": "attempt_communication"
+    },
+    {
+      "text": "Activate defensive shields and prepare weapons",
+      "effect": { "defense": 30, "aggression": 10 },
+      "consequence": "defensive_posture"
+    },
+    {
+      "text": "Send a mathematical sequence as greeting",
+      "effect": { "science": 15, "curiosity": 10 },
+      "consequence": "mathematical_greeting"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "ALIEN_CONTACT",
+  "tags": ["aliens", "space", "first-contact", "communication"],
+  "context_requirements": {
+    "location": "space",
+    "career": "pilot"
+  }
+}

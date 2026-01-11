@@ -1,0 +1,43 @@
+{
+  "title": "Trade Deal Gone Wrong",
+  "narrative": "The ancient-ruins bears witness to trade deal gone wrong, where politics and destiny collide.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 20,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 12,
+        "risk": 7
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -8,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "TRADE",
+  "tags": [
+    "historical",
+    "ancientruins",
+    "trade",
+    "money",
+    "trade"
+  ],
+  "context_requirements": {
+    "location": "ancient-ruins",
+    "min_level": 5
+  }
+}

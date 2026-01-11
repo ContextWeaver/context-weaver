@@ -1,0 +1,44 @@
+{
+  "title": "Strange Starship Occurrence",
+  "narrative": "Cosmic forces align as strange starship occurrence manifests in the legendary starship.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "STRANGE_OCCURRENCE",
+  "tags": [
+    "space-opera",
+    "starship",
+    "puzzle",
+    "investigation",
+    "strange_occurrence"
+  ],
+  "context_requirements": {
+    "location": "starship",
+    "career": "merchant",
+    "min_level": 16
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Desperate Siege at Corporate-tower",
+  "narrative": "Chrome and circuitry surround you as desperate siege at corporate-tower emerges from the digital shadows.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "SIEGE",
+  "tags": [
+    "cyberpunk",
+    "corporatetower",
+    "battle",
+    "fight",
+    "siege"
+  ],
+  "context_requirements": {
+    "location": "corporate-tower"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Guerrilla in the Park",
+  "narrative": "Modern conveniences fail you as guerrilla in the park demands immediate attention.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "GUERRILLA",
+  "tags": [
+    "modern",
+    "park",
+    "battle",
+    "fight",
+    "guerrilla"
+  ],
+  "context_requirements": {
+    "location": "park"
+  }
+}

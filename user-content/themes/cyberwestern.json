@@ -1,0 +1,29 @@
+{
+  "name": "CyberWestern",
+  "version": "1.0.0",
+  "created": "2026-01-10T12:03:41.097Z",
+  "author": "DemoCreator",
+  "description": "Cyberpunk western theme",
+  "tags": [
+    "cyberpunk",
+    "western",
+    "scifi"
+  ],
+  "license": "MIT",
+  "settings": {
+    "theme": "cyberpunk",
+    "culture": "western",
+    "enableRuleEngine": true
+  },
+  "trainingData": [
+    "neon signs flicker in the dusty saloon",
+    "robotic sheriffs maintain order",
+    "cyborg outlaws ride mechanical horses"
+  ],
+  "customRules": [],
+  "statistics": {
+    "trainingSentences": 3,
+    "customRules": 0,
+    "estimatedQuality": 36
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Desperate NAVAL at space-station",
+  "narrative": "As you traverse the space-station, you stumble upon desperate naval at space-station. The air grows thick with magic and mystery.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "NAVAL",
+  "tags": [
+    "space-opera",
+    "spacestation",
+    "battle",
+    "fight",
+    "naval"
+  ],
+  "context_requirements": {
+    "location": "space-station"
+  }
+}

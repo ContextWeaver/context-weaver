@@ -1,0 +1,43 @@
+{
+  "title": "Unexpected BETRAYAL Meeting",
+  "narrative": "Imperial fleets maneuver while unexpected betrayal meeting threatens galactic peace in alien-world.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 35
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "BETRAYAL",
+  "tags": [
+    "space-opera",
+    "alienworld",
+    "people",
+    "conversation",
+    "betrayal"
+  ],
+  "context_requirements": {
+    "location": "alien-world",
+    "min_level": 4
+  }
+}

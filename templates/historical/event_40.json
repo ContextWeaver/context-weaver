@@ -1,0 +1,42 @@
+{
+  "title": "the Retrieval Quest",
+  "narrative": "The weight of history presses upon you as the retrieval quest occurs in the battlefield.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 15,
+        "risk": 10
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "RETRIEVAL",
+  "tags": [
+    "historical",
+    "battlefield",
+    "adventure",
+    "mission",
+    "retrieval"
+  ],
+  "context_requirements": {
+    "location": "battlefield"
+  }
+}

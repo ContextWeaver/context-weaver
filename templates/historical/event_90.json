@@ -1,0 +1,44 @@
+{
+  "title": "Exploring the Palace",
+  "narrative": "The palace bears witness to exploring the palace, where politics and destiny collide.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "FOREST",
+  "tags": [
+    "historical",
+    "palace",
+    "discovery",
+    "search",
+    "forest"
+  ],
+  "context_requirements": {
+    "location": "palace",
+    "career": "merchant",
+    "min_level": 19
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "version": "2.0.0",
+  "description": "Standardized schema for RPG Event Generator templates",
+  "templateStructure": {
+    "title": {
+      "type": "string",
+      "description": "Event title (4-12 words)",
+      "required": true
+    },
+    "narrative": {
+      "type": "string",
+      "description": "Descriptive narrative (50-200 words)",
+      "required": true
+    },
+    "choices": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "text": {
+          "type": "string",
+          "description": "Choice description (5-20 words)"
+        },
+        "effect": {
+          "type": "object",
+          "description": "Stat modifiers and consequences",
+          "properties": {
+            "gold": "number",
+            "reputation": "number",
+            "health": "number",
+            "influence": "number",
+            "risk": "number",
+            "reward": "number",
+            "time": "number"
+          }
+        },
+        "consequence": {
+          "type": "string",
+          "description": "Unique consequence identifier"
+        }
+      }
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "normal", "hard", "legendary"],
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "description": "Event category identifier",
+      "required": true
+    },
+    "tags": {
+      "type": "array",
+      "items": "string",
+      "description": "Descriptive tags for categorization"
+    },
+    "context_requirements": {
+      "type": "object",
+      "properties": {
+        "location": "string",
+        "season": "string",
+        "career": "string",
+        "min_level": "number",
+        "max_level": "number"
+      }
+    }
+  },
+  "eventTypes": {
+    "COMBAT": "Direct confrontations and battles",
+    "SOCIAL": "Interactions with NPCs",
+    "EXPLORATION": "Discovery and investigation",
+    "ECONOMIC": "Trade and commerce events",
+    "MYSTERY": "Investigation and puzzle events",
+    "SUPERNATURAL": "Magical and otherworldly events",
+    "POLITICAL": "Court and governance events",
+    "TECHNOLOGICAL": "Sci-fi and tech events",
+    "HORROR": "Fear and terror events",
+    "QUEST": "Adventure and mission events"
+  },
+  "difficultyLevels": {
+    "easy": { "powerRange": "0-25", "rewardMultiplier": 1.5, "riskMultiplier": 0.5 },
+    "normal": { "powerRange": "20-60", "rewardMultiplier": 1.0, "riskMultiplier": 1.0 },
+    "hard": { "powerRange": "50-150", "rewardMultiplier": 0.8, "riskMultiplier": 1.3 },
+    "legendary": { "powerRange": "125+", "rewardMultiplier": 0.6, "riskMultiplier": 1.8 }
+  }
+}

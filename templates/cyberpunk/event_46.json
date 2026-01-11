@@ -1,0 +1,43 @@
+{
+  "title": "Unexpected Negotiation Meeting",
+  "narrative": "Corporate towers loom overhead while unexpected negotiation meeting demands your attention in neon-district.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 35
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "NEGOTIATION",
+  "tags": [
+    "cyberpunk",
+    "neondistrict",
+    "people",
+    "conversation",
+    "negotiation"
+  ],
+  "context_requirements": {
+    "location": "neon-district",
+    "min_level": 3
+  }
+}

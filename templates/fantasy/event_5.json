@@ -1,0 +1,42 @@
+{
+  "title": "Cryptic Ancient_artifact Message",
+  "narrative": "Ancient runes glow as cryptic ancient_artifact message unfolds in the village, awakening powers long dormant.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "ANCIENT_ARTIFACT",
+  "tags": [
+    "fantasy",
+    "village",
+    "puzzle",
+    "investigation",
+    "ancient_artifact"
+  ],
+  "context_requirements": {
+    "location": "village"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Desperate Naval at Apartment",
+  "narrative": "Digital notifications ping as desperate naval at apartment interrupts your day in apartment.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 10,
+        "reward": 45
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 5
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "NAVAL",
+  "tags": [
+    "modern",
+    "apartment",
+    "battle",
+    "fight",
+    "naval"
+  ],
+  "context_requirements": {
+    "location": "apartment"
+  }
+}
