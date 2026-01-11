@@ -9,7 +9,6 @@
   "main": "dist/index.js",
   "files": [
     "dist/",
-    "templates/",
     "scripts/",
     "demo.js",
     "README.md",
@@ -57,9 +56,9 @@
     "text-generation",
     "nlp"
   ],
-  "author": "decept1kon",
+  "author": "ContextWeaver",
   "license": "MIT",
-  "homepage": "https://rpgevents.netlify.app/",
+  "homepage": "https://contextweaver.github.io/context-weaver/",
   "dependencies": {
     "chance": "^1.1.13"
   },
