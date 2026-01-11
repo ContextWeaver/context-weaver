@@ -2,6 +2,8 @@
 
 A powerful procedural content generation system for creating narratives, events, and interactive experiences across games, stories, and applications.
 
+> ⚠️ **Package Migration Notice**: This package was previously published as `rpg-event-generator`. If you're upgrading from the old package, all APIs remain compatible. The old package will be deprecated - please use `npm install context-weaver` for new installations.
+
 ## ✨ What's New in v2.0.2
 
 - 🎨 **Theme Creator**: Build custom themes with your own training data
@@ -92,13 +94,13 @@ const uxIssue = uxGenerator.generateEvent();
 ## Installation
 
 ```bash
-npm install rpg-event-generator
+npm install context-weaver
 ```
 
 ## Quick Start
 
 ```javascript
-import { RPGEventGenerator, generateRPGEvent } from 'rpg-event-generator';
+import { RPGEventGenerator, generateRPGEvent } from 'context-weaver';
 
 // Simple event generation
 const event = generateRPGEvent({
@@ -1673,7 +1675,7 @@ function onNewGameDay() {
 
 ```javascript
 import React, { useState, useEffect } from 'react';
-import { RPGEventGenerator } from 'rpg-event-generator';
+import { RPGEventGenerator } from 'context-weaver';
 
 function GameEventSystem({ playerStats }) {
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -1831,6 +1833,45 @@ function loadGame() {
 - **Family Secret**: Hidden lineage revelations
 - **Desertion Temptation**: Military loyalty crises
 - **Mercenary Contract**: Dangerous employment opportunities
+
+## 🔄 Migration Guide
+
+### From rpg-event-generator to context-weaver
+
+If you're migrating from the deprecated `rpg-event-generator` package:
+
+#### Quick Migration
+```bash
+# Remove old package
+npm uninstall rpg-event-generator
+
+# Install new package
+npm install context-weaver
+```
+
+#### Code Changes Required
+The API remains **100% backward compatible**. No code changes are needed:
+
+```javascript
+// Old way (still works)
+import { RPGEventGenerator } from 'rpg-event-generator';
+
+// New way (recommended)
+import { RPGEventGenerator } from 'context-weaver';
+```
+
+#### What Changed
+- **Package Name**: `rpg-event-generator` → `context-weaver`
+- **Branding**: Emphasizes broader applications beyond gaming
+- **Documentation**: Enhanced with enterprise use cases
+- **Homepage**: Updated to GitHub Pages deployment
+
+#### Deprecation Timeline
+- **Phase 1** (Current): Warning messages when installing old package
+- **Phase 2** (Future): Old package marked as deprecated on npm
+- **Phase 3** (Future): Old package unpublished (if you own it)
+
+All existing functionality is preserved. This is purely a rebranding to reflect the tool's broader capabilities.
 
 ## 🤝 Contributing
 
