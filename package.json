@@ -17,7 +17,7 @@
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
-    "build:browser": "npm run build && browserify dist/index.js --standalone RPGEventGenerator -o demo-web/rpg-event-generator.js",
+    "build:browser": "npm run build && browserify dist/index.js --standalone ContextWeaver -o demo-web/content-weaver.js",
     "prepublishOnly": "npm run build",
     "demo": "node demo.js",
     "economy:list": "node scripts/event-economy.js list-themes",

@@ -1550,10 +1550,10 @@ Saloon bars serve synthetic whiskey to cyborg cowboys
                 <p>v2.0.0 introduces major new features while maintaining backward compatibility:</p>
 
                 <pre><code>// v1.x style (still works)
-const generator = new RPGEventGenerator();
+const generator = new ContextWeaver();
 
 // v2.0.0 with new features
-const generator = new RPGEventGenerator({
+const generator = new ContextWeaver({
   // Core features (v1.x compatible)
   theme: 'fantasy',
   culture: 'norse',
@@ -1600,10 +1600,10 @@ generator.advanceChain('chainId', 'choice');
                 <p>All changes in v1.2.0 are <strong>backwards compatible</strong>. New features are opt-in via constructor options:</p>
 
                 <pre><code>// Before (still works)
-const generator = new window.RPGEventGenerator();
+const generator = new window.ContextWeaver();
 
 // After (with new features)
-const generator = new RPGEventGenerator({
+const generator = new ContextWeaver({
   enableModifiers: true,      // Weather/season effects
   enableRelationships: true,  // NPC relationship networks
   enableDependencies: true,   // Complex event prerequisites
@@ -1612,7 +1612,7 @@ const generator = new RPGEventGenerator({
 </code></pre>
 
                 <h4>Complete Constructor Options (v2.0.0)</h4>
-                <pre><code>const generator = new RPGEventGenerator({
+                <pre><code>const generator = new ContextWeaver({
   // Core options (v1.0.0+)
   theme: 'fantasy',
   culture: 'norse',
@@ -1651,14 +1651,14 @@ const generator = new RPGEventGenerator({
     <script src="https://cdn.jsdelivr.net/npm/chance@1.1.13/dist/chance.min.js"></script>
 
     <!-- RPG Event Generator (Browser-compatible version) -->
-    <script src="./rpg-event-generator.js"></script>
+    <script src="./content-weaver.js"></script>
 
     <!-- Demo Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if RPGEventGenerator is loaded
-            if (typeof window.RPGEventGenerator === 'undefined') {
-                console.error('RPGEventGenerator not loaded. Make sure rpg-event-generator.js is included.');
+            // Check if ContextWeaver is loaded
+            if (typeof window.ContextWeaver === 'undefined') {
+                console.error('ContextWeaver not loaded. Make sure rpg-event-generator.js is included.');
                 alert('Error: RPG Event Generator library not loaded. Please check the browser console.');
                 return;
             }
@@ -1683,7 +1683,7 @@ const generator = new RPGEventGenerator({
                         theme: document.getElementById('theme').value
                     };
 
-                    generator = new window.RPGEventGenerator(options);
+                    generator = new window.ContextWeaver(options);
 
                     // Load some sample NPCs and relationships for demo
                     if (options.enableRelationships) {
@@ -2038,7 +2038,7 @@ const generator = new RPGEventGenerator({
                     };
 
                     console.log('Creating custom generator with options:', options);
-                    customGenerator = new window.RPGEventGenerator(options);
+                    customGenerator = new window.ContextWeaver(options);
                     console.log('Custom generator created:', {
                         pureMarkovMode: customGenerator.pureMarkovMode,
                         enableTemplates: customGenerator.enableTemplates,
