@@ -1,0 +1,42 @@
+{
+  "title": "Haunting Nightmare",
+  "narrative": "Imperial fleets maneuver while haunting nightmare threatens galactic peace in space-station.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "HAUNTING",
+  "tags": [
+    "space-opera",
+    "spacestation",
+    "fear",
+    "terror",
+    "haunting"
+  ],
+  "context_requirements": {
+    "location": "space-station"
+  }
+}

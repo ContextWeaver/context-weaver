@@ -1,0 +1,87 @@
+{
+  "name": "rpg-event-generator",
+  "version": "2.0.2",
+  "description": "RPG Event Generator v2.0.2 - Powerful procedural event generation system for RPG narratives, events, and interactive experiences",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ContextWeaver/conttex-weaver.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "templates/",
+    "scripts/",
+    "demo.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "babel src --out-dir dist",
+    "build:browser": "npm run build && browserify dist/index.js --standalone RPGEventGenerator -o demo-web/rpg-event-generator.js",
+    "prepublishOnly": "npm run build",
+    "demo": "node demo.js",
+    "economy:list": "node scripts/event-economy.js list-themes",
+    "economy:stats": "node scripts/event-economy.js stats",
+    "export:unity": "node scripts/export-templates.js unity",
+    "export:godot": "node scripts/export-templates.js godot",
+    "export:typescript": "node scripts/export-templates.js typescript"
+  },
+  "keywords": [
+    "rpg",
+    "procedural-generation",
+    "events",
+    "random",
+    "game-development",
+    "markov-chains",
+    "game-dev",
+    "narrative",
+    "storytelling",
+    "fantasy",
+    "medieval",
+    "adventure",
+    "quest",
+    "character-development",
+    "world-building",
+    "procedural-content",
+    "event-system",
+    "role-playing",
+    "game-mechanics",
+    "content-generation",
+    "story-generator",
+    "rpg-tools",
+    "indie-games",
+    "game-jam",
+    "javascript-games",
+    "node-game",
+    "text-generation",
+    "nlp"
+  ],
+  "author": "decept1kon",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "chance": "^1.1.13"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "browserify": "^17.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
+  },
+  "bin": {
+    "rpg-events": "./scripts/event-economy.js",
+    "rpg-export": "./scripts/export-templates.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

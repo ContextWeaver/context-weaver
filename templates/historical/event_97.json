@@ -1,0 +1,42 @@
+{
+  "title": "Sudden SIEGE Encounter",
+  "narrative": "In the annals of history, sudden siege encounter in trading-post will be remembered as a pivotal moment.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 10,
+        "reward": 45
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 5
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "SIEGE",
+  "tags": [
+    "historical",
+    "tradingpost",
+    "battle",
+    "fight",
+    "siege"
+  ],
+  "context_requirements": {
+    "location": "trading-post"
+  }
+}

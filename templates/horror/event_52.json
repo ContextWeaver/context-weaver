@@ -1,0 +1,44 @@
+{
+  "title": "Terrifying Madness in Graveyard",
+  "narrative": "Cold sweat beads on your brow as terrifying madness in graveyard reveals itself in the graveyard.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "MADNESS",
+  "tags": [
+    "horror",
+    "graveyard",
+    "fear",
+    "terror",
+    "madness"
+  ],
+  "context_requirements": {
+    "location": "graveyard",
+    "career": "noble",
+    "min_level": 18
+  }
+}

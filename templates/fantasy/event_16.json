@@ -1,0 +1,44 @@
+{
+  "title": "Negotiation at Court",
+  "narrative": "Crystal chimes echo through the castle as negotiation at court demands your attention.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 50
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "NEGOTIATION",
+  "tags": [
+    "fantasy",
+    "castle",
+    "people",
+    "conversation",
+    "negotiation"
+  ],
+  "context_requirements": {
+    "location": "castle",
+    "career": "explorer",
+    "min_level": 18
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Auction Deal Gone Wrong",
+  "narrative": "As you traverse the market, you stumble upon auction deal gone wrong. The air grows thick with magic and mystery.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "AUCTION",
+  "tags": [
+    "fantasy",
+    "market",
+    "trade",
+    "money",
+    "auction"
+  ],
+  "context_requirements": {
+    "location": "market"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "title": "Cryptic Cryptic_message Message",
+  "narrative": "Ancient traditions meet modern challenges in cryptic cryptic_message message at the palace.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "CRYPTIC_MESSAGE",
+  "tags": [
+    "historical",
+    "palace",
+    "puzzle",
+    "investigation",
+    "cryptic_message"
+  ],
+  "context_requirements": {
+    "location": "palace",
+    "career": "scholar",
+    "min_level": 12
+  }
+}

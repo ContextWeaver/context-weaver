@@ -1,0 +1,43 @@
+{
+  "title": "Trade Deal Gone Wrong",
+  "narrative": "Star fields twinkle as trade deal gone wrong erupts across multiple systems from wormhole.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 15,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 9,
+        "risk": 10
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -6,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "TRADE",
+  "tags": [
+    "space-opera",
+    "wormhole",
+    "trade",
+    "money",
+    "trade"
+  ],
+  "context_requirements": {
+    "location": "wormhole",
+    "min_level": 18
+  }
+}

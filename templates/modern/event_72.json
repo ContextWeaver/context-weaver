@@ -1,0 +1,43 @@
+{
+  "title": "Ancient_artifact Investigation",
+  "narrative": "Contemporary life takes an unexpected turn with ancient_artifact investigation in the office.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 12,
+        "risk": 14
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "ANCIENT_ARTIFACT",
+  "tags": [
+    "modern",
+    "office",
+    "puzzle",
+    "investigation",
+    "ancient_artifact"
+  ],
+  "context_requirements": {
+    "location": "office",
+    "min_level": 4
+  }
+}

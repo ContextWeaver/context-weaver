@@ -1,0 +1,43 @@
+{
+  "title": "Monster Horror",
+  "narrative": "The net comes alive with data streams heralding monster horror in the neon-district.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "MONSTER",
+  "tags": [
+    "cyberpunk",
+    "neondistrict",
+    "fear",
+    "terror",
+    "monster"
+  ],
+  "context_requirements": {
+    "location": "neon-district",
+    "min_level": 13
+  }
+}

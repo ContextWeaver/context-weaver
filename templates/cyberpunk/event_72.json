@@ -1,0 +1,42 @@
+{
+  "title": "Exploring the Neon-district",
+  "narrative": "Neon lights reflect off rain-slicked streets as exploring the neon-district unfolds in the neon-district.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "RUINS",
+  "tags": [
+    "cyberpunk",
+    "neondistrict",
+    "discovery",
+    "search",
+    "ruins"
+  ],
+  "context_requirements": {
+    "location": "neon-district"
+  }
+}

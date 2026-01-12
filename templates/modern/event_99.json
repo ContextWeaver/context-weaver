@@ -1,0 +1,44 @@
+{
+  "title": "NEGOTIATION at Court",
+  "narrative": "Legends speak of negotiation at court in the park. Today, you face this ancient challenge.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 50
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "NEGOTIATION",
+  "tags": [
+    "modern",
+    "park",
+    "people",
+    "conversation",
+    "negotiation"
+  ],
+  "context_requirements": {
+    "location": "park",
+    "career": "warrior",
+    "min_level": 13
+  }
+}

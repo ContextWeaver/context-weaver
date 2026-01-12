@@ -1,0 +1,44 @@
+{
+  "title": "the Diplomacy Gathering",
+  "narrative": "Neon lights reflect off rain-slicked streets as the diplomacy gathering unfolds in the underground.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 50
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "DIPLOMACY",
+  "tags": [
+    "cyberpunk",
+    "underground",
+    "people",
+    "conversation",
+    "diplomacy"
+  ],
+  "context_requirements": {
+    "location": "underground",
+    "career": "priest",
+    "min_level": 16
+  }
+}

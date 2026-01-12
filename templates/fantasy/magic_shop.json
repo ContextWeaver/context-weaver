@@ -1,0 +1,28 @@
+{
+  "title": "Mysterious Magic Shop",
+  "narrative": "You stumble upon a small shop tucked away in a narrow alley. The sign reads 'Arcane Curiosities' and the windows are filled with glowing crystals, strange herbs, and books with moving covers. An elderly wizard eyes you suspiciously from behind the counter.",
+  "choices": [
+    {
+      "text": "Ask about the most powerful item in the shop",
+      "effect": { "knowledge": 15, "gold": -50 },
+      "consequence": "inquire_powerful"
+    },
+    {
+      "text": "Try to haggle for a cheaper price on a simple potion",
+      "effect": { "diplomacy": 10, "gold": -20 },
+      "consequence": "haggle_potion"
+    },
+    {
+      "text": "Attempt to steal a small crystal when the wizard isn't looking",
+      "effect": { "risk": 40, "stealth": 15 },
+      "consequence": "attempt_theft"
+    }
+  ],
+  "difficulty": "medium",
+  "type": "MAGIC_SHOP",
+  "tags": ["magic", "shopping", "wizard", "arcane"],
+  "context_requirements": {
+    "location": "city",
+    "career": "any"
+  }
+}

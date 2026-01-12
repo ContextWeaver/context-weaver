@@ -1,0 +1,43 @@
+{
+  "title": "the Auction of Graveyard",
+  "narrative": "Shadows whisper secrets in the graveyard. the auction of graveyard emerges from the darkness, chilling your very soul.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 15,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 9,
+        "risk": 10
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -6,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "AUCTION",
+  "tags": [
+    "horror",
+    "graveyard",
+    "trade",
+    "money",
+    "auction"
+  ],
+  "context_requirements": {
+    "location": "graveyard",
+    "min_level": 13
+  }
+}

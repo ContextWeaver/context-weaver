@@ -1,0 +1,43 @@
+{
+  "title": "Sudden Siege Encounter",
+  "narrative": "Technological marvels surround you in alien-planet. Suddenly, sudden siege encounter demands your immediate attention.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 28,
+        "reward": 21
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 14
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "SIEGE",
+  "tags": [
+    "sci-fi",
+    "alienplanet",
+    "battle",
+    "fight",
+    "siege"
+  ],
+  "context_requirements": {
+    "location": "alien-planet",
+    "min_level": 3
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Royal Court Conspiracy",
+  "narrative": "You've been invited to the royal court for a private audience with the king. As you wait in the antechamber, you overhear two nobles whispering about a plot against the crown. One of them glances nervously in your direction, clearly aware you've heard too much.",
+  "choices": [
+    {
+      "text": "Confront them directly about what you heard",
+      "effect": { "courage": 15, "reputation": 10 },
+      "consequence": "direct_confrontation"
+    },
+    {
+      "text": "Pretend you heard nothing and proceed to your audience",
+      "effect": { "diplomacy": 5, "risk": 20 },
+      "consequence": "pretend_ignorance"
+    },
+    {
+      "text": "Slip away quietly and inform the royal guards",
+      "effect": { "loyalty": 25, "stealth": 10 },
+      "consequence": "alert_guards"
+    }
+  ],
+  "difficulty": "medium",
+  "type": "COURT_INTRIGUE",
+  "tags": ["politics", "conspiracy", "royalty", "espionage"],
+  "context_requirements": {
+    "location": "palace",
+    "career": "noble"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Desperate SIEGE at starship",
+  "narrative": "As you traverse the starship, you stumble upon desperate siege at starship. The air grows thick with magic and mystery.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "SIEGE",
+  "tags": [
+    "space-opera",
+    "starship",
+    "battle",
+    "fight",
+    "siege"
+  ],
+  "context_requirements": {
+    "location": "starship"
+  }
+}

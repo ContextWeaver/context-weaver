@@ -1,0 +1,43 @@
+{
+  "title": "Heist Deal Gone Wrong",
+  "narrative": "Legends speak of heist deal gone wrong in the dungeon. Today, you face this ancient challenge.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 20,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 12,
+        "risk": 7
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -8,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "HEIST",
+  "tags": [
+    "fantasy",
+    "dungeon",
+    "trade",
+    "money",
+    "heist"
+  ],
+  "context_requirements": {
+    "location": "dungeon",
+    "min_level": 5
+  }
+}

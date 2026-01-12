@@ -1,0 +1,44 @@
+{
+  "title": "Black_market Negotiations",
+  "narrative": "Crystal chimes echo through the forest as black_market negotiations demands your attention.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 15,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 9,
+        "risk": 10
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -6,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "BLACK_MARKET",
+  "tags": [
+    "fantasy",
+    "forest",
+    "trade",
+    "money",
+    "black_market"
+  ],
+  "context_requirements": {
+    "location": "forest",
+    "career": "diplomat",
+    "min_level": 10
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Economic Black_market Opportunity",
+  "narrative": "Megacity sprawl provides the backdrop for economic black_market opportunity in megacity.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 15,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 9,
+        "risk": 10
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -6,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "BLACK_MARKET",
+  "tags": [
+    "cyberpunk",
+    "megacity",
+    "trade",
+    "money",
+    "black_market"
+  ],
+  "context_requirements": {
+    "location": "megacity",
+    "min_level": 14
+  }
+}

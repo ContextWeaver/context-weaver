@@ -1,0 +1,42 @@
+{
+  "title": "Strange Palace Occurrence",
+  "narrative": "The weight of history presses upon you as strange palace occurrence occurs in the palace.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 15,
+        "risk": 10
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "INVESTIGATION",
+  "tags": [
+    "historical",
+    "palace",
+    "puzzle",
+    "investigation",
+    "investigation"
+  ],
+  "context_requirements": {
+    "location": "palace"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Social Betrayal in Mansion",
+  "narrative": "Cold sweat beads on your brow as social betrayal in mansion reveals itself in the mansion.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 13
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "BETRAYAL",
+  "tags": [
+    "horror",
+    "mansion",
+    "people",
+    "conversation",
+    "betrayal"
+  ],
+  "context_requirements": {
+    "location": "mansion"
+  }
+}

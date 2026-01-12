@@ -1,0 +1,42 @@
+{
+  "title": "The starship MONSTER",
+  "narrative": "The starship holds many secrets. Today you discover the starship monster, testing your mettle as a hero.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 20,
+        "risk": 5
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "MONSTER",
+  "tags": [
+    "space-opera",
+    "starship",
+    "fear",
+    "terror",
+    "monster"
+  ],
+  "context_requirements": {
+    "location": "starship"
+  }
+}

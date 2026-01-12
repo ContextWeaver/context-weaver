@@ -1,0 +1,42 @@
+{
+  "title": "the Auction of Cursed-forest",
+  "narrative": "Shadows whisper secrets in the cursed-forest. the auction of cursed-forest emerges from the darkness, chilling your very soul.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 33,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 20,
+        "risk": 3
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -13,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "AUCTION",
+  "tags": [
+    "horror",
+    "cursedforest",
+    "trade",
+    "money",
+    "auction"
+  ],
+  "context_requirements": {
+    "location": "cursed-forest"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Bargain Negotiations",
+  "narrative": "Cosmic forces align as bargain negotiations manifests in the legendary space-station.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "BARGAIN",
+  "tags": [
+    "space-opera",
+    "spacestation",
+    "trade",
+    "money",
+    "bargain"
+  ],
+  "context_requirements": {
+    "location": "space-station"
+  }
+}

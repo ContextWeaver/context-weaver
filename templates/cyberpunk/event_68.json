@@ -1,0 +1,43 @@
+{
+  "title": "Social BANQUET In Corporate-tower",
+  "narrative": "The net comes alive with data streams heralding social banquet in corporate-tower in the corporate-tower.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 35
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "BANQUET",
+  "tags": [
+    "cyberpunk",
+    "corporatetower",
+    "people",
+    "conversation",
+    "banquet"
+  ],
+  "context_requirements": {
+    "location": "corporate-tower",
+    "min_level": 5
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "The Whispering Halls",
+  "narrative": "The abandoned mansion looms before you, its windows like empty eyes in the gathering dusk. As you push open the creaking door, you hear faint whispers echoing through the halls. The air grows colder with each step, and shadows seem to move at the edge of your vision.",
+  "choices": [
+    {
+      "text": "Search for the source of the whispers",
+      "effect": { "courage": 10, "sanity": -20 },
+      "consequence": "investigate_whispers"
+    },
+    {
+      "text": "Look for valuables to steal while you can",
+      "effect": { "greed": 15, "risk": 25 },
+      "consequence": "search_treasure"
+    },
+    {
+      "text": "Attempt to perform an exorcism ritual",
+      "effect": { "spirituality": 20, "time": 3 },
+      "consequence": "exorcism_attempt"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "HAUNTED_LOCATION",
+  "tags": ["ghosts", "supernatural", "fear", "darkness"],
+  "context_requirements": {
+    "location": "rural",
+    "timeOfDay": "night"
+  }
+}

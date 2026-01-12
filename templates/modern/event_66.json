@@ -1,0 +1,42 @@
+{
+  "title": "Heist Deal Gone Wrong",
+  "narrative": "City lights illuminate heist deal gone wrong as it unfolds in the bustling apartment.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "HEIST",
+  "tags": [
+    "modern",
+    "apartment",
+    "trade",
+    "money",
+    "heist"
+  ],
+  "context_requirements": {
+    "location": "apartment"
+  }
+}

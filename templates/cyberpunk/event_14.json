@@ -1,0 +1,42 @@
+{
+  "title": "the Contract of Neon-district",
+  "narrative": "Megacity sprawl provides the backdrop for the contract of neon-district in neon-district.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "CONTRACT",
+  "tags": [
+    "cyberpunk",
+    "neondistrict",
+    "trade",
+    "money",
+    "contract"
+  ],
+  "context_requirements": {
+    "location": "neon-district"
+  }
+}

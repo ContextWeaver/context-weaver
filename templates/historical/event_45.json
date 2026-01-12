@@ -1,0 +1,43 @@
+{
+  "title": "the Battle of Ancient-ruins",
+  "narrative": "Royal decrees echo through the ancient-ruins as the battle of ancient-ruins unfolds before your eyes.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 40,
+        "reward": 15
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 20
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "BATTLE",
+  "tags": [
+    "historical",
+    "ancientruins",
+    "battle",
+    "fight",
+    "battle"
+  ],
+  "context_requirements": {
+    "location": "ancient-ruins",
+    "min_level": 13
+  }
+}

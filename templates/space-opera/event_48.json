@@ -1,0 +1,43 @@
+{
+  "title": "Cyber_attack Breakthrough",
+  "narrative": "Alien artifacts pulse with energy as cyber_attack breakthrough unfolds in the wormhole.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 12,
+        "risk": 14
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "hard",
+  "type": "CYBER_ATTACK",
+  "tags": [
+    "space-opera",
+    "wormhole",
+    "technology",
+    "science",
+    "cyber_attack"
+  ],
+  "context_requirements": {
+    "location": "wormhole",
+    "min_level": 5
+  }
+}

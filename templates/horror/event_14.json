@@ -1,0 +1,44 @@
+{
+  "title": "Desperate Ambush at Abandoned-mine",
+  "narrative": "Terror grips your heart as desperate ambush at abandoned-mine manifests in the foreboding abandoned-mine.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 40,
+        "reward": 15
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 20
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "AMBUSH",
+  "tags": [
+    "horror",
+    "abandonedmine",
+    "battle",
+    "fight",
+    "ambush"
+  ],
+  "context_requirements": {
+    "location": "abandoned-mine",
+    "career": "thief",
+    "min_level": 11
+  }
+}

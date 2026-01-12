@@ -1,0 +1,42 @@
+{
+  "title": "Sudden Duel Encounter",
+  "narrative": "Megacity sprawl provides the backdrop for sudden duel encounter in megacity.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "DUEL",
+  "tags": [
+    "cyberpunk",
+    "megacity",
+    "battle",
+    "fight",
+    "duel"
+  ],
+  "context_requirements": {
+    "location": "megacity"
+  }
+}

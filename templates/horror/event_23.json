@@ -1,0 +1,42 @@
+{
+  "title": "Siege in the Mansion",
+  "narrative": "Terror grips your heart as siege in the mansion manifests in the foreboding mansion.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "SIEGE",
+  "tags": [
+    "horror",
+    "mansion",
+    "battle",
+    "fight",
+    "siege"
+  ],
+  "context_requirements": {
+    "location": "mansion"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "The HEIST of abandoned-mine",
+  "narrative": "Shadows whisper secrets in the abandoned-mine. the heist of abandoned-mine emerges from the darkness, chilling your very soul.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 33,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 20,
+        "risk": 3
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -13,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "HEIST",
+  "tags": [
+    "horror",
+    "abandonedmine",
+    "trade",
+    "money",
+    "heist"
+  ],
+  "context_requirements": {
+    "location": "abandoned-mine"
+  }
+}

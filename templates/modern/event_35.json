@@ -1,0 +1,42 @@
+{
+  "title": "Social Betrayal in City",
+  "narrative": "Social media buzzes with rumors of social betrayal in city occurring right now in city.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 25
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "BETRAYAL",
+  "tags": [
+    "modern",
+    "city",
+    "people",
+    "conversation",
+    "betrayal"
+  ],
+  "context_requirements": {
+    "location": "city"
+  }
+}

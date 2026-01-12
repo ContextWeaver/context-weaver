@@ -1,0 +1,42 @@
+{
+  "title": "Sudden NAVAL Encounter",
+  "narrative": "Your scanners detect unusual readings from sudden naval encounter in space-station. The future of your mission hangs in the balance.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 20,
+        "reward": 30
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 10
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "NAVAL",
+  "tags": [
+    "sci-fi",
+    "spacestation",
+    "battle",
+    "fight",
+    "naval"
+  ],
+  "context_requirements": {
+    "location": "space-station"
+  }
+}

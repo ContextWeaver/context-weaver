@@ -1,0 +1,42 @@
+{
+  "title": "the Ambush of Haunted-town",
+  "narrative": "Cold sweat beads on your brow as the ambush of haunted-town reveals itself in the haunted-town.",
+  "choices": [
+    {
+      "text": "Fight bravely and face the challenge head-on",
+      "effect": {
+        "risk": 10,
+        "reward": 45
+      },
+      "consequence": "brave_combat"
+    },
+    {
+      "text": "Use strategy and cunning to outmaneuver your opponent",
+      "effect": {
+        "strategy": 15,
+        "risk": 5
+      },
+      "consequence": "strategic_combat"
+    },
+    {
+      "text": "Attempt to flee and live to fight another day",
+      "effect": {
+        "cowardice": 10,
+        "safety": 15
+      },
+      "consequence": "retreat_combat"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "AMBUSH",
+  "tags": [
+    "horror",
+    "hauntedtown",
+    "battle",
+    "fight",
+    "ambush"
+  ],
+  "context_requirements": {
+    "location": "haunted-town"
+  }
+}

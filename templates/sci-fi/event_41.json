@@ -1,0 +1,42 @@
+{
+  "title": "the Diplomacy Gathering",
+  "narrative": "Your scanners detect unusual readings from the diplomacy gathering in laboratory. The future of your mission hangs in the balance.",
+  "choices": [
+    {
+      "text": "Use diplomacy and charm to navigate the situation",
+      "effect": {
+        "influence": 20,
+        "reputation": 10
+      },
+      "consequence": "diplomatic_social"
+    },
+    {
+      "text": "Assert your authority and take command",
+      "effect": {
+        "influence": 15,
+        "risk": 13
+      },
+      "consequence": "authoritative_social"
+    },
+    {
+      "text": "Observe quietly and gather information",
+      "effect": {
+        "knowledge": 15,
+        "influence": -5
+      },
+      "consequence": "observant_social"
+    }
+  ],
+  "difficulty": "easy",
+  "type": "DIPLOMACY",
+  "tags": [
+    "sci-fi",
+    "laboratory",
+    "people",
+    "conversation",
+    "diplomacy"
+  ],
+  "context_requirements": {
+    "location": "laboratory"
+  }
+}

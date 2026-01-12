@@ -1,0 +1,42 @@
+{
+  "title": "the Contract of Alien-world",
+  "narrative": "Faster-than-light communications carry news of the contract of alien-world throughout the galaxy.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 25,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 15,
+        "risk": 5
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -10,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "normal",
+  "type": "CONTRACT",
+  "tags": [
+    "space-opera",
+    "alienworld",
+    "trade",
+    "money",
+    "contract"
+  ],
+  "context_requirements": {
+    "location": "alien-world"
+  }
+}

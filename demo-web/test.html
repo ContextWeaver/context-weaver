@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Event Generator - Test</title>
+</head>
+<body>
+    <h1>RPG Event Generator Test</h1>
+    <div id="output"></div>
+
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/chance@1.1.13/dist/chance.min.js"></script>
+
+    <!-- RPG Event Generator -->
+    <script src="./rpg-event-generator.js"></script>
+
+    <script>
+        const output = document.getElementById('output');
+
+        function log(message) {
+            output.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+
+        try {
+            log('Testing RPG Event Generator initialization...');
+
+            // Check if class is available
+            log('RPGEventGenerator class available: ' + typeof RPGEventGenerator);
+
+            // Test basic initialization
+            const generator = new RPGEventGenerator();
+            log('✅ Generator initialized successfully');
+
+            // Test global chance instance
+            const chanceInstance = getGlobalChanceInstance();
+            log('Global chance instance: ' + typeof chanceInstance);
+            log('Global chance pickone: ' + typeof chanceInstance?.pickone);
+
+            // Test pickone directly
+            if (chanceInstance?.pickone) {
+                const testResult = chanceInstance.pickone(['test1', 'test2', 'test3']);
+                log('Pickone test result: ' + testResult);
+            }
+
+            // Check generator chance
+            log('Generator chance instance: ' + typeof generator.chance);
+            log('Generator chance pickone: ' + typeof generator.chance?.pickone);
+
+            // Test basic event generation
+            const event = generator.generateEvent();
+            log('✅ Basic event generated: ' + event.title);
+
+            // Test enhanced event generation
+            const enhancedEvent = generator.generateEnhancedEvent({
+                player: { career: 'noble', reputation: 50, gold: 1000 },
+                environment: { season: 'spring', weather: 'clear', location: 'castle' }
+            });
+            log('✅ Enhanced event generated: ' + enhancedEvent.title + ' (should have spring atmosphere)');
+
+            // Test language switching
+            generator.setLanguage('es');
+            log('✅ Language set to Spanish');
+
+            // Test system status
+            const status = generator.getSystemStatus();
+            log('✅ System status retrieved: v' + status.version);
+
+            log('<strong>All tests passed! 🎉</strong>');
+
+        } catch (error) {
+            log('❌ Error: ' + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

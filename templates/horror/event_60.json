@@ -1,0 +1,43 @@
+{
+  "title": "Ancient Mansion Secrets",
+  "narrative": "The mansion has always been cursed. Now ancient mansion secrets proves the legends true.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "MOUNTAIN",
+  "tags": [
+    "horror",
+    "mansion",
+    "discovery",
+    "search",
+    "mountain"
+  ],
+  "context_requirements": {
+    "location": "mansion",
+    "min_level": 16
+  }
+}

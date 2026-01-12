@@ -1,0 +1,43 @@
+{
+  "title": "Assassination in Megacity",
+  "narrative": "Your scanners detect unusual readings from assassination in megacity in megacity. The future of your mission hangs in the balance.",
+  "choices": [
+    {
+      "text": "Carefully investigate and document your findings",
+      "effect": {
+        "knowledge": 20,
+        "time": 1
+      },
+      "consequence": "thorough_exploration"
+    },
+    {
+      "text": "Quickly search for valuables and depart",
+      "effect": {
+        "gold": 9,
+        "risk": 20
+      },
+      "consequence": "quick_exploration"
+    },
+    {
+      "text": "Set up camp and study the area thoroughly",
+      "effect": {
+        "knowledge": 25,
+        "time": 2
+      },
+      "consequence": "extended_exploration"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "ASSASSINATION",
+  "tags": [
+    "sci-fi",
+    "megacity",
+    "politics",
+    "power",
+    "assassination"
+  ],
+  "context_requirements": {
+    "location": "megacity",
+    "min_level": 19
+  }
+}

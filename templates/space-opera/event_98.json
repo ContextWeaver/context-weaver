@@ -1,0 +1,43 @@
+{
+  "title": "Bargain Deal Gone Wrong",
+  "narrative": "Alien artifacts pulse with energy as bargain deal gone wrong unfolds in the starship.",
+  "choices": [
+    {
+      "text": "Negotiate shrewdly for the best deal",
+      "effect": {
+        "gold": 15,
+        "reputation": 5
+      },
+      "consequence": "shrewd_negotiation"
+    },
+    {
+      "text": "Take the straightforward approach",
+      "effect": {
+        "gold": 9,
+        "risk": 10
+      },
+      "consequence": "straightforward_deal"
+    },
+    {
+      "text": "Walk away and seek better opportunities",
+      "effect": {
+        "gold": -6,
+        "opportunity": 20
+      },
+      "consequence": "walk_away_deal"
+    }
+  ],
+  "difficulty": "legendary",
+  "type": "BARGAIN",
+  "tags": [
+    "space-opera",
+    "starship",
+    "trade",
+    "money",
+    "bargain"
+  ],
+  "context_requirements": {
+    "location": "starship",
+    "min_level": 11
+  }
+}

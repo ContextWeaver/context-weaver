@@ -1,0 +1,42 @@
+# Source files (transpiled to dist/)
+src/
+
+# Test files
+test/
+
+# Development dependencies
+node_modules/
+
+# Package lock file (not needed in published package)
+package-lock.json
+
+# Babel configuration (development only)
+.babelrc
+
+# Development scripts and configs
+*.config.js
+.nyc_output/
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
