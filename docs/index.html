@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Event Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+
+        .demo-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .demo-button:hover {
+            background: #2980b9;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .changelog {
+            margin-top: 40px;
+        }
+
+        .changelog h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .version {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .version h3 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .features li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-output {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .demo-output.show {
+            display: block;
+        }
+
+        .terminal {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RPG Event Generator</h1>
+            <p>Powerful procedural content generation for games, business, and creative applications</p>
+        </div>
+
+        <div class="content">
+            <div class="demo-section">
+                <h2>🚀 Try the Demo Locally</h2>
+                <p style="margin: 20px 0;">To experience the full power of RPG Event Generator, run the demo on your local machine:</p>
+
+                <div class="code-block">
+npm install rpg-event-generator
+npm run demo
+                </div>
+
+                <p style="margin: 20px 0; font-size: 0.9em; color: #666;">
+                    <strong>Note:</strong> This interactive demo requires Node.js and runs in your terminal.
+                    Below is a sample of what the demo output looks like:
+                </p>
+
+                <button class="demo-button" onclick="showSampleOutput()">Show Sample Output</button>
+
+                <div id="demo-output" class="demo-output">
+                    <div class="terminal" id="terminal-output">
+🎲 RPG Event Generator 2.0.3 - Complete Feature Showcase
+============================================================
+
+⚡ Demo 1: Basic Event Generation
+--------------------------------
+Basic Event: Extraordinary Festival of Renewal
+Type: SPRING_FESTIVAL, Difficulty: easy
+Choices: 3 options
+Sample choice: "Participate in the celebrations"
+
+📊 Demo 2: Dynamic Difficulty Scaling
+-------------------------------------
+Weak character event: Extraordinary Harvest Celebration (easy)
+Powerful character event: Risky Bandit King's Challenge (hard)
+
+🎯 Demo 3: Context-Aware Events
+-------------------------------
+Context-aware event: Shocking Whispers of Unrest
+Generated for: noble in capital during winter
+
+📚 Demo 4: Custom Training Data
+-------------------------------
+Custom training event: Dangerous Bandit Ambush
+Description: A merchant approaches you with an unusual proposition....
+
+🧩 Demo 5: Modular Event System
+-------------------------------
+Modular system event: Extraordinary Trade War Escalates
+Exported templates: 1
+Imported templates: 1
+
+⛓️ Demo 6: Event Chains
+-----------------------
+Started chain: Risky Bandit Ambush
+Available choices in this event lead to different consequences...
+Chain advanced: Perilous Bandit King's Challenge
+Active chains: 1
+
+⏰ Demo 8: Time-Based Events
+---------------------------
+Advanced to: day 2, season: spring
+Active time-based chains: 1
+Season-aware event: Unbelievable Harvest Celebration
+
+💾 Demo 9: Game State Management
+--------------------------------
+Game state loaded and saved successfully
+Current day: 1, Season: spring
+Active chains: 0
+
+🌍 Demo 10: Multi-Language Support
+----------------------------------
+English: Fight
+Spanish: Luchar
+French: Combattre
+
+🌤️ Demo 11: Environmental Modifiers
+------------------------------------
+Combined Modifiers:
+Original health: 10
+Modified health: 7 (storm: -5, winter: *1.5 = 7)
+Modified gold: 50 (unchanged)
+
+🔗 Demo 12: Event Dependencies
+------------------------------
+Dependency Checks:
+Can access Royal Ball: true
+Can access Elite Mission: true
+Can access Social Event: true
+
+👥 Demo 13: NPC Relationships
+-----------------------------
+Relationship Interactions:
+Initial relationship with Merchant Sam: 0
+After saving life: 25
+Guard Captain relationship: -15
+Nobleman relationship: 15
+
+🎭 Demo 14: Combined Feature Usage
+----------------------------------
+Generating event with ALL features combined:
+Title: Unbelievable Compromising Evidence
+Has environmental modifications: false
+Choices: 3
+
+==================================================
+✅ DEMO COMPLETE
+==================================================
+🎉 All v2.0.3 features demonstrated successfully!
+📦 Version 2.0.3 delivers revolutionary new capabilities with full backward compatibility.
+🚀 Production-ready for game development!
+
+<span style="color: #27ae60;">Run `npm run demo` locally to see the interactive demo with 21 different feature showcases!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="changelog">
+                <h2>📋 Changelog</h2>
+
+                <div class="version">
+                    <h3>v2.0.3 - Latest Release</h3>
+                    <ul class="features">
+                        <li>Removed pre-built templates - users generate their own</li>
+                        <li>Simplified package structure and dependencies</li>
+                        <li>Enhanced README with broader application focus</li>
+                        <li>Cleaned up web demo in favor of terminal demo</li>
+                        <li>Updated documentation for business/education/research use cases</li>
+                    </ul>
+                </div>
+
+                <div class="version">
+                    <h3>v2.0.0 - Major Feature Release</h3>
+                    <ul class="features">
+                        <li>Theme Creator for custom game worlds</li>
+                        <li>Rule Engine for conditional event modification</li>
+                        <li>Pure Markov Mode for custom text generation</li>
+                        <li>Cross-platform export (Unity, Godot, TypeScript)</li>
+                        <li>Event Economy system for content sharing</li>
+                        <li>400+ professionally crafted event templates</li>
+                        <li>Advanced relationship and dependency systems</li>
+                    </ul>
+                </div>
+
+                <div class="version">
+                    <h3>v1.3.0 - Template Library Expansion</h3>
+                    <ul class="features">
+                        <li>Genre-specific event collections (fantasy, sci-fi, horror, historical)</li>
+                        <li>Template generation and management system</li>
+                        <li>Expanded difficulty scaling</li>
+                        <li>Enhanced context awareness</li>
+                    </ul>
+                </div>
+
+                <div class="version">
+                    <h3>v1.2.0 - Advanced Features</h3>
+                    <ul class="features">
+                        <li>Environmental modifiers (weather, seasons)</li>
+                        <li>Event dependencies and prerequisites</li>
+                        <li>NPC relationship networks</li>
+                        <li>Multi-language support</li>
+                        <li>Time-based event chains</li>
+                    </ul>
+                </div>
+
+                <div class="version">
+                    <h3>v1.1.0 - Enhanced Generation</h3>
+                    <ul class="features">
+                        <li>Event chains and multi-part stories</li>
+                        <li>Dynamic difficulty scaling</li>
+                        <li>Custom training data support</li>
+                        <li>Modular event system</li>
+                    </ul>
+                </div>
+
+                <div class="version">
+                    <h3>v1.0.0 - Initial Release</h3>
+                    <ul class="features">
+                        <li>Core procedural event generation</li>
+                        <li>Markov chain text generation</li>
+                        <li>Player-aware event adaptation</li>
+                        <li>14+ event types</li>
+                        <li>Basic save/load functionality</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                <a href="https://www.npmjs.com/package/rpg-event-generator">📦 Install from npm</a> |
+                <a href="https://github.com/ContextWeaver/context-weaver">📖 View on GitHub</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Built with ❤️ by the RPG Event Generator team
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function showSampleOutput() {
+            const demoOutput = document.getElementById('demo-output');
+            demoOutput.classList.toggle('show');
+
+            // Scroll to the demo output
+            if (demoOutput.classList.contains('show')) {
+                demoOutput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    </script>
+</body>
+</html>

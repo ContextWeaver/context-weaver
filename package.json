@@ -17,7 +17,6 @@
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
-    "build:browser": "npm run build && browserify dist/index.js --standalone RPGEventGenerator -o demo-web/rpg-event-generator.js",
     "prepublishOnly": "npm run build",
     "demo": "node demo.js",
     "economy:list": "node scripts/event-economy.js list-themes",
@@ -66,7 +65,6 @@
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.23.0",
-    "browserify": "^17.0.0",
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0"
   },
