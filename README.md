@@ -181,7 +181,7 @@ We welcome contributions! Please feel free to submit issues, feature requests, a
 ```bash
 # Clone the repository
 git clone https://github.com/ContextWeaver/context-weaver.git
-cd rpg-event-generator
+cd context-weaver
 
 # Install dependencies
 npm install
