@@ -4,7 +4,7 @@
   "description": "RPG Event Generator v2.0.2 - Powerful procedural event generation system for RPG narratives, events, and interactive experiences",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ContextWeaver/conttex-weaver.git"
+    "url": "https://github.com/ContextWeaver/context-weaver.git"
   },
   "main": "dist/index.js",
   "files": [
