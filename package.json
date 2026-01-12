@@ -1,7 +1,7 @@
 {
   "name": "rpg-event-generator",
   "version": "2.0.3",
-  "description": "RPG Event Generator v2.0.2 - Powerful procedural event generation system for RPG narratives, events, and interactive experiences",
+  "description": "RPG Event Generator v2.0.3 - Powerful procedural event generation system for RPG narratives, events, and interactive experiences",
   "repository": {
     "type": "git",
     "url": "https://github.com/ContextWeaver/context-weaver.git"
