@@ -12,71 +12,230 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Cinzel', serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #f5f0e6;
+            background: #0a0a0a;
             min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(220, 20, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            border-radius: 10px;
+            background: linear-gradient(145deg, #1a0d0d 0%, #2d1b0f 50%, #3d2518 100%);
+            box-shadow:
+                0 25px 50px rgba(0,0,0,0.5),
+                inset 0 0 100px rgba(138, 43, 226, 0.1),
+                0 0 0 2px rgba(218, 165, 32, 0.3);
+            border-radius: 15px;
             overflow: hidden;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            border: 3px solid #daa520;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="parchment" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="rgba(218,165,32,0.1)"/><path d="M5,5 L15,15 M15,5 L5,15" stroke="rgba(160,82,45,0.2)" stroke-width="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23parchment)"/></svg>');
+            pointer-events: none;
+            opacity: 0.3;
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 40px 30px;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1b0f 50%, #3d2518 100%);
+            color: #f5f0e6;
+            padding: 60px 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #daa520;
+            box-shadow: inset 0 0 50px rgba(218, 165, 32, 0.1);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="runes" width="40" height="40" patternUnits="userSpaceOnUse"><text x="20" y="25" font-family="serif" font-size="16" fill="rgba(218,165,32,0.1)" text-anchor="middle">⚔️</text><circle cx="20" cy="20" r="12" fill="none" stroke="rgba(138,43,226,0.1)" stroke-width="1"/><text x="20" y="35" font-family="serif" font-size="8" fill="rgba(220,20,60,0.1)" text-anchor="middle">✨</text></pattern></defs><rect width="100" height="100" fill="url(%23runes)"/></svg>');
+            opacity: 0.4;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 4em;
+            margin-bottom: 15px;
+            font-weight: 900;
+            text-shadow: 0 0 30px rgba(218, 165, 32, 0.8), 0 0 60px rgba(138, 43, 226, 0.4), 0 2px 4px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+        }
+
+        .header h1::before {
+            content: '⚔️🔮⚔️';
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            letter-spacing: 10px;
+        }
+
+        .header h1::before {
+            content: '🎲';
+            display: block;
+            font-size: 1.2em;
             margin-bottom: 10px;
-            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.4em;
+            opacity: 0.95;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .support-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: #2a1810;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid #daa520;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+            z-index: 1;
+        }
+
+        .support-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .support-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            border-color: #ffed4e;
+        }
+
+        .support-button:hover::before {
+            left: 100%;
         }
 
         .content {
             padding: 40px 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .demo-section {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 30px;
-            margin: 30px 0;
+            background: linear-gradient(135deg, rgba(42, 24, 16, 0.9) 0%, rgba(61, 37, 24, 0.9) 50%, rgba(74, 44, 26, 0.9) 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
             text-align: center;
-            border-left: 4px solid #3498db;
+            border: 3px solid #daa520;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(218, 165, 32, 0.1), 0 0 20px rgba(218, 165, 32, 0.2);
+        }
+
+        .demo-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #daa520, #ffed4e, #daa520, #b8860b);
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
         }
 
         .demo-button {
             display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 15px 30px;
+            background: linear-gradient(135deg, #8b4513 0%, #daa520 50%, #b8860b 100%);
+            color: #2a1810;
+            padding: 20px 50px;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: background 0.3s;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
             cursor: pointer;
-            border: none;
+            border: 3px solid #daa520;
+            box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .demo-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+            transition: left 0.6s;
         }
 
         .demo-button:hover {
-            background: #2980b9;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            border-color: #ffed4e;
+        }
+
+        .demo-button:hover::before {
+            left: 100%;
         }
 
         .code-block {
@@ -90,72 +249,163 @@
         }
 
         .changelog {
-            margin-top: 40px;
+            margin-top: 60px;
         }
 
         .changelog h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            color: #f5f0e6;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+        }
+
+        .changelog h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #daa520, #ffed4e, #daa520);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
         }
 
         .version {
-            margin: 30px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            border-left: 4px solid #27ae60;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(42, 24, 16, 0.9) 0%, rgba(61, 37, 24, 0.9) 50%, rgba(74, 44, 26, 0.9) 100%);
+            border-radius: 15px;
+            border: 2px solid #daa520;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), inset 0 0 20px rgba(218, 165, 32, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #daa520, #ffed4e, #b8860b);
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
         }
 
         .version h3 {
-            color: #27ae60;
-            margin-bottom: 10px;
+            color: #f5f0e6;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+            font-weight: 700;
+            position: relative;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        .version h3::before {
+            content: '📜';
+            margin-right: 12px;
+            font-size: 1em;
+            opacity: 0.8;
         }
 
         .features {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .features li {
-            padding: 5px 0;
+            padding: 10px 0;
             position: relative;
-            padding-left: 20px;
+            padding-left: 30px;
+            line-height: 1.6;
+            color: #f0e6d2;
+            font-size: 1.05em;
         }
 
-        .features li:before {
-            content: "✓";
-            color: #27ae60;
+        .features li::before {
+            content: "⚔️";
+            color: #daa520;
             font-weight: bold;
             position: absolute;
             left: 0;
+            top: 10px;
+            text-shadow: 0 0 5px rgba(218, 165, 32, 0.5);
         }
 
         .footer {
             text-align: center;
-            padding: 20px;
-            background: #2c3e50;
-            color: white;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d1b0f 50%, #3d2518 100%);
+            color: #f5f0e6;
+            position: relative;
+            overflow: hidden;
+            border-top: 2px solid #daa520;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="ancient" width="30" height="30" patternUnits="userSpaceOnUse"><text x="15" y="20" font-family="serif" font-size="12" fill="rgba(218,165,32,0.1)" text-anchor="middle">⚔️</text><circle cx="15" cy="15" r="10" fill="none" stroke="rgba(138,43,226,0.1)" stroke-width="1"/><text x="15" y="28" font-family="serif" font-size="6" fill="rgba(220,20,60,0.1)" text-anchor="middle">✨</text></pattern></defs><rect width="100" height="100" fill="url(%23ancient)"/></svg>');
+            opacity: 0.3;
         }
 
         .footer a {
-            color: #3498db;
+            color: #daa520;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 5px rgba(218, 165, 32, 0.3);
         }
 
         .footer a:hover {
+            color: #ffed4e;
             text-decoration: underline;
+            text-shadow: 0 0 10px rgba(255, 237, 78, 0.5);
+        }
+
+        .footer p {
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .demo-output {
             display: none;
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: left;
+            animation: slideDown 0.5s ease-out;
         }
 
         .demo-output.show {
             display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .terminal {
@@ -175,6 +425,7 @@
         <div class="header">
             <h1>RPG Event Generator</h1>
             <p>Powerful procedural content generation for games, business, and creative applications</p>
+            <a href="https://buymeacoffee.com/decept1kon" class="support-button" target="_blank">☕ Support the Developer</a>
         </div>
 
         <div class="content">
@@ -187,7 +438,7 @@ npm install rpg-event-generator
 npm run demo
                 </div>
 
-                <p style="margin: 20px 0; font-size: 0.9em; color: #666;">
+                <p style="margin: 20px 0; font-size: 0.9em; color: #d4c4a8;">
                     <strong>Note:</strong> This interactive demo requires Node.js and runs in your terminal.
                     Below is a sample of what the demo output looks like:
                 </p>
@@ -367,7 +618,8 @@ Choices: 3
         <div class="footer">
             <p>
                 <a href="https://www.npmjs.com/package/rpg-event-generator">📦 Install from npm</a> |
-                <a href="https://github.com/ContextWeaver/context-weaver">📖 View on GitHub</a>
+                <a href="https://github.com/ContextWeaver/context-weaver">📖 View on GitHub</a> |
+                <a href="https://buymeacoffee.com/decept1kon">☕ Buy me a coffee</a>
             </p>
             <p style="margin-top: 10px; font-size: 0.9em;">
                 Built with ❤️ by the RPG Event Generator team
