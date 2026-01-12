@@ -9,7 +9,6 @@
   "main": "dist/index.js",
   "files": [
     "dist/",
-    "templates/",
     "scripts/",
     "demo.js",
     "README.md",

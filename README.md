@@ -27,7 +27,7 @@ RPG Event Generator excels in diverse applications:
 
 ### Flexible Content Creation
 - **Custom Training Data**: Train the system with your own text for domain-specific content
-- **Template Library**: 400+ pre-built event templates across multiple genres and domains
+- **Template System**: Generate and manage your own custom event templates
 - **Rule Engine**: Create conditional logic to modify content generation dynamically
 - **Pure Markov Mode**: Generate content using only your custom text data
 
@@ -164,12 +164,12 @@ const contextualEvent = generator.generateEvent({
 **Explore the Full Capabilities:**
 - Run `npm run demo` to see all features in action
 - Check the `demo.js` file for comprehensive examples
-- Browse the `templates/` directory for pre-built content
+- Check the source code for template format examples
 
 **Key Files:**
 - `src/index.js` - Main generator code
 - `scripts/` - CLI tools and utilities
-- `templates/` - Pre-built event collections
+- Check source code for template format examples
 - `test/` - Comprehensive test suite
 
 ## 🤝 Contributing
