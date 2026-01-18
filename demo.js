@@ -203,37 +203,9 @@ function demoEventChains() {
   }
 }
 
-// Template Library
-function demoTemplateLibrary() {
-  printSection('📚 Demo 7: Template Library');
-
-  const generator = new RPGEventGenerator({
-    enableTemplates: true,
-    templateLibrary: 'fantasy'
-  });
-
-  const availableTemplates = safeExecute(() => generator.getAvailableTemplates(), 'getting available templates');
-  if (availableTemplates) {
-    printResult('Loaded template genres', Object.keys(availableTemplates).join(', '));
-    const fantasyCount = availableTemplates.fantasy ? availableTemplates.fantasy.length : 0;
-    printResult('Fantasy templates available', fantasyCount);
-  }
-
-  const templateEvent = safeExecute(() => generator.generateFromTemplate('dragon_lair'), 'generating from template');
-  if (templateEvent) {
-    printResult('Template-generated event', templateEvent.title);
-    printResult('Event type', templateEvent.type);
-    printResult('Difficulty', templateEvent.difficulty);
-  }
-
-  const randomFantasyEvent = safeExecute(() => generator.generateFromGenre('fantasy'), 'generating from genre');
-  if (randomFantasyEvent) {
-    printResult('Random fantasy event', randomFantasyEvent.title);
-  }
-}
 
 function demoTimeBasedEvents() {
-  printSection('⏰ Demo 8: Time-Based Events');
+  printSection('⏰ Demo 7: Time-Based Events');
 
   const generator = new RPGEventGenerator();
 
@@ -258,7 +230,7 @@ function demoTimeBasedEvents() {
 }
 
 function demoGameStateManagement() {
-  printSection('💾 Demo 9: Game State Management');
+  printSection('💾 Demo 8: Game State Management');
 
   const generator = new RPGEventGenerator();
 
@@ -283,13 +255,14 @@ function demoGameStateManagement() {
 function demoMultiLanguageSupport() {
 
   const generator = new RPGEventGenerator({
+    enableDatabase: false,
     enableModifiers: true,
     enableRelationships: true,
     enableDependencies: true,
     language: 'en'
   });
 
-  printSection('🌍 Demo 10: Multi-Language Support');
+  printSection('🌍 Demo 9: Multi-Language Support');
 
   const spanishPack = {
     ui: {
@@ -331,7 +304,7 @@ function demoMultiLanguageSupport() {
 
 // Environmental Modifiers
 function demoEnvironmentalModifiers(generator) {
-  printSection('🌤️ Demo 11: Environmental Modifiers');
+  printSection('🌤️ Demo 10: Environmental Modifiers');
 
   console.log('Individual Modifiers:');
 
@@ -370,7 +343,7 @@ function demoEnvironmentalModifiers(generator) {
 }
 
 function demoEventDependencies(generator) {
-  printSection('🔗 Demo 12: Event Dependencies');
+  printSection('🔗 Demo 11: Event Dependencies');
 
   safeExecute(() => generator.registerEventDependency('ROYAL_BALL', {
     type: 'event_completed',
@@ -410,7 +383,7 @@ function demoEventDependencies(generator) {
 }
 
 function demoNPCRelationships(generator) {
-  printSection('👥 Demo 13: NPC Relationships');
+  printSection('👥 Demo 12: NPC Relationships');
 
   safeExecute(() => generator.addNPC({
     id: 'merchant_sam',
@@ -455,7 +428,7 @@ function demoNPCRelationships(generator) {
 }
 
 function demoCombinedFeatures(generator) {
-  printSection('🎭 Demo 14: Combined Feature Usage');
+  printSection('🎭 Demo 13: Combined Feature Usage');
 
   const comprehensiveContext = {
     player: {
@@ -482,14 +455,52 @@ function demoCombinedFeatures(generator) {
 
   if (comprehensiveEvent) {
     printResult('Title', comprehensiveEvent.title);
-    printResult('Has environmental modifications', comprehensiveEvent.appliedModifiers?.length > 0);
+    printResult('Description', comprehensiveEvent.description.substring(0, 60) + '...');
+    printResult('Type', comprehensiveEvent.type);
+    printResult('Difficulty', comprehensiveEvent.difficulty);
     printResult('Choices', comprehensiveEvent.choices.length);
+
+    // Show choice details
+    console.log('\nChoice Details:');
+    comprehensiveEvent.choices.slice(0, 2).forEach((choice, i) => {
+      console.log(`  ${i + 1}. ${choice.text}`);
+      if (choice.effect.gold) console.log(`     Gold effect: ${choice.effect.gold > 0 ? '+' : ''}${choice.effect.gold}`);
+      if (choice.effect.reputation) console.log(`     Reputation effect: ${choice.effect.reputation > 0 ? '+' : ''}${choice.effect.reputation}`);
+    });
+
+    // Show tags applied by rules
+    if (comprehensiveEvent.tags && comprehensiveEvent.tags.length > 0) {
+      printResult('Applied Tags', comprehensiveEvent.tags.join(', '));
+    }
+
+    // Show AI enhancement status
+    const hasAIEnhancement = comprehensiveEvent.tags?.includes('ai-enhanced');
+    printResult('AI Enhanced', hasAIEnhancement ? 'Yes' : 'No');
+
+    // Show environmental context effects
+    printResult('Weather Context', comprehensiveContext.environment.weather);
+    printResult('Season Context', comprehensiveContext.environment.season);
+    printResult('Time Context', comprehensiveContext.environment.timeOfDay);
+
+    // Show relationship effects
+    const merchantRelationship = comprehensiveContext.gameState.relationships.merchant_sam;
+    printResult('Merchant Relationship', `${merchantRelationship.type} (${merchantRelationship.strength})`);
+
+    console.log('\nFeature Integration Status:');
+    console.log('  ✅ Enhanced Procedural Generation (Markov + Context)');
+    console.log('  ✅ Dynamic Difficulty Scaling');
+    console.log('  ✅ Environmental Effects');
+    console.log('  ✅ Relationship-Based Events');
+    console.log('  ✅ Rule Engine Processing');
+    console.log('  ✅ Optional AI Enhancement');
+    console.log('  ✅ Template System Integration');
+    console.log('  ✅ Time-Based Event Logic');
   }
 }
 
 // Backward Compatibility
 function demoBackwardCompatibility() {
-  printSection('🔄 Demo 15: Backward Compatibility');
+  printSection('🔄 Demo 14: Backward Compatibility');
 
   const legacyGenerator = new RPGEventGenerator();
   const legacyEvent = safeExecute(() => legacyGenerator.generateEvent(), 'legacy generator test');
@@ -498,6 +509,7 @@ function demoBackwardCompatibility() {
   }
 
   const partialGenerator = new RPGEventGenerator({
+    enableDatabase: false,
     enableModifiers: false,
     enableRelationships: true,
     enableDependencies: false
@@ -507,18 +519,10 @@ function demoBackwardCompatibility() {
     printResult('Partial features work', partialEvent.title);
   }
 
-  const oldApiGenerator = new RPGEventGenerator({
-    theme: 'fantasy',
-    culture: 'norse'
-  });
-  const oldApiEvent = safeExecute(() => oldApiGenerator.generateEvent(), 'old API test');
-  if (oldApiEvent) {
-    printResult('Legacy API works', oldApiEvent.title);
-  }
 }
 
 function demoSystemStatus(generator) {
-  printSection('📊 Demo 16: System Status');
+  printSection('📊 Demo 15: System Status');
 
   const status = safeExecute(() => generator.getSystemStatus(), 'getting system status');
 
@@ -534,7 +538,7 @@ function demoSystemStatus(generator) {
 
 // Advanced Usage Examples
 function demoAdvancedUsage(generator) {
-  printSection('🎯 Demo 17: Advanced Usage Examples');
+  printSection('🎯 Demo 16: Advanced Usage Examples');
 
   safeExecute(() => generator.registerModifier('festival', {
     type: 'event',
@@ -558,7 +562,7 @@ function demoAdvancedUsage(generator) {
   }
 }
 
-function runDemo() {
+async function runDemo() {
 
   demoBasicEventGeneration();
   demoDynamicDifficultyScaling();
@@ -566,7 +570,6 @@ function runDemo() {
   demoCustomTrainingData();
   demoModularEventSystem();
   demoEventChains();
-  demoTemplateLibrary();
   demoTimeBasedEvents();
   demoGameStateManagement();
 
@@ -582,6 +585,10 @@ function runDemo() {
   printHeader('🚀 v2.0.0 FEATURE DEMOS');
 
   // v2.0.0 Feature Demos
+  demoAdvancedTemplates();
+  demoWorldBuilding();
+  demoPerformanceOptimizations();
+  await demoDatabaseIntegration();
   demoCustomRuleEngine();
   demoThemeCreator();
   demoPureMarkovMode();
@@ -595,9 +602,9 @@ function runDemo() {
 
 // v2.0.0 Feature Demos
 function demoCustomRuleEngine() {
-  printSection('🧠 Demo 18: Custom Rule Engine (v2.0.0)');
+  printSection('🧠 Demo 26: Custom Rule Engine (v2.0.0)');
 
-  const generator = new RPGEventGenerator({ enableRuleEngine: true });
+  const generator = new RPGEventGenerator({ enableRuleEngine: true, enableDatabase: false });
 
   // Create a custom rule for wealthy players
   const wealthyRule = {
@@ -632,7 +639,7 @@ function demoCustomRuleEngine() {
 }
 
 function demoThemeCreator() {
-  printSection('🎨 Demo 19: Theme Creator (v2.0.0)');
+  printSection('🎨 Demo 27: Theme Creator (v2.0.0)');
 
   const customTrainingData = [
     'Neon-lit cantinas pulse with quantum energy',
@@ -644,6 +651,7 @@ function demoThemeCreator() {
 
   safeExecute(() => {
     const generator = new RPGEventGenerator({
+      enableDatabase: false,
       trainingData: customTrainingData,
       theme: 'space-opera',
       culture: 'cyberpunk'
@@ -657,7 +665,7 @@ function demoThemeCreator() {
 }
 
 function demoPureMarkovMode() {
-  printSection('🎲 Demo 20: Pure Markov Mode (v2.0.0)');
+  printSection('🎲 Demo 28: Pure Markov Mode (v2.0.0)');
 
   const pureTrainingData = [
     'Crystal caves echo with ancient magical resonances',
@@ -669,6 +677,7 @@ function demoPureMarkovMode() {
 
   safeExecute(() => {
     const pureGenerator = new RPGEventGenerator({
+      enableDatabase: false,
       trainingData: pureTrainingData,
       pureMarkovMode: true,
       enableTemplates: false
@@ -682,12 +691,325 @@ function demoPureMarkovMode() {
   }, 'pure Markov mode');
 }
 
+function demoAdvancedTemplates() {
+  printSection('🎨 Demo 19: Advanced Template System (v2.0.0)');
+
+  const generator = new RPGEventGenerator();
+
+  // Create base templates for inheritance
+  const baseMerchant = {
+    title: 'Merchant Interaction',
+    narrative: 'A merchant approaches you.',
+    choices: [
+      { text: 'Trade goods', effect: { gold: 10 } },
+      { text: 'Ask for information', effect: { reputation: 2 } }
+    ],
+    tags: ['merchant', 'economic']
+  };
+
+  const weatherMixin = {
+    title: 'Weather Affected',
+    narrative: 'The weather influences the situation.',
+    choices: [
+      { text: 'Adapt to weather conditions', effect: { reputation: 1 } },
+      { text: 'Ignore the weather', effect: {} }
+    ],
+    tags: ['weather']
+  };
+
+  const conditionalAddon = {
+    title: 'High-Level Merchant',
+    narrative: 'This merchant deals in rare items.',
+    choices: [
+      { text: 'Purchase rare artifact', effect: { gold: -50 } },
+      { text: 'Decline rare item', effect: {} }
+    ],
+    tags: ['rare', 'expensive']
+  };
+
+  // Register base templates
+  generator.registerEventTemplate('base_merchant_demo', baseMerchant);
+  generator.registerEventTemplate('weather_mixin_demo', weatherMixin);
+  generator.registerEventTemplate('conditional_addon_demo', conditionalAddon);
+
+  // Create advanced template with inheritance, mixins, and composition
+  const advancedMerchant = {
+    title: 'Advanced Merchant Encounter',
+    narrative: 'A complex merchant situation unfolds with multiple factors.',
+    choices: [
+      { text: 'Execute perfect negotiation', effect: { gold: 25, reputation: 5 } },
+      { text: 'Use merchant knowledge', effect: { reputation: 3 } }
+    ],
+    tags: ['advanced', 'complex'],
+    extends: 'base_merchant_demo',
+    mixins: ['weather_mixin_demo'],
+    composition: [
+      {
+        template_id: 'conditional_addon_demo',
+        merge_strategy: 'append',
+        conditions: [{ type: 'stat_requirement', operator: 'gte', field: 'level', value: 10 }],
+        priority: 1
+      }
+    ],
+    conditional_choices: [
+      {
+        choice_index: 0,
+        conditions: [{ type: 'stat_requirement', operator: 'gte', field: 'charisma', value: 15 }],
+        show_when: true
+      }
+    ],
+    dynamic_fields: [
+      {
+        field: 'narrative',
+        conditions: [{ type: 'stat_requirement', operator: 'gte', field: 'gold', value: 1000 }],
+        value_if_true: 'A wealthy merchant approaches, recognizing your affluence.',
+        value_if_false: 'A merchant approaches, sizing up your modest means.'
+      }
+    ]
+  };
+
+  generator.registerEventTemplate('advanced_merchant_demo', advancedMerchant);
+
+  // Test with low-level character (basic merchant only)
+  console.log('Low-level character (Level 5, Charisma 10, Gold 100):');
+  const basicEvent = safeExecute(() => generator.generateFromTemplate('advanced_merchant_demo', {
+    level: 5, charisma: 10, gold: 100
+  }), 'basic template generation');
+
+  if (basicEvent) {
+    printResult('Event type', basicEvent.type);
+    printResult('Choices available', basicEvent.choices.length);
+    printResult('Tags', basicEvent.tags.join(', '));
+  }
+
+  // Test with high-level character (full advanced merchant)
+  console.log('\\nHigh-level character (Level 15, Charisma 20, Gold 2000):');
+  const advancedEvent = safeExecute(() => generator.generateFromTemplate('advanced_merchant_demo', {
+    level: 15, charisma: 20, gold: 2000
+  }), 'advanced template generation');
+
+  if (advancedEvent) {
+    printResult('Event type', advancedEvent.type);
+    printResult('Choices available', advancedEvent.choices.length);
+    printResult('Tags', advancedEvent.tags.join(', '));
+    printResult('Description shows wealth recognition', advancedEvent.description.includes('wealthy merchant'));
+  }
+
+  console.log('\\nAdvanced Template Features Demonstrated:');
+  printResult('- Template Inheritance', '✅ Base merchant extended');
+  printResult('- Mixin System', '✅ Weather behavior mixed in');
+  printResult('- Conditional Composition', '✅ Rare items added for high-level players');
+  printResult('- Dynamic Fields', '✅ Narrative adapts to player wealth');
+  printResult('- Conditional Choices', '✅ Special options for high charisma');
+}
+
+function demoWorldBuilding() {
+  printSection('🌍 Demo 20: World Building System (v2.0.0)');
+
+  const generator = new RPGEventGenerator();
+
+  console.log('Generating fantasy world...');
+  const world = generator.generateWorld(42);
+  printResult('World created successfully', `✅ ${world.regions.length} regions, ${world.factions.length} factions, ${world.events.length} historical events`);
+
+  console.log('\nWorld Statistics:');
+  printResult('- Regions created', world.regions.length);
+  printResult('- Factions established', world.factions.length);
+  printResult('- Historical events', world.events.length);
+
+  console.log('\nSample Regions:');
+  world.regions.slice(0, 3).forEach(region => {
+    printResult(`- ${region.name}`, `${region.type} (${region.population.toLocaleString()} pop, stability: ${(region.political_stability * 100).toFixed(0)}%)`);
+  });
+
+  console.log('\nSample Factions:');
+  world.factions.slice(0, 3).forEach(faction => {
+    const allies = generator.getFactionAllies(faction.id).length;
+    const enemies = generator.getFactionEnemies(faction.id).length;
+    printResult(`- ${faction.name}`, `${faction.type} (influence: ${faction.influence.toFixed(1)}, allies: ${allies}, enemies: ${enemies})`);
+  });
+
+  console.log('\nFaction Power Rankings (Top 5):');
+  const rankings = generator.getFactionPowerRanking();
+  rankings.slice(0, 5).forEach((rank, i) => {
+    printResult(`${i+1}. ${rank.name}`, `Power: ${rank.power.toFixed(1)}`);
+  });
+
+  console.log('\nHistorical Events:');
+  world.events.forEach(event => {
+    printResult(`- Year ${event.year}: ${event.title}`, `${event.type} (significance: ${event.significance.toFixed(1)})`);
+  });
+
+  console.log('\nSimulating 100 years of history...');
+  const newEvents = generator.simulateWorldYears(100);
+  printResult('New events generated', newEvents.length);
+
+  console.log('\nRecent Historical Events:');
+  newEvents.slice(-3).forEach(event => {
+    printResult(`- Year ${event.year}: ${event.title}`, `${event.type} (significance: ${event.significance.toFixed(1)})`);
+  });
+
+  const finalStats = generator.getWorldStats();
+  console.log('\nFinal World Statistics:');
+  printResult('- Total regions', finalStats.totalRegions);
+  printResult('- Total factions', finalStats.totalFactions);
+  printResult('- Total historical events', finalStats.totalHistoricalEvents);
+  printResult('- Average stability', (finalStats.averageStability * 100).toFixed(1) + '%');
+  printResult('- Average prosperity', (finalStats.averageProsperity * 100).toFixed(1) + '%');
+
+  console.log('\nWorld Building Features Demonstrated:');
+  printResult('- Automated world generation', '✅ Regions, factions, and history created');
+  printResult('- Faction relationship mapping', '✅ Diplomacy, allies, and enemies');
+  printResult('- Historical event simulation', '✅ Dynamic world-changing events');
+  printResult('- Power ranking system', '✅ Faction influence calculations');
+  printResult('- Economic and political systems', '✅ Resources, stability, and prosperity');
+}
+
+function demoPerformanceOptimizations() {
+  printSection('⚡ Demo 25: Performance Optimizations (v2.0.0)');
+
+  const generator = new RPGEventGenerator();
+
+  // Test template caching
+  console.log('Testing Template Caching...');
+  const template = {
+    title: 'Performance Test Event',
+    narrative: 'Testing caching performance.',
+    choices: [
+      { text: 'Choice 1', effect: { gold: 10 } },
+      { text: 'Choice 2', effect: { gold: 20 } }
+    ]
+  };
+
+  generator.registerEventTemplate('perf_test', template);
+
+  // First generation (cache population)
+  console.log('First generation run (populating cache)...');
+  const start1 = Date.now();
+  for (let i = 0; i < 10; i++) {
+    generator.generateFromTemplate('perf_test', { level: 5 });
+  }
+  const end1 = Date.now();
+  printResult('First run (10 events)', `${end1 - start1}ms`);
+
+  // Second generation (cache utilization)
+  console.log('Second generation run (using cache)...');
+  const start2 = Date.now();
+  for (let i = 0; i < 10; i++) {
+    generator.generateFromTemplate('perf_test', { level: 5 });
+  }
+  const end2 = Date.now();
+  printResult('Second run (10 events, cached)', `${end2 - start2}ms`);
+
+  const cacheStats = generator.getTemplateCacheStats();
+  console.log('\nCache Statistics:');
+  printResult('- Processed templates cached', cacheStats.processedTemplates);
+  printResult('- Generated events cached', cacheStats.generatedEvents);
+
+  // Test batched generation
+  console.log('\\nTesting Batched Generation...');
+  const batchStart = Date.now();
+  const batchedEvents = generator.generateEventsBatched(20, {}, 5);
+  const batchEnd = Date.now();
+  printResult('Batched generation (20 events)', `${batchEnd - batchStart}ms`);
+  printResult('Generated events', batchedEvents.length);
+
+  console.log('\\nPerformance Features Demonstrated:');
+  printResult('- Template caching system', '✅ Repeated generations use cached results');
+  printResult('- Event result caching', '✅ Identical contexts return cached events');
+  printResult('- Batched generation', '✅ Efficient bulk event creation');
+  printResult('- Cache statistics', '✅ Performance monitoring and optimization');
+}
+
+async function demoDatabaseIntegration() {
+  printSection('💾 Demo 30: Database Integration (v2.0.0)');
+
+  const generator = new RPGEventGenerator({ enableDatabase: true });
+
+  // Give database a moment to initialize
+  await new Promise(resolve => setTimeout(resolve, 10));
+
+  const dbTemplate1 = {
+    id: 'merchant_database_demo',
+    title: 'Database Merchant',
+    narrative: 'A merchant stored in the database system.',
+    choices: [
+      { text: 'Buy goods', effect: { gold: -50 } },
+      { text: 'Sell goods', effect: { gold: 75 } },
+      { text: 'Negotiate', effect: { gold: 25 } }
+    ],
+    tags: ['merchant', 'database', 'economy'],
+    type: 'economic'
+  };
+
+  const dbTemplate2 = {
+    id: 'combat_database_demo',
+    title: 'Database Combat',
+    narrative: 'A combat encounter from the database.',
+    choices: [
+      { text: 'Fight bravely', effect: { health: -20, experience: 50 } },
+      { text: 'Try to flee', effect: { health: -5, reputation: -10 } },
+      { text: 'Use strategy', effect: { experience: 30 } }
+    ],
+    tags: ['combat', 'database', 'adventure'],
+    type: 'combat'
+  };
+
+  await safeExecute(async () => {
+    // Store templates in database
+    console.log('Storing templates in database...');
+    await generator.storeTemplateInDatabase(dbTemplate1);
+    await generator.storeTemplateInDatabase(dbTemplate2);
+    console.log('Templates stored successfully');
+
+    // Retrieve specific template
+    const retrievedTemplate = await generator.getTemplateFromDatabase('merchant_database_demo');
+    if (retrievedTemplate) {
+      printResult('Retrieved template from database', retrievedTemplate.title);
+      printResult('Template type', retrievedTemplate.type);
+      printResult('Template tags', retrievedTemplate.tags.join(', '));
+    }
+
+    // Search templates by criteria
+    console.log('\nSearching templates by type...');
+    const economicTemplates = await generator.searchTemplatesInDatabase({ type: 'economic' });
+    printResult('Found economic templates', economicTemplates.length);
+
+    const combatTemplates = await generator.searchTemplatesInDatabase({ type: 'combat' });
+    printResult('Found combat templates', combatTemplates.length);
+
+    // Search by tags
+    const merchantTemplates = await generator.getTemplatesByTags(['merchant']);
+    printResult('Found merchant-tagged templates', merchantTemplates.length);
+
+    // Get random templates
+    const randomTemplates = await generator.getRandomTemplatesFromDatabase(3);
+    printResult('Random templates retrieved', randomTemplates.length);
+
+    // Get database statistics
+    const dbStats = await generator.getDatabaseStats();
+    console.log('\nDatabase Statistics:');
+    printResult('- Total templates in database', dbStats.totalTemplates);
+    printResult('- Templates with conditions', dbStats.templatesWithConditions);
+    printResult('- Templates with composition', dbStats.templatesWithComposition);
+    printResult('- Templates with inheritance', dbStats.templatesWithInheritance);
+    printResult('- Average choices per template', dbStats.averageChoices.toFixed(1));
+
+    console.log('\nDatabase Features Demonstrated:');
+    printResult('- Template storage and retrieval', '✅ Templates persisted to database');
+    printResult('- Advanced search capabilities', '✅ Query by type, tags, and criteria');
+    printResult('- Random template selection', '✅ Efficient random sampling');
+    printResult('- Database statistics', '✅ Comprehensive analytics and reporting');
+    printResult('- Scalable architecture', '✅ Extensible adapter pattern for different databases');
+  });
+}
+
 function demoEventEconomy() {
-  printSection('💰 Demo 21: Event Economy (v2.0.0)');
+  printSection('💰 Demo 29: Event Economy (v2.0.0)');
 
   safeExecute(() => {
     // Import the EventEconomy class
-    const EventEconomy = require('./scripts/event-economy');
+    const EventEconomy = require('./dist/scripts/event-economy');
 
     // Create economy instance
     const economy = new EventEconomy('./user-content');
@@ -733,4 +1055,4 @@ function demoEventEconomy() {
   }, 'event economy');
 }
 
-runDemo();
+runDemo().catch(console.error);

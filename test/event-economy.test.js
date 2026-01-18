@@ -1,4 +1,4 @@
-const EventEconomy = require('../scripts/event-economy');
+const EventEconomy = require('../dist/scripts/event-economy');
 const fs = require('fs');
 const path = require('path');
 

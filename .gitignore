@@ -14,6 +14,12 @@ build/
 coverage/
 .nyc_output/
 *.lcov
+user-content/*
+web-interface
+
+# Compiled outputs that shouldn't be in src/ (leftover from old builds)
+src/types/*.js
+src/types/*.js.map
 
 # Environment variables
 .env

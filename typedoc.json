@@ -1,0 +1,19 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/api",
+  "name": "RPG Event Generator v2.0.0",
+  "includeVersion": true,
+  "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
+  "excludePrivate": true,
+  "excludeExternals": true,
+  "sort": ["source-order"],
+  "gitRevision": "main",
+  "searchInComments": true,
+  "cleanOutputDir": true,
+  "theme": "default",
+  "readme": "README.md",
+  "validation": {
+    "notDocumented": false
+  }
+}
