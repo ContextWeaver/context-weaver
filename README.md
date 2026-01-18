@@ -312,18 +312,9 @@ const contextualEvent = generator.generateEvent({
 
 ## 📚 Documentation & Resources
 
-### 📖 Comprehensive Guides
-- [Getting Started Guide](./docs/getting-started.md) - Quick start and basic concepts
-- [Basic Usage](./docs/basic-usage.md) - Core functionality and examples
-- [Customization Guide](./docs/customization.md) - Training data and configuration
-- [Advanced Features](./docs/advanced-features.md) - Event chains, time systems, relationships
-- [Template Creation Guide](./docs/template-creation-guide.md) - Creating custom event templates
-- [Game Engine Integration](./docs/game-engine-integration.md) - Unity, Godot, Unreal Engine guides
-- [Troubleshooting](./docs/troubleshooting.md) - Common issues and solutions
-
-### 🔧 API Documentation
-- [TypeDoc API Reference](./docs/api/) - Complete API documentation with examples
-- [Quick Reference](./docs/quick-reference.md) - Fast lookup for common operations
+### 📖 Documentation
+- **Wiki Available**: Comprehensive guides, tutorials, and examples available on the [GitHub Wiki](https://github.com/ContextWeaver/context-weaver/wiki)
+- **API Documentation**: Complete TypeDoc reference available on [GitHub Pages](https://contextweaver.github.io/context-weaver/)
 
 ### 🛠️ Development & Testing
 - Run `npm run demo` to see all 30+ features in action
