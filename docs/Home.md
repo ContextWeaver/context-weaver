@@ -2,6 +2,14 @@
 
 Comprehensive documentation for RPG Event Generator - a powerful procedural content generation system.
 
+## ☕ Support the Project
+
+If you find RPG Event Generator helpful, consider buying me a coffee! Your support helps maintain and improve this open-source project.
+
+<a href="https://www.buymeacoffee.com/YOUR_USERNAME" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;">
+</a>
+
 ## 📚 Documentation Index
 
 ### Getting Started

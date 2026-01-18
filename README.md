@@ -1,42 +1,125 @@
 # RPG Event Generator
 
-A powerful procedural event generation system for creating dynamic, context-aware narratives and interactive experiences. Perfect for games, business applications, educational tools, research projects, and creative writing.
+[![npm version](https://badge.fury.io/js/rpg-event-generator.svg)](https://badge.fury.io/js/rpg-event-generator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🌟 Why RPG Event Generator?
+A powerful procedural content generation system for dynamic, context aware narratives and interactive experiences. Perfect for games, simulations, and creative applications.
 
-RPG Event Generator goes beyond simple random generation by creating **intelligent, context-aware content** that adapts to user state, preferences, and environmental factors. Whether you're building RPGs, business simulations, educational experiences, research tools, or interactive storytelling, RPG Event Generator provides the foundation for dynamic, engaging content generation.
+## ☕ Support
 
-## 🚀 Applications Beyond Gaming
+If RPG Event Generator has been helpful to your project, consider buying me a coffee!
 
-RPG Event Generator excels in diverse applications:
+<a href="https://www.buymeacoffee.com/Decept1kon" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;">
+</a>
 
-- **🎮 Game Development**: Dynamic RPG events, quest generation, NPC interactions
-- **💼 Business Simulations**: Market scenarios, customer interactions, decision trees
-- **📚 Education**: Interactive learning experiences, scenario-based training
-- **🔬 Research**: Data simulation, user behavior modeling, A/B testing scenarios
-- **✍️ Creative Writing**: Story generation, character development, plot creation
-- **📊 Training Tools**: Compliance scenarios, safety simulations, skill assessment
+## ✨ Features
 
-## ⚡ Core Features
+- **🧠 Intelligent Generation** - Context aware events that adapt to user state
+- **🎯 Advanced Templates** - Conditional templates, composition, inheritance, mixins
+- **🌍 World Building** - Automated world generation with factions and history
+- **⚡ Performance** - Template caching, parallel generation, batched processing
+- **🔌 Pluggable AI** - Optional AI/ML integration with multiple providers
+- **💾 Database Support** - Scalable storage with pluggable adapters
+- **🎮 Game Engine Export** - Unity C#, Godot GDScript, Unreal Engine C++
+- **🌐 Multi Language** - Generate content in different languages
+- **⏰ Time Systems** - Seasonal changes and temporal progression
+- **🤝 Relationship Networks** - Dynamic character relationships
+- **🎲 Markov Chains** - Natural sounding narratives
 
-### Intelligent Content Generation
-- **Context-Aware Events**: Adapts to user profiles, history, preferences, and environmental factors
-- **Markov Chain Technology**: Creates coherent, natural-sounding narratives from training data
-- **Dynamic Adaptation**: Events evolve based on user state and previous interactions
-- **Multi-Domain Support**: Works seamlessly across gaming, business, education, and research
+## 📦 Installation
 
-### Flexible Content Creation
-- **Custom Training Data**: Train the system with your own text for domain-specific content
-- **Template System**: Generate and manage your own custom event templates
-- **Rule Engine**: Create conditional logic to modify content generation dynamically
-- **Pure Markov Mode**: Generate content using only your custom text data
+```bash
+npm install rpg-event-generator
+```
 
-### Advanced Capabilities
-- **Event Chains**: Multi-part sequences with escalating complexity and consequences
-- **Time-Based Systems**: Seasonal changes, evolving scenarios, and temporal progression
-- **Relationship Networks**: Dynamic character/entity relationships and social dynamics
-- **Multi-Language Support**: Generate content in different languages with cultural adaptation
-- **Cross-Platform Export**: JSON, TypeScript, Unity C#, and Godot GDScript support
+## 🚀 Quick Start
+
+```javascript
+const { RPGEventGenerator } = require('rpg-event-generator');
+
+// Create generator
+const generator = new RPGEventGenerator({
+  theme: 'fantasy'
+});
+
+// Generate context aware event
+const event = generator.generateEvent({
+  level: 15,
+  gold: 2500,
+  class: 'wizard'
+});
+
+console.log(event.title);
+console.log(event.description);
+console.log(event.choices);
+```
+
+## 🎨 Advanced Usage
+
+### World Building
+```javascript
+// Generate complete game world
+const world = await generator.generateWorld();
+console.log(`World: ${world.regions.length} regions, ${world.factions.length} factions`);
+
+// Simulate history
+await generator.simulateWorldYears(50);
+const history = generator.getHistoricalEvents();
+```
+
+### Custom Templates
+```javascript
+// Register conditional template
+generator.registerTemplate('merchant', {
+  title: "Merchant Encounter",
+  conditional_choices: [{
+    condition: { player_gold: { gt: 1000 } },
+    choice: { text: "Buy rare artifact", effect: { gold: -500 } }
+  }]
+});
+```
+
+### AI Enhancement
+```javascript
+const aiGenerator = new RPGEventGenerator({
+  aiEnhancement: {
+    provider: 'openai',
+    apiKey: process.env.OPENAI_API_KEY
+  }
+});
+```
+
+## 🔧 Configuration
+
+```javascript
+const config = {
+  theme: 'fantasy',
+  enableAI: false,
+  enableDatabase: false,
+  enableCaching: true,
+  maxParallelGeneration: 4,
+
+  aiEnhancement: {
+    provider: 'openai',
+    apiKey: 'your-key'
+  }
+};
+```
+
+## 📚 API
+
+- `generateEvent(context)` - Generate single event
+- `generateEvents(context, count)` - Generate multiple events
+- `generateWorld()` - Create game world
+- `registerTemplate(id, template)` - Add custom template
+- `exportTemplates(format, path)` - Export to game engines
+
+Full API docs: [Documentation](https://decept1kon.github.io/rpg-event-generator/)
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file.
 
 ## 🎯 Use Cases & Examples
 
@@ -103,11 +186,79 @@ const simulation = researchGenerator.generateEvent({
 });
 ```
 
+## 🆕 Latest Features (v2.0.0)
+
+### Database Integration
+Store and retrieve templates from databases for large-scale applications:
+
+```javascript
+const generator = new RPGEventGenerator({ enableDatabase: true });
+
+await generator.storeTemplateInDatabase(customTemplate);
+const retrieved = await generator.getTemplateFromDatabase('template_id');
+const searchResults = await generator.searchTemplatesInDatabase({ type: 'combat' });
+```
+
+### World Building System
+Generate entire game worlds with factions, regions, and historical events:
+
+```javascript
+const world = await generator.generateWorld();
+await generator.simulateWorldYears(50); // Advance world history
+const factionPower = generator.getFactionPowerRanking();
+```
+
+### Advanced Template Features
+Create complex, conditional templates with inheritance and composition:
+
+```javascript
+// Conditional templates
+const conditionalTemplate = {
+  id: 'level_based_event',
+  conditions: [{ type: 'stat_requirement', field: 'level', operator: 'gte', value: 10 }],
+  conditional_choices: [{
+    condition: { type: 'has_item', item: 'magic_sword' },
+    choice: { text: 'Use magic sword', effect: { damage: 50 } }
+  }]
+};
+
+// Template composition
+const composedTemplate = {
+  id: 'weather_merchant',
+  composition: [{
+    template_id: 'merchant_base',
+    merge_strategy: 'append_narrative'
+  }, {
+    template_id: 'weather_effects',
+    conditions: [{ type: 'random_chance', probability: 0.6 }]
+  }]
+};
+```
+
+### Performance Optimizations
+Handle large-scale generation with advanced caching and parallel processing:
+
+```javascript
+const generator = new RPGEventGenerator({
+  enableTemplateCaching: true,
+  enableEventCaching: true
+});
+
+// Generate events in parallel
+const events = await generator.generateEventsParallel(100, context, 4); // 4 threads
+// Generate in batches for memory efficiency
+const batchedEvents = generator.generateEventsBatched(1000, context, 50); // 50 events per batch
+```
+
 ## Installation
 
 ```bash
 npm install rpg-event-generator
 ```
+
+### Requirements
+- Node.js 16+
+- TypeScript 4.5+ (for development)
 
 ## Quick Start
 
@@ -161,15 +312,32 @@ const contextualEvent = generator.generateEvent({
 
 ## 📚 Documentation & Resources
 
-**Explore the Full Capabilities:**
-- Run `npm run demo` to see all features in action
-- Check the `demo.js` file for comprehensive examples
-- Check the source code for template format examples
+### 📖 Comprehensive Guides
+- [Getting Started Guide](./docs/getting-started.md) - Quick start and basic concepts
+- [Basic Usage](./docs/basic-usage.md) - Core functionality and examples
+- [Customization Guide](./docs/customization.md) - Training data and configuration
+- [Advanced Features](./docs/advanced-features.md) - Event chains, time systems, relationships
+- [Template Creation Guide](./docs/template-creation-guide.md) - Creating custom event templates
+- [Game Engine Integration](./docs/game-engine-integration.md) - Unity, Godot, Unreal Engine guides
+- [Troubleshooting](./docs/troubleshooting.md) - Common issues and solutions
 
-**Key Files:**
-- `src/index.js` - Main generator code
-- `scripts/` - CLI tools and utilities
-- Check source code for template format examples
+### 🔧 API Documentation
+- [TypeDoc API Reference](./docs/api/) - Complete API documentation with examples
+- [Quick Reference](./docs/quick-reference.md) - Fast lookup for common operations
+
+### 🛠️ Development & Testing
+- Run `npm run demo` to see all 30+ features in action
+- Run `npm run docs` to regenerate API documentation
+- Run `npm test` to execute the comprehensive test suite
+- Check the `demo.js` file for interactive examples
+- Check the `test/` directory for usage examples
+
+### 📂 Key Directories
+- `src/` - Modular TypeScript source code
+- `docs/` - Complete documentation and guides
+- `templates/` - Built-in event templates
+- `test/` - Comprehensive test suite
+- `exports/` - Game engine export formats
 - `test/` - Comprehensive test suite
 
 ## 🤝 Contributing
