@@ -115,7 +115,7 @@ const config = {
 - `registerTemplate(id, template)` - Add custom template
 - `exportTemplates(format, path)` - Export to game engines
 
-Full API docs: [Documentation](https://decept1kon.github.io/rpg-event-generator/)
+Full API docs: [Documentation](https://ContextWeaver.github.io/context-weaver/)
 
 ## 📄 License
 
