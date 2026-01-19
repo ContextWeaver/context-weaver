@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Relationship System
+// RPG Event Generator v3.0.0 - Relationship System
 // Manages NPC relationships, social dynamics, and social interactions
 
 import { NPC, Relationship, PlayerContext } from '../types';

@@ -55,7 +55,7 @@ public class ${className} : EventTemplate
     public string narrative = @"${template.narrative}";
     public string type = "${template.type}";
     public string difficulty = "${template.difficulty}";
-    public string[] tags = { ${template.tags.map(tag => `"${tag}"`).join(', ')} };
+    public string[] tags = { ${(template.tags || []).map(tag => `"${tag}"`).join(', ')} };
     public Dictionary<string, string> contextRequirements = new Dictionary<string, string>() {
       ${Object.entries(template.context_requirements || {}).map(([key, value]) => `{"${key}", "${value}"}`).join(',\n      ')}
     };${choices}
@@ -162,7 +162,7 @@ public:
   FString Difficulty = TEXT("${template.difficulty}");
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Event")
-  TArray<FString> Tags = {${template.tags.map(tag => `TEXT("${tag}")`).join(', ')}};
+  TArray<FString> Tags = {${(template.tags || []).map(tag => `TEXT("${tag}")`).join(', ')}};
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Event")
   TMap<FString, FString> ContextRequirements = {${Object.entries(template.context_requirements || {}).map(([key, value]) => `{TEXT("${key}"), TEXT("${value}")}`).join(', ')}};

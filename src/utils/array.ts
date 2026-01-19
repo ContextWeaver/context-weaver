@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Array Utility Functions
+// RPG Event Generator v3.0.0 - Array Utility Functions
 // Centralized array manipulation and processing helpers
 
 /**

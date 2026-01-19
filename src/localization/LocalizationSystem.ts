@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Localization System
+// RPG Event Generator v3.0.0 - Localization System
 // Manages language packs, translations, and internationalization
 
 import { LanguagePack } from '../types';

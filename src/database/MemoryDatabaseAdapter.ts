@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Memory Database Adapter
+// RPG Event Generator v3.0.0 - Memory Database Adapter
 // In-memory implementation for template storage and retrieval
 
 import { IDatabaseAdapter } from '../interfaces';

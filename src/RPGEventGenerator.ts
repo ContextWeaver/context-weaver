@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Main Orchestrator Class
+// RPG Event Generator v3.0.0 - Main Orchestrator Class
 // Composition-based architecture using dependency injection
 // This replaces the monolithic index.ts with a clean orchestration layer
 
@@ -31,9 +31,29 @@ import { AIEnhancer } from './ai';
 import { WorldBuildingSystem } from './world';
 import { TemplateDatabase } from './database';
 import { MemoryDatabaseAdapter } from './database/MemoryDatabaseAdapter';
-import { Worker, isMainThread, parentPort, workerData } from 'worker_threads';
-import * as path from 'path';
-import * as os from 'os';
+// Conditional imports for Node.js environment (not available in React Native)
+let Worker: any, isMainThread: any, parentPort: any, workerData: any;
+let pathModule: any, osModule: any;
+
+try {
+  // Only available in Node.js environments
+  const workerThreads = require('worker_threads');
+  Worker = workerThreads.Worker;
+  isMainThread = workerThreads.isMainThread;
+  parentPort = workerThreads.parentPort;
+  workerData = workerThreads.workerData;
+
+  pathModule = require('path');
+  osModule = require('os');
+} catch (e) {
+  // In React Native or other environments, these will be undefined
+  Worker = null;
+  isMainThread = true;
+  parentPort = null;
+  workerData = null;
+  pathModule = null;
+  osModule = null;
+}
 
 // Import utilities
 import { fileExists, readJsonFile, writeJsonFile } from './utils';
@@ -809,7 +829,19 @@ export class RPGEventGenerator {
   // ===== PARALLEL GENERATION METHODS =====
 
   async generateEventsParallel(count: number, context: PlayerContext = {}, options: { maxWorkers?: number } = {}): Promise<Event[]> {
-    const maxWorkers = options.maxWorkers || Math.min(os.cpus().length, 4);
+    // Check if we're in a Node.js environment that supports workers
+    if (!Worker || !osModule) {
+      // Fallback to sequential generation for React Native and other environments
+      console.warn('Parallel generation not supported in this environment. Falling back to sequential generation.');
+      const events: Event[] = [];
+      for (let i = 0; i < count; i++) {
+        const event = await this.generateEvent(context);
+        events.push(event);
+      }
+      return events;
+    }
+
+    const maxWorkers = options.maxWorkers || Math.min(osModule.cpus().length, 4);
     const eventsPerWorker = Math.ceil(count / maxWorkers);
 
     const workerPromises: Promise<Event[]>[] = [];
@@ -833,7 +865,12 @@ export class RPGEventGenerator {
 
   private async spawnEventGenerationWorker(count: number, context: PlayerContext): Promise<Event[]> {
     return new Promise((resolve, reject) => {
-      const workerPath = path.join(__dirname, 'workers', 'event-generator-worker.js');
+      if (!Worker || !pathModule) {
+        reject(new Error('Worker threads not supported in this environment'));
+        return;
+      }
+
+      const workerPath = pathModule.join(__dirname, 'workers', 'event-generator-worker.js');
 
       const worker = new Worker(workerPath, {
         workerData: {
@@ -964,5 +1001,22 @@ export class RPGEventGenerator {
     }
 
     return await this.templateDatabase.getStats();
+  }
+
+  /**
+   * Check if running in a Node.js environment (for testing)
+   */
+  get isNodeEnv(): boolean {
+    return !!(Worker && osModule && pathModule);
+  }
+
+  /**
+   * Get optimal worker count based on environment (for testing)
+   */
+  getOptimalWorkerCount(): number {
+    if (!Worker || !osModule) {
+      return 1; // React Native fallback
+    }
+    return Math.min(osModule.cpus().length, 4);
   }
 }

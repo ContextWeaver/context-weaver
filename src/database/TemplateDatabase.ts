@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Template Database System
+// RPG Event Generator v3.0.0 - Template Database System
 // Database integration for scalable template management
 
 import { ITemplateDatabase, IDatabaseAdapter } from '../interfaces';

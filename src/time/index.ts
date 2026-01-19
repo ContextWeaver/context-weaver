@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Time Module Index
+// RPG Event Generator v3.0.0 - Time Module Index
 // Central export point for time system components
 
 export {

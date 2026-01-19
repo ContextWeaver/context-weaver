@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Context Analyzer
+// RPG Event Generator v3.0.0 - Context Analyzer
 // Analyzes player context and adapts event generation accordingly
 
 import { PlayerContext, AnalyzedContext } from '../types';

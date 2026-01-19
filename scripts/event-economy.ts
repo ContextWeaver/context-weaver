@@ -269,7 +269,7 @@ class EventEconomy {
     }
 
     searchContent(query, type = 'all') {
-        const results = [];
+        const results: any[] = [];
 
         if (type === 'all' || type === 'themes') {
             const themes = this.listThemes();
@@ -331,7 +331,7 @@ class EventEconomy {
         });
 
         return Object.entries(tagCounts)
-            .sort(([,a]: [string, number], [,b]: [string, number]) => b - a)
+            .sort(([,a]: [string, unknown], [,b]: [string, unknown]) => (b as number) - (a as number))
             .slice(0, 10)
             .map(([tag, count]) => ({ tag, count }));
     }
