@@ -14,10 +14,16 @@ export type {
   PlayerContext,
   Template,
   ChainDefinition,
+  ChainStage,
+  TimeBasedChain,
+  TemplateCondition,
+  ConditionalChoice,
+  DynamicField,
+  TemplateComposition,
   RuleDefinition,
   NPC,
   Relationship,
-  TimeBasedChain,
+  RelationshipEntry,
   GameState,
   TimeSystem,
   EnvironmentalContext,
@@ -25,11 +31,20 @@ export type {
   LanguagePack,
   ExportData,
   ImportResult,
+  GeneratorOptions,
   DifficultySettings,
+  DifficultyTier,
   ValidationResult,
   Effect,
-  TimeInfo
+  TimeInfo,
+  AnalyzedContext,
+  RuleCondition,
+  RuleEffects
 } from './types';
+
+// Re-export additional types from modules
+export type { MarkovOptions, MarkovResult } from './core';
+export type { TemplateMetadata } from './templates';
 
 // Re-export utility functions
 export * from './utils';

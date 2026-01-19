@@ -4,7 +4,7 @@
 import { GENERATION_DEFAULTS } from '../utils';
 import { IMarkovEngine } from '../interfaces';
 
-interface MarkovOptions {
+export interface MarkovOptions {
   stateSize?: number;
   minLength?: number;
   maxLength?: number;
@@ -12,7 +12,7 @@ interface MarkovOptions {
   allowDuplicates?: boolean;
 }
 
-interface MarkovResult {
+export interface MarkovResult {
   string: string;
 }
 

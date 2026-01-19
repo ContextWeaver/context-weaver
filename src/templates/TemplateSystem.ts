@@ -132,7 +132,7 @@ export class TemplateSystem implements ITemplateSystem {
       const files = fs.readdirSync(genreDir);
       let loadedCount = 0;
 
-      files.forEach(file => {
+      files.forEach((file: string) => {
         if (pathModule.extname(file) === '.json') {
           try {
             const filePath = pathModule.join(genreDir, file);
@@ -216,7 +216,7 @@ export class TemplateSystem implements ITemplateSystem {
 
     switch (type) {
       case 'stat_requirement':
-        const statValue = context[field] || 0;
+        const statValue = (context as any)[field] || 0;
         switch (operator) {
           case 'gte': result = statValue >= value; break;
           case 'lte': result = statValue <= value; break;

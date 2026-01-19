@@ -114,7 +114,7 @@ export function listFiles(dirPath: string, extension?: string): string[] {
 
     const files = fs.readdirSync(dirPath);
     if (extension) {
-      return files.filter(file => file.endsWith(extension));
+      return files.filter((file: string) => file.endsWith(extension));
     }
     return files;
   } catch (error) {
@@ -211,7 +211,7 @@ export function cleanOldBackups(dirPath: string, retentionDays: number = FILE_CO
     const cutoffTime = Date.now() - (retentionDays * 24 * 60 * 60 * 1000);
     let deletedCount = 0;
 
-    files.forEach(file => {
+    files.forEach((file: string) => {
       if (file.includes('.backup.')) {
         const filePath = pathModule.join(dirPath, file);
         const stats = fs.statSync(filePath);

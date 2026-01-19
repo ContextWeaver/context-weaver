@@ -223,7 +223,7 @@ export class EnvironmentalSystem implements IEnvironmentalSystem {
 
     // Apply numerical effects to choices
     if (modifier.effects && modifiedEvent.choices) {
-      modifiedEvent.choices = modifiedEvent.choices.map(choice => {
+      modifiedEvent.choices = modifiedEvent.choices.map((choice: any) => {
         const modifiedChoice = { ...choice, effect: { ...choice.effect } };
 
         // Movement penalties
