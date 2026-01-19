@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Core Generator
+// RPG Event Generator v3.0.0 - Core Generator
 // Main event generation logic combining all components
 
 import { Chance } from 'chance';

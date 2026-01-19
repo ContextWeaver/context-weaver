@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - World Building System
+// RPG Event Generator v3.0.0 - World Building System
 // Automated world generation, faction management, and historical event simulation
 
 import { WorldRegion, WorldFaction, HistoricalEvent, WorldLandmark, WorldResource, HistoricalConsequence } from '../types/world';

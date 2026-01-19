@@ -1,8 +1,17 @@
-// RPG Event Generator v2.0.0 - Template System
+// RPG Event Generator v3.0.0 - Template System
 // Manages template loading, registration, and generation
 
-import * as fs from 'fs';
-import * as path from 'path';
+// Conditional imports for Node.js environment
+let fs: any, pathModule: any;
+
+try {
+  fs = require('fs');
+  pathModule = require('path');
+} catch (e) {
+  // In React Native and other environments without Node.js APIs
+  fs = null;
+  pathModule = null;
+}
 import { Template, PlayerContext, Event, TemplateCondition, ConditionalChoice, DynamicField, Choice, TemplateComposition } from '../types';
 import { ITemplateSystem, ITemplateDatabase } from '../interfaces';
 import { validateTemplate } from '../utils';
@@ -101,13 +110,19 @@ export class TemplateSystem implements ITemplateSystem {
    * Load templates from a specific genre directory
    */
   loadTemplateLibrary(genre: string): void {
+    // Check if file system APIs are available (not available in React Native)
+    if (!fs || !pathModule) {
+      console.warn(`Template loading from filesystem not supported in this environment. Use registerTemplate() to add templates manually.`);
+      return;
+    }
+
     try {
       // Handle both development (src/) and compiled (dist/) environments
-      const isCompiled = __dirname.includes('dist');
+      const isCompiled = (typeof __dirname !== 'undefined') && __dirname.includes('dist');
       const templatesDir = isCompiled
-        ? path.join(__dirname, '..', '..', '..', 'templates')
-        : path.join(__dirname, '..', '..', 'templates');
-      const genreDir = path.join(templatesDir, genre);
+        ? pathModule.join(__dirname, '..', '..', '..', 'templates')
+        : pathModule.join(__dirname, '..', '..', 'templates');
+      const genreDir = pathModule.join(templatesDir, genre);
 
       if (!fs.existsSync(genreDir)) {
         console.warn(`Template genre '${genre}' not found`);
@@ -118,12 +133,12 @@ export class TemplateSystem implements ITemplateSystem {
       let loadedCount = 0;
 
       files.forEach(file => {
-        if (path.extname(file) === '.json') {
+        if (pathModule.extname(file) === '.json') {
           try {
-            const filePath = path.join(genreDir, file);
+            const filePath = pathModule.join(genreDir, file);
             const templateData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-            const templateId = path.basename(file, '.json');
+            const templateId = pathModule.basename(file, '.json');
             this.loadedTemplates.set(`${genre}:${templateId}`, templateData);
             loadedCount++;
           } catch (error) {

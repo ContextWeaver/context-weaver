@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Event Chain System
+// RPG Event Generator v3.0.0 - Event Chain System
 // Manages event chains, progression, and state
 
 import { Chance } from 'chance';

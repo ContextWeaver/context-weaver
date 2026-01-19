@@ -1,6 +1,6 @@
 {
   "name": "rpg-event-generator",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Powerful procedural content generation system for dynamic, context-aware narratives and interactive experiences. Perfect for games, simulations, and creative applications.",
   "repository": {
     "type": "git",

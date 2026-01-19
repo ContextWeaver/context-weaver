@@ -1,4 +1,4 @@
-// RPG Event Generator v2.0.0 - Core Module Index
+// RPG Event Generator v3.0.0 - Core Module Index
 // Central export point for core generation components
 
 export { MarkovEngine } from './MarkovEngine';
