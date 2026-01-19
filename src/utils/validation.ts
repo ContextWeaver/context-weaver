@@ -187,7 +187,7 @@ export function validateTemplate(template: any): ValidationResult {
 
   // Validate conditional choices
   if (template.conditional_choices) {
-    template.conditional_choices.forEach((cc, index) => {
+    template.conditional_choices.forEach((cc: any, index: number) => {
       if (cc.choice_index < 0 || cc.choice_index >= template.choices.length) {
         errors.push(`Conditional choice ${index} references invalid choice index ${cc.choice_index}`);
       }
@@ -199,7 +199,7 @@ export function validateTemplate(template: any): ValidationResult {
 
   // Validate dynamic fields
   if (template.dynamic_fields) {
-    template.dynamic_fields.forEach((df, index) => {
+    template.dynamic_fields.forEach((df: any, index: number) => {
       if (!df.field || !['title', 'narrative', 'choice_text'].includes(df.field)) {
         errors.push(`Dynamic field ${index} has invalid field type '${df.field}'`);
       }
@@ -218,7 +218,7 @@ export function validateTemplate(template: any): ValidationResult {
 
   // Validate composition
   if (template.composition) {
-    template.composition.forEach((comp, index) => {
+    template.composition.forEach((comp: any, index: number) => {
       if (!comp.template_id) {
         errors.push(`Composition ${index} must specify template_id`);
       }

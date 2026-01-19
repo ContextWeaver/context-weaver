@@ -1,6 +1,6 @@
 {
   "name": "rpg-event-generator",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Powerful procedural content generation system for dynamic, context-aware narratives and interactive experiences. Perfect for games, simulations, and creative applications.",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "export:unreal": "ts-node scripts/export-templates.ts unreal",
     "export:typescript": "ts-node scripts/export-templates.ts typescript",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "node -e \"require('fs').rmSync('dist', {recursive: true, force: true})\""
   },
   "keywords": [
     "rpg",

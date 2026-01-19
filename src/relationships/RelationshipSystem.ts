@@ -117,8 +117,8 @@ export class RelationshipSystem implements IRelationshipSystem {
     };
 
     // Initialize relationship with player if not specified
-    if (!npc.relationships.has('player')) {
-      npc.relationships.set('player', {
+    if (!npc.relationships?.has('player')) {
+      npc.relationships!.set('player', {
         strength: 0,
         type: 'neutral',
         history: []
@@ -143,6 +143,9 @@ export class RelationshipSystem implements IRelationshipSystem {
       return;
     }
 
+    if (!npc.relationships) {
+      npc.relationships = new Map();
+    }
     let relationship = npc.relationships.get(targetId);
     if (!relationship) {
       relationship = {
@@ -196,7 +199,7 @@ export class RelationshipSystem implements IRelationshipSystem {
    */
   getRelationship(npcId: string, targetId: string): Relationship | null {
     const npc = this.relationships.get(npcId);
-    if (!npc) return null;
+    if (!npc || !npc.relationships) return null;
 
     return npc.relationships.get(targetId) || null;
   }
@@ -207,6 +210,16 @@ export class RelationshipSystem implements IRelationshipSystem {
   getRelationshipSummary(npcId: string): RelationshipSummary {
     const npc = this.relationships.get(npcId);
     if (!npc) {
+      return {
+        totalRelationships: 0,
+        averageStrength: 0,
+        allyCount: 0,
+        enemyCount: 0,
+        neutralCount: 0
+      };
+    }
+
+    if (!npc.relationships) {
       return {
         totalRelationships: 0,
         averageStrength: 0,
@@ -239,6 +252,15 @@ export class RelationshipSystem implements IRelationshipSystem {
     let strongestEnemy: { id: string; name: string; strength: number } | undefined;
 
     // Find the target NPC for relationship analysis
+    if (!npc.relationships) {
+      return {
+        totalRelationships: 0,
+        averageStrength: 0,
+        allyCount: 0,
+        enemyCount: 0,
+        neutralCount: 0
+      };
+    }
     for (const [targetId, relationship] of npc.relationships) {
       const targetNpc = this.relationships.get(targetId);
       const targetName = targetNpc?.name || targetId;
@@ -303,11 +325,11 @@ export class RelationshipSystem implements IRelationshipSystem {
         id,
         name: currentNpc.name,
         type: currentNpc.type,
-        strength: currentNpc.relationships.get('player')?.strength || 0
+        strength: currentNpc.relationships?.get('player')?.strength || 0
       });
 
       // Add edges and queue next level
-      if (currentDepth < depth) {
+      if (currentDepth < depth && currentNpc.relationships) {
         for (const [targetId, relationship] of currentNpc.relationships) {
           if (!visited.has(targetId)) {
             network.edges.push({
@@ -366,7 +388,9 @@ export class RelationshipSystem implements IRelationshipSystem {
   removeNPC(npcId: string): boolean {
     // Clean up relationships from other NPCs
     for (const npc of this.relationships.values()) {
-      npc.relationships.delete(npcId);
+      if (npc.relationships) {
+        npc.relationships.delete(npcId);
+      }
     }
 
     return this.relationships.delete(npcId);
@@ -385,7 +409,7 @@ export class RelationshipSystem implements IRelationshipSystem {
     const socialContext: string[] = [];
 
     for (const [npcId, npc] of this.relationships) {
-      const playerRel = npc.relationships.get('player');
+      const playerRel = npc.relationships?.get('player');
       if (playerRel) {
         availableNPCs.push(npcId);
         relationshipModifiers[npcId] = playerRel.strength;
@@ -422,10 +446,12 @@ export class RelationshipSystem implements IRelationshipSystem {
     const relationshipTypes: { [type: string]: number } = {};
 
     for (const npc of this.relationships.values()) {
-      totalRelationships += npc.relationships.size;
+      if (npc.relationships) {
+        totalRelationships += npc.relationships.size;
 
-      for (const relationship of npc.relationships.values()) {
-        relationshipTypes[relationship.type] = (relationshipTypes[relationship.type] || 0) + 1;
+        for (const relationship of npc.relationships.values()) {
+          relationshipTypes[relationship.type] = (relationshipTypes[relationship.type] || 0) + 1;
+        }
       }
     }
 

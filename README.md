@@ -33,12 +33,33 @@ If RPG Event Generator has been helpful to your project, consider buying me a co
 npm install rpg-event-generator
 ```
 
+### Requirements
+- Node.js 16+
+- TypeScript 4.5+ (for development)
+
 ## 🚀 Quick Start
 
-```javascript
-const { RPGEventGenerator } = require('rpg-event-generator');
+### Basic Usage
 
-// Create generator
+```javascript
+const { RPGEventGenerator, generateRPGEvent } = require('rpg-event-generator');
+
+// Simple event generation
+const event = generateRPGEvent({
+  age: 25,
+  gold: 500,
+  influence: 15,
+  career: 'merchant'
+});
+
+console.log(event.title);        // "Golden Opportunity"
+console.log(event.description);  // Procedurally generated narrative
+console.log(event.choices);      // Array of meaningful choices
+```
+
+### With Custom Configuration
+
+```javascript
 const generator = new RPGEventGenerator({
   theme: 'fantasy'
 });
@@ -186,7 +207,7 @@ const simulation = researchGenerator.generateEvent({
 });
 ```
 
-## 🆕 Latest Features (v3.0.0)
+## 🆕 Latest Features (v3.0.2)
 
 ### Database Integration
 Store and retrieve templates from databases for large-scale applications:
@@ -250,35 +271,7 @@ const events = await generator.generateEventsParallel(100, context, 4); // 4 thr
 const batchedEvents = generator.generateEventsBatched(1000, context, 50); // 50 events per batch
 ```
 
-## Installation
-
-```bash
-npm install rpg-event-generator
-```
-
-### Requirements
-- Node.js 16+
-- TypeScript 4.5+ (for development)
-
-## Quick Start
-
-```javascript
-import { RPGEventGenerator, generateRPGEvent } from 'rpg-event-generator';
-
-// Simple event generation
-const event = generateRPGEvent({
-  age: 25,
-  gold: 500,
-  influence: 15,
-  career: 'merchant'
-});
-
-console.log(event.title);        // "Golden Opportunity"
-console.log(event.description);  // Procedurally generated narrative
-console.log(event.choices);      // Array of meaningful choices
-```
-
-## Demo
+## 🎮 Demo
 
 Run the included demo to explore all features:
 
@@ -291,24 +284,6 @@ node demo.js
 ```
 
 This will demonstrate event generation, chains, time progression, customization, and more.
-
-## 🔧 Getting Started
-
-### Basic Usage
-
-```javascript
-const generator = new RPGEventGenerator();
-
-// Generate a random event
-const event = generator.generateEvent();
-
-// Generate with context
-const contextualEvent = generator.generateEvent({
-  age: 30,
-  career: 'merchant',
-  location: 'market'
-});
-```
 
 ## 📚 Documentation & Resources
 
@@ -328,8 +303,7 @@ const contextualEvent = generator.generateEvent({
 - `docs/` - Complete documentation and guides
 - `templates/` - Built-in event templates
 - `test/` - Comprehensive test suite
-- `exports/` - Game engine export formats
-- `test/` - Comprehensive test suite
+- `scripts/` - Build and export scripts
 
 ## 🤝 Contributing
 

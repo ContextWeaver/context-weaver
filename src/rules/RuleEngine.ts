@@ -121,7 +121,7 @@ export class RuleEngine implements IRuleEngine {
 
     this.conditionEvaluators.set('stat_requirement', (context: PlayerContext, condition: any) => {
       const field = condition.field || condition.stat;
-      const statValue = context[field] || 0;
+      const statValue = (context as any)[field] || 0;
       const operator = condition.operator || 'gte';
       const value = condition.value || condition.min || 0;
 

@@ -1,7 +1,8 @@
-// RPG Event Generator v3.0.0 - Main Entry Point
+// RPG Event Generator v3.0.2 - Main Entry Point
 // Clean composition-based architecture with full backward compatibility
 
 import { RPGEventGenerator as ModularRPGEventGenerator } from './RPGEventGenerator';
+import type { PlayerContext, Event } from './types';
 
 // Export the main class
 export { ModularRPGEventGenerator as RPGEventGenerator };
@@ -13,10 +14,16 @@ export type {
   PlayerContext,
   Template,
   ChainDefinition,
+  ChainStage,
+  TimeBasedChain,
+  TemplateCondition,
+  ConditionalChoice,
+  DynamicField,
+  TemplateComposition,
   RuleDefinition,
   NPC,
   Relationship,
-  TimeBasedChain,
+  RelationshipEntry,
   GameState,
   TimeSystem,
   EnvironmentalContext,
@@ -24,11 +31,20 @@ export type {
   LanguagePack,
   ExportData,
   ImportResult,
+  GeneratorOptions,
   DifficultySettings,
+  DifficultyTier,
   ValidationResult,
   Effect,
-  TimeInfo
+  TimeInfo,
+  AnalyzedContext,
+  RuleCondition,
+  RuleEffects
 } from './types';
+
+// Re-export additional types from modules
+export type { MarkovOptions, MarkovResult } from './core';
+export type { TemplateMetadata } from './templates';
 
 // Re-export utility functions
 export * from './utils';
@@ -48,7 +64,7 @@ export * from './localization';
  * @param playerContext - Player context information
  * @returns Generated event
  */
-export function generateRPGEvent(playerContext: any = {}): any {
+export function generateRPGEvent(playerContext: PlayerContext = {}): Event {
   const generator = new ModularRPGEventGenerator();
   return generator.generateEvent(playerContext);
 }

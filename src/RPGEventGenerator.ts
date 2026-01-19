@@ -538,24 +538,30 @@ export class RPGEventGenerator {
 
     // Import rules
     if (data.rules && this.enableRuleEngine) {
+      if (!results.rules) {
+        results.rules = { success: 0, failed: [] };
+      }
       Object.entries(data.rules).forEach(([name, rule]) => {
         try {
           this.ruleEngine.addRule(name, rule);
-          results.rules.success++;
+          results.rules!.success++;
         } catch (error) {
-          results.rules.failed.push(name);
+          results.rules!.failed.push(name);
         }
       });
     }
 
     // Import NPCs
     if (data.npcs && this.enableRelationships) {
+      if (!results.npcs) {
+        results.npcs = { success: 0, failed: [] };
+      }
       Object.values(data.npcs).forEach(npc => {
         try {
           this.relationshipSystem.addNPC(npc);
-          results.npcs.success++;
+          results.npcs!.success++;
         } catch (error) {
-          results.npcs.failed.push(npc.id || 'unknown');
+          results.npcs!.failed.push(npc.id || 'unknown');
         }
       });
     }
@@ -884,11 +890,11 @@ export class RPGEventGenerator {
         resolve(events);
       });
 
-      worker.on('error', (error) => {
+      worker.on('error', (error: Error) => {
         reject(error);
       });
 
-      worker.on('exit', (code) => {
+      worker.on('exit', (code: number) => {
         if (code !== 0) {
           reject(new Error(`Worker stopped with exit code ${code}`));
         }
