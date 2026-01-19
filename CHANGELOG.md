@@ -5,6 +5,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.2] - 2026-01-20
+
+### 🐛 Fixed
+- Fixed type safety in public API - replaced `any` types with proper `PlayerContext` and `Event` types
+- Fixed cross-platform compatibility for `clean` script (now works on Windows, macOS, and Linux)
+- Removed compiled files from source directory (`.js`, `.js.map`, `.d.ts`, `.d.ts.map` files)
+
+### ✨ Improved
+- Enabled TypeScript strict mode for better type safety and code quality
+- Consolidated README documentation - removed duplicate sections
+- Updated all version references to be consistent across the codebase
+- Improved `.gitignore` to prevent compiled files from being committed
+
+## [3.0.1] - 2026-01-19
+
+### 🐛 Fixed
+- Minor bug fixes and stability improvements
+- Fixed template database adapter initialization issues
+- Resolved world building system edge cases
+
+### 📚 Documentation
+- Updated API documentation
+- Improved code examples
+
+## [3.0.0] - 2026-01-19
+
+### 🚀 Added
+
+#### Database Integration
+- **Pluggable Database Adapters**: Scalable storage with pluggable adapters for large-scale applications
+- **Template Storage**: Store and retrieve templates from databases
+- **Template Search**: Search templates in database with flexible query options
+- **Memory Database Adapter**: Built-in in-memory database adapter for development and testing
+- **Database Methods**: `storeTemplateInDatabase()`, `getTemplateFromDatabase()`, `searchTemplatesInDatabase()`
+
+#### World Building System
+- **Automated World Generation**: Generate complete game worlds with regions, factions, and history
+- **Faction System**: Dynamic faction creation with power rankings and relationships
+- **Historical Simulation**: Simulate world history over multiple years
+- **World Methods**: `generateWorld()`, `simulateWorldYears()`, `getFactionPowerRanking()`, `getHistoricalEvents()`
+
+#### Advanced Template Features
+- **Conditional Templates**: Create templates with complex conditional logic
+- **Template Composition**: Combine multiple templates with merge strategies
+- **Template Inheritance**: Template inheritance and mixin support
+- **Conditional Choices**: Dynamic choices based on player state and conditions
+
+#### Performance Optimizations
+- **Template Caching**: Advanced template caching for improved performance
+- **Event Caching**: Cache generated events for faster retrieval
+- **Parallel Generation**: Generate events in parallel with configurable thread count
+- **Batched Processing**: Generate events in batches for memory efficiency
+- **Performance Methods**: `generateEventsParallel()`, `generateEventsBatched()`
+
+### 🔧 Changed
+- **Architecture Refactoring**: Complete composition-based architecture overhaul
+- **Modular Systems**: Improved separation of concerns with dependency injection
+- **Type System**: Enhanced TypeScript type definitions throughout
+
+### 📚 Documentation
+- **Complete API Documentation**: Full TypeDoc reference for all new features
+- **Usage Examples**: Comprehensive examples for database, world building, and advanced templates
+- **Migration Guide**: Updated migration guide for v3.0.0
+
 ## [2.0.0] - 2026-01-11
 
 ### 🚀 Added

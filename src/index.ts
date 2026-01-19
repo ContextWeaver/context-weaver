@@ -1,7 +1,8 @@
-// RPG Event Generator v3.0.0 - Main Entry Point
+// RPG Event Generator v3.0.2 - Main Entry Point
 // Clean composition-based architecture with full backward compatibility
 
 import { RPGEventGenerator as ModularRPGEventGenerator } from './RPGEventGenerator';
+import type { PlayerContext, Event } from './types';
 
 // Export the main class
 export { ModularRPGEventGenerator as RPGEventGenerator };
@@ -48,7 +49,7 @@ export * from './localization';
  * @param playerContext - Player context information
  * @returns Generated event
  */
-export function generateRPGEvent(playerContext: any = {}): any {
+export function generateRPGEvent(playerContext: PlayerContext = {}): Event {
   const generator = new ModularRPGEventGenerator();
   return generator.generateEvent(playerContext);
 }

@@ -18,8 +18,10 @@ user-content/*
 web-interface
 
 # Compiled outputs that shouldn't be in src/ (leftover from old builds)
-src/types/*.js
-src/types/*.js.map
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
 
 # Environment variables
 .env
