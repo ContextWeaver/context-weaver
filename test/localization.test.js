@@ -1,4 +1,4 @@
-const { LocalizationSystem } = require('../dist');
+const { LocalizationSystem } = require('../src/localization');
 
 describe('LocalizationSystem', () => {
   let localization;
@@ -35,7 +35,7 @@ describe('LocalizationSystem', () => {
     test('should fail to set non-existent language', () => {
       const result = localization.setLanguage('nonexistent');
       expect(result).toBe(false);
-      expect(localization.getCurrentLanguage()).toBe('en'); // Should remain unchanged
+      expect(localization.getCurrentLanguage()).toBe('en');
     });
 
     test('should load and switch to new language pack', () => {
@@ -67,7 +67,6 @@ describe('LocalizationSystem', () => {
     });
 
     test('should handle variable substitution', () => {
-      // Add a test translation with variables
       localization.addTranslation('test.greeting', 'Hello {{name}}, you have {{count}} items');
 
       const result = localization.translate('test.greeting', { name: 'Alice', count: 5 });
@@ -78,7 +77,7 @@ describe('LocalizationSystem', () => {
       localization.addTranslation('test.partial', 'Hello {{name}}');
 
       const result = localization.translate('test.partial', {});
-      expect(result).toBe('Hello {{name}}'); // Variables not replaced
+      expect(result).toBe('Hello {{name}}');
     });
 
     test('should support contextual translation with fallback', () => {
@@ -86,7 +85,7 @@ describe('LocalizationSystem', () => {
 
       const translator = localization.createTranslator('combat');
       expect(translator('attack')).toBe('Attack the enemy');
-      expect(translator('nonexistent')).toBe('nonexistent'); // Fallback to base key
+      expect(translator('nonexistent')).toBe('nonexistent');
     });
   });
 
@@ -178,7 +177,7 @@ describe('LocalizationSystem', () => {
     test('should reject non-string translation values', () => {
       const invalidPack = {
         ui: {
-          'test.key': 123 // Should be string
+          'test.key': 123
         }
       };
 

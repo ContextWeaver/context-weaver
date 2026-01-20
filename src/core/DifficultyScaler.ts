@@ -78,11 +78,10 @@ export class DifficultyScaler implements IDifficultyScaler {
     const influence = context.influence || 0;
     const health = context.health || 100;
 
-    // Normalize and combine factors
-    const levelScore = Math.min(level / 20, 1) * 25; // Max 25 points
-    const goldScore = Math.min(Math.log10(gold + 1) / 6, 1) * 25; // Max 25 points (log scale)
-    const influenceScore = Math.min(influence / 100, 1) * 25; // Max 25 points
-    const healthScore = (health / 100) * 25; // Max 25 points
+    const levelScore = Math.min(level / 20, 1) * 25;
+    const goldScore = Math.min(Math.log10(gold + 1) / 6, 1) * 25;
+    const influenceScore = Math.min(influence / 100, 1) * 25;
+    const healthScore = (health / 100) * 25;
 
     return Math.round(levelScore + goldScore + influenceScore + healthScore);
   }
@@ -91,14 +90,16 @@ export class DifficultyScaler implements IDifficultyScaler {
    * Determine difficulty tier based on power level
    */
   calculateDifficultyTier(powerLevel: number): DifficultyTier {
-    // Find the appropriate tier based on power level
-    for (const tier of this.difficultyTiers) {
-      if (powerLevel >= tier.powerRange[0] && powerLevel <= tier.powerRange[1]) {
-        return tier;
-      }
+    const matchingTiers = this.difficultyTiers.filter(tier =>
+      powerLevel >= tier.powerRange[0] && powerLevel <= tier.powerRange[1]
+    );
+
+    if (matchingTiers.length > 0) {
+      return matchingTiers.reduce((highest, current) =>
+        current.powerRange[0] > highest.powerRange[0] ? current : highest
+      );
     }
 
-    // Fallback: find closest tier
     let closestTier = this.difficultyTiers[0];
     let minDistance = Math.abs(powerLevel - (closestTier.powerRange[0] + closestTier.powerRange[1]) / 2);
 
@@ -145,15 +146,12 @@ export class DifficultyScaler implements IDifficultyScaler {
 
     Object.entries(effect).forEach(([key, value]) => {
       if (typeof value === 'number') {
-        // Positive values (rewards) get multiplied by reward multiplier
-        // Negative values (penalties) get multiplied by penalty multiplier
         if (value >= 0) {
           scaledEffect[key] = Math.round(value * difficultyTier.rewardMultiplier);
         } else {
           scaledEffect[key] = Math.round(value * difficultyTier.penaltyMultiplier);
         }
       } else if (Array.isArray(value) && value.length === 2) {
-        // Handle range arrays [min, max]
         const [min, max] = value;
         if (typeof min === 'number' && typeof max === 'number') {
           scaledEffect[key] = [
@@ -164,7 +162,6 @@ export class DifficultyScaler implements IDifficultyScaler {
           scaledEffect[key] = value;
         }
       } else {
-        // Non-numeric values pass through unchanged
         scaledEffect[key] = value;
       }
     });
@@ -182,7 +179,7 @@ export class DifficultyScaler implements IDifficultyScaler {
     const scalingFactors = {
       reward: recommendedTier.rewardMultiplier,
       penalty: recommendedTier.penaltyMultiplier,
-      challenge: 1 / recommendedTier.rewardMultiplier // Inverse of reward for challenge level
+      challenge: 1 / recommendedTier.rewardMultiplier
     };
 
     const adaptiveSuggestions = this.generateAdaptiveSuggestions(playerPowerLevel, recommendedTier);
@@ -227,11 +224,9 @@ export class DifficultyScaler implements IDifficultyScaler {
 
     const adjustedWeights: { [key: string]: number } = {};
 
-    // Apply difficulty-based weight adjustments
     Object.entries(baseWeights).forEach(([eventType, baseWeight]) => {
       let adjustedWeight = baseWeight;
 
-      // Challenge ratings for different event types (1-10 scale)
       const challengeRatings: { [key: string]: number } = {
         'COURT_SCANDAL': 3,
         'NOBLE_DUEL': 4,
@@ -264,11 +259,10 @@ export class DifficultyScaler implements IDifficultyScaler {
 
       const challengeRating = challengeRatings[eventType] || 5;
 
-      // Adjust weight based on difficulty preference
       if (difficultyTier.name === 'easy' && challengeRating > 6) {
-        adjustedWeight *= 0.3; // Reduce very hard events for easy players
+        adjustedWeight *= 0.3;
       } else if (difficultyTier.name === 'legendary' && challengeRating < 4) {
-        adjustedWeight *= 0.5; // Reduce very easy events for legendary players
+        adjustedWeight *= 0.5;
       }
 
       adjustedWeights[eventType] = Math.max(0, adjustedWeight);
@@ -288,16 +282,13 @@ export class DifficultyScaler implements IDifficultyScaler {
    * Add a custom difficulty tier
    */
   addDifficultyTier(tier: DifficultyTier): void {
-    // Validate the tier
     if (!tier.name || !tier.powerRange || tier.powerRange.length !== 2) {
       throw new Error('Invalid difficulty tier configuration');
     }
 
-    // Remove existing tier with same name if it exists
     this.difficultyTiers = this.difficultyTiers.filter(t => t.name !== tier.name);
     this.difficultyTiers.push(tier);
 
-    // Sort by power range
     this.difficultyTiers.sort((a, b) => a.powerRange[0] - b.powerRange[0]);
   }
 

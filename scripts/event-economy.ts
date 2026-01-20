@@ -72,7 +72,7 @@ class EventEconomy {
         return filepath;
     }
 
-    loadTheme(themeName) {
+    loadTheme(themeName: string) {
         const filename = this.sanitizeFilename(themeName) + '.json';
         const filepath = path.join(this.themesPath, filename);
 
@@ -102,7 +102,7 @@ class EventEconomy {
         });
     }
 
-    deleteTheme(themeName) {
+    deleteTheme(themeName: string) {
         const filename = this.sanitizeFilename(themeName) + '.json';
         const filepath = path.join(this.themesPath, filename);
 
@@ -114,7 +114,7 @@ class EventEconomy {
         return false;
     }
 
-    saveRulePack(packName, ruleData) {
+    saveRulePack(packName: string, ruleData: any) {
         const pack = {
             name: packName,
             version: '1.0.0',
@@ -139,7 +139,7 @@ class EventEconomy {
         return filepath;
     }
 
-    loadRulePack(packName) {
+    loadRulePack(packName: string) {
         const filename = this.sanitizeFilename(packName) + '.json';
         const filepath = path.join(this.rulesPath, filename);
 
@@ -152,7 +152,7 @@ class EventEconomy {
         return packData;
     }
 
-    createContentPack(packName, packData) {
+    createContentPack(packName: string, packData: any) {
         const pack = {
             name: packName,
             version: '1.0.0',
@@ -181,7 +181,7 @@ class EventEconomy {
         return filepath;
     }
 
-    exportTheme(themeName, exportPath = null) {
+    exportTheme(themeName: string, exportPath: string | null = null) {
         const theme = this.loadTheme(themeName);
         const exportFilePath = exportPath || `${this.sanitizeFilename(themeName)}_export.json`;
 
@@ -190,7 +190,7 @@ class EventEconomy {
         return exportFilePath;
     }
 
-    importTheme(importPath) {
+    importTheme(importPath: string) {
         if (!fs.existsSync(importPath)) {
             throw new Error(`Import file not found: ${importPath}`);
         }
@@ -213,11 +213,11 @@ class EventEconomy {
         return savedPath;
     }
 
-    sanitizeFilename(name) {
+    sanitizeFilename(name: string) {
         return name.replace(/[^a-zA-Z0-9-_]/g, '_').toLowerCase();
     }
 
-    calculateThemeQuality(themeData) {
+    calculateThemeQuality(themeData: any) {
         let score = 0;
 
         const trainingCount = themeData.trainingData?.length || 0;
@@ -237,12 +237,12 @@ class EventEconomy {
         return Math.min(score, 100);
     }
 
-    analyzeRuleConditions(rules) {
-        const conditionTypes = {};
+    analyzeRuleConditions(rules: any) {
+        const conditionTypes: { [key: string]: number } = {};
 
-        rules.forEach(rule => {
+        rules.forEach((rule: any) => {
             if (rule.conditions) {
-                rule.conditions.forEach(condition => {
+                rule.conditions.forEach((condition: any) => {
                     const type = condition.type || 'unknown';
                     conditionTypes[type] = (conditionTypes[type] || 0) + 1;
                 });
@@ -252,7 +252,7 @@ class EventEconomy {
         return conditionTypes;
     }
 
-    calculatePackValue(packData) {
+    calculatePackValue(packData: any) {
         let value = 0;
 
         if (packData.theme) {
@@ -260,7 +260,7 @@ class EventEconomy {
         }
 
         if (packData.rulePacks) {
-            packData.rulePacks.forEach(rules => {
+            packData.rulePacks.forEach((rules: any) => {
                 value += (rules.length || 0) * 10;
             });
         }
@@ -268,7 +268,7 @@ class EventEconomy {
         return Math.min(value, 1000);
     }
 
-    searchContent(query, type = 'all') {
+    searchContent(query: string, type: string = 'all') {
         const results: any[] = [];
 
         if (type === 'all' || type === 'themes') {
@@ -295,12 +295,12 @@ class EventEconomy {
         return results;
     }
 
-    matchesQuery(item, query) {
+    matchesQuery(item: any, query: string) {
         const searchText = query.toLowerCase();
         return (
             item.name?.toLowerCase().includes(searchText) ||
             item.description?.toLowerCase().includes(searchText) ||
-            item.tags?.some(tag => tag.toLowerCase().includes(searchText)) ||
+            item.tags?.some((tag: any) => tag.toLowerCase().includes(searchText)) ||
             item.author?.toLowerCase().includes(searchText)
         );
     }
@@ -321,11 +321,11 @@ class EventEconomy {
         };
     }
 
-    getPopularTags(themes) {
-        const tagCounts = {};
+    getPopularTags(themes: any[]) {
+        const tagCounts: { [key: string]: number } = {};
 
         themes.forEach(theme => {
-            theme.tags?.forEach(tag => {
+            theme.tags?.forEach((tag: any) => {
                 tagCounts[tag] = (tagCounts[tag] || 0) + 1;
             });
         });
@@ -380,7 +380,7 @@ function main() {
                 break;
         }
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error:', error instanceof Error ? error.message : String(error));
         process.exit(1);
     }
 }

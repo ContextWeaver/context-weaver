@@ -9,7 +9,8 @@ import {
   GeneratorOptions,
   ExportData,
   ImportResult,
-  GameState
+  GameState,
+  AnalyzedContext
 } from './types';
 
 // Import all modular systems
@@ -31,12 +32,11 @@ import { AIEnhancer } from './ai';
 import { WorldBuildingSystem } from './world';
 import { TemplateDatabase } from './database';
 import { MemoryDatabaseAdapter } from './database/MemoryDatabaseAdapter';
-// Conditional imports for Node.js environment (not available in React Native)
+
 let Worker: any, isMainThread: any, parentPort: any, workerData: any;
 let pathModule: any, osModule: any;
 
 try {
-  // Only available in Node.js environments
   const workerThreads = require('worker_threads');
   Worker = workerThreads.Worker;
   isMainThread = workerThreads.isMainThread;
@@ -46,7 +46,6 @@ try {
   pathModule = require('path');
   osModule = require('os');
 } catch (e) {
-  // In React Native or other environments, these will be undefined
   Worker = null;
   isMainThread = true;
   parentPort = null;
@@ -55,17 +54,12 @@ try {
   osModule = null;
 }
 
-// Import utilities
-import { fileExists, readJsonFile, writeJsonFile } from './utils';
-
 export class RPGEventGenerator {
-  // Core systems
   private generatorCore: GeneratorCore;
   private markovEngine: MarkovEngine;
   private contextAnalyzer: ContextAnalyzer;
   private difficultyScaler: DifficultyScaler;
 
-  // Feature systems
   private templateSystem: TemplateSystem;
   private chainSystem: ChainSystem;
   private ruleEngine: RuleEngine;
@@ -77,11 +71,9 @@ export class RPGEventGenerator {
   private worldBuildingSystem: WorldBuildingSystem;
   private templateDatabase: TemplateDatabase | null = null;
 
-  // Configuration
   private options: GeneratorOptions;
   private chance: Chance.Chance;
 
-  // Feature flags
   private enableTemplates: boolean;
   private enableDependencies: boolean;
   private _enableModifiers: boolean;
@@ -93,7 +85,12 @@ export class RPGEventGenerator {
     this.options = options;
     this.chance = options.chance || new Chance();
 
-    // Initialize feature flags
+    // Validate configuration
+    const validationResult = this.validateConfig(options);
+    if (!validationResult.isValid && validationResult.warnings.length > 0) {
+      console.warn('Configuration warnings:', validationResult.warnings);
+    }
+
     this.enableTemplates = options.enableTemplates !== false;
     this.enableDependencies = options.enableDependencies !== false;
     this._enableModifiers = options.enableModifiers !== false;
@@ -101,7 +98,6 @@ export class RPGEventGenerator {
     this._enableRuleEngine = options.enableRuleEngine !== false;
     this.pureMarkovMode = options.pureMarkovMode || false;
 
-    // Initialize core systems
     this.markovEngine = new MarkovEngine({ stateSize: options.stateSize });
     this.contextAnalyzer = new ContextAnalyzer();
     this.difficultyScaler = new DifficultyScaler();
@@ -110,7 +106,6 @@ export class RPGEventGenerator {
       chance: this.chance
     });
 
-    // Initialize feature systems
     this.templateSystem = new TemplateSystem(options.templateLibrary);
     this.chainSystem = new ChainSystem(this.chance);
     this.ruleEngine = new RuleEngine();
@@ -121,9 +116,7 @@ export class RPGEventGenerator {
     this.aiEnhancer = new AIEnhancer(options.aiEnhancement);
     this.worldBuildingSystem = new WorldBuildingSystem();
 
-    // Initialize template database if enabled
     if (options.enableDatabase !== false) {
-      // Use synchronous initialization for memory adapter to avoid async constructor issues
       if (!options.databaseAdapter || options.databaseAdapter instanceof MemoryDatabaseAdapter) {
         this.initializeDatabaseSync(options.databaseAdapter);
       } else {
@@ -131,25 +124,59 @@ export class RPGEventGenerator {
       }
     }
 
-    // Initialize systems
     this.initializeSystems(options);
 
-    // Load training data if provided
     if (options.trainingData) {
       this.markovEngine.addData(options.trainingData);
+      if (options.debug) {
+        console.log(`[RPGEventGenerator] Loaded ${options.trainingData.length} training data entries`);
+      }
     }
+  }
+
+  /**
+   * Validate configuration options
+   */
+  private validateConfig(options: GeneratorOptions): { isValid: boolean; warnings: string[] } {
+    const warnings: string[] = [];
+
+    // Check for conflicting options
+    if (options.pureMarkovMode && options.enableTemplates) {
+      warnings.push('pureMarkovMode is enabled but enableTemplates is also true. Templates will be ignored.');
+    }
+
+    if (options.pureMarkovMode && options.enableRelationships) {
+      warnings.push('pureMarkovMode is enabled but enableRelationships is also true. Relationships will be ignored.');
+    }
+
+    // Check for missing dependencies
+    if (options.enableTemplates && !options.templateLibrary && !options.trainingData) {
+      warnings.push('enableTemplates is true but no templateLibrary or trainingData provided. Template generation may be limited.');
+    }
+
+    if (options.enableRelationships && !options.enableModifiers) {
+      warnings.push('enableRelationships is true but enableModifiers is false. Some relationship features may not work properly.');
+    }
+
+    // Validate state size
+    if (options.stateSize !== undefined && (options.stateSize < 1 || options.stateSize > 5)) {
+      warnings.push(`stateSize should be between 1 and 5, got ${options.stateSize}. Using default value.`);
+    }
+
+    return {
+      isValid: warnings.length === 0,
+      warnings
+    };
   }
 
   /**
    * Initialize all systems with provided options
    */
   private initializeSystems(options: GeneratorOptions): void {
-    // Load template library if enabled
     if (this.enableTemplates && options.templateLibrary && !this.pureMarkovMode) {
       this.templateSystem.loadTemplateLibrary(options.templateLibrary);
     }
 
-    // Load default English localization
     this.localizationSystem.loadLanguagePack('en', {
       ui: {
         'event.title.default': 'Unexpected Event',
@@ -171,55 +198,176 @@ export class RPGEventGenerator {
    * Generate a single event
    */
   generateEvent(playerContext: PlayerContext = {}): Event {
-    // Analyze player context
     const analyzedContext = this.contextAnalyzer.analyzeContext(playerContext);
+    
+    // Debug logging if enabled
+    if (this.options.debug) {
+      console.log('[RPGEventGenerator] Generating event with context:', {
+        level: analyzedContext.level,
+        powerLevel: analyzedContext.powerLevel,
+        wealthTier: analyzedContext.wealthTier,
+        lifeStage: analyzedContext.lifeStage,
+        careerPath: analyzedContext.careerPath
+      });
+    }
 
-    // Generate base event using core system
-    let event = this.generatorCore.generateEvent(analyzedContext);
+    // If templates are enabled, try to use a matching template first
+    let event: Event;
+    let usedTemplate = false;
+    
+    if (this.enableTemplates && !this.pureMarkovMode) {
+      const templateEvent = this.tryGenerateFromTemplate(playerContext, analyzedContext);
+      if (templateEvent) {
+        event = templateEvent;
+        usedTemplate = true;
+        if (this.options.debug) {
+          console.log('[RPGEventGenerator] Generated event from template');
+        }
+      } else {
+        // Fall back to core generation if no template matched
+        event = this.generatorCore.generateEvent(playerContext);
+        if (this.options.debug) {
+          console.log('[RPGEventGenerator] Generated event using core generator (Markov chain)');
+        }
+      }
+    } else {
+      // Use core generation directly
+      event = this.generatorCore.generateEvent(playerContext);
+      if (this.options.debug) {
+        console.log('[RPGEventGenerator] Generated event using core generator (Markov chain)');
+      }
+    }
 
-    // Apply environmental modifiers if enabled
+    // Ensure context is properly set
+    event.context = playerContext;
+    
+    // Debug logging for generated event
+    if (this.options.debug) {
+      console.log('[RPGEventGenerator] Generated event:', {
+        id: event.id,
+        title: event.title,
+        type: event.type,
+        difficulty: event.difficulty,
+        usedTemplate,
+        descriptionLength: event.description.length,
+        choicesCount: event.choices.length
+      });
+    }
+
     if (this.enableModifiers) {
-      // Get current time information from time system
       const currentTime = this.timeSystem.getCurrentTime();
       const environmentalContext = {
-        weather: 'clear', // Default weather - could be expanded
+        weather: 'clear',
         season: currentTime.season,
-        timeOfDay: 'day' // Default time of day - could be expanded
+        timeOfDay: 'day'
       };
       this.environmentalSystem.setEnvironmentalContext(environmentalContext);
-      event = this.environmentalSystem.applyModifiers(event);
+      const modifiedEvent = this.environmentalSystem.applyModifiers(event);
+      if (modifiedEvent) {
+        event = modifiedEvent;
+      }
     }
 
-    // Apply rule engine modifications if enabled
     if (this.enableRuleEngine) {
-      event = this.ruleEngine.processEvent(event, analyzedContext);
+      const processedEvent = this.ruleEngine.processEvent(event, analyzedContext);
+      if (processedEvent) {
+        event = processedEvent;
+      }
     }
 
-    // Apply AI enhancement if enabled
     if (this.aiEnhancer.isEnabled() && this.aiEnhancer.isAvailable()) {
       try {
         const aiContext = {
           playerLevel: analyzedContext.level,
           playerClass: analyzedContext.career,
           currentLocation: analyzedContext.location,
-          recentEvents: [], // Could track recent events
+          recentEvents: [],
           storyTone: 'neutral' as const,
           genre: 'fantasy'
         };
 
-        event = this.aiEnhancer.enhanceEvent(event, aiContext);
+        const enhancedEvent = this.aiEnhancer.enhanceEvent(event, aiContext);
+        if (enhancedEvent) {
+          event = enhancedEvent;
+        }
       } catch {
-        // Keep original event if AI enhancement fails
       }
     }
 
-    // Localize event text if language is set
     if (this.localizationSystem.getCurrentLanguage() !== 'en') {
       event.title = this.localizationSystem.translate(event.title);
       event.description = this.localizationSystem.translate(event.description);
     }
 
     return event;
+  }
+
+  /**
+   * Try to generate an event from a matching template
+   */
+  private tryGenerateFromTemplate(
+    playerContext: PlayerContext,
+    analyzedContext: AnalyzedContext
+  ): Event | null {
+    if (!this.templateSystem) return null;
+
+    const loadedTemplates = this.templateSystem.getLoadedTemplates();
+    if (loadedTemplates.size === 0) return null;
+
+    // Find templates that match the context
+    const matchingTemplates: string[] = [];
+    
+    for (const [templateId, template] of loadedTemplates.entries()) {
+      // Check if template matches context requirements
+      if (this.templateMatchesContext(template, analyzedContext)) {
+        matchingTemplates.push(templateId);
+      }
+    }
+
+    if (matchingTemplates.length > 0) {
+      // Select a random matching template
+      const selectedTemplateId = this.chance.pickone(matchingTemplates);
+      const templateContext = {
+        ...playerContext,
+        level: analyzedContext.level,
+        powerLevel: analyzedContext.powerLevel,
+        wealthTier: analyzedContext.wealthTier,
+        lifeStage: analyzedContext.lifeStage
+      };
+      
+      return this.templateSystem.generateFromTemplate(selectedTemplateId, templateContext);
+    }
+
+    return null;
+  }
+
+  /**
+   * Check if a template matches the player context
+   */
+  private templateMatchesContext(template: any, context: AnalyzedContext): boolean {
+    // If template has no context requirements, it matches
+    if (!template.context_requirements || !template.context_requirements.length) {
+      return true;
+    }
+
+    // Check each requirement
+    for (const requirement of template.context_requirements) {
+      if (requirement.type === 'level' && context.level !== undefined) {
+        if (requirement.min && context.level < requirement.min) return false;
+        if (requirement.max && context.level > requirement.max) return false;
+      }
+      
+      if (requirement.type === 'power_level' && context.powerLevel !== undefined) {
+        if (requirement.min && context.powerLevel < requirement.min) return false;
+        if (requirement.max && context.powerLevel > requirement.max) return false;
+      }
+      
+      if (requirement.type === 'wealth_tier' && context.wealthTier) {
+        if (requirement.value && context.wealthTier !== requirement.value) return false;
+      }
+    }
+
+    return true;
   }
 
   /**
@@ -244,7 +392,7 @@ export class RPGEventGenerator {
    * Generate random event from genre (backward compatibility - removed)
    */
   generateFromGenre(genre: string, context: PlayerContext = {}): Event | null {
-    return null; // Template library removed - return null for backward compatibility
+    return null;
   }
 
   // ===== TEMPLATE SYSTEM METHODS =====
@@ -274,7 +422,7 @@ export class RPGEventGenerator {
    * Get available templates by genre (pre-built library removed)
    */
   getAvailableTemplates(): any {
-    return {}; // Pre-built template library removed - return empty for backward compatibility
+    return {};
   }
 
   // ===== EVENT CHAIN METHODS =====
@@ -479,7 +627,6 @@ export class RPGEventGenerator {
    * Export custom content
    */
   exportCustomContent(): ExportData {
-    // Convert NPC array to object keyed by ID
     const npcs: { [key: string]: any } = {};
     if (this.enableRelationships) {
       const npcArray = this.relationshipSystem.getAllNPCs();
@@ -488,10 +635,8 @@ export class RPGEventGenerator {
       });
     }
 
-    // Convert loaded templates map to export format
     const templates: { [key: string]: any } = {};
     if (this.enableTemplates) {
-      // Template IDs include genre prefix (e.g., "fantasy:event_1")
       this.templateSystem.getLoadedTemplates().forEach((template, id) => {
         templates[id] = template;
       });
@@ -518,13 +663,10 @@ export class RPGEventGenerator {
       npcs: { success: 0, failed: [] }
     };
 
-    // Import templates
     if (data.templates && this.enableTemplates) {
-      // Implementation would go here
       results.templates.success = 1;
     }
 
-    // Import chains
     if (data.chains) {
       Object.entries(data.chains).forEach(([id, chain]) => {
         try {
@@ -536,7 +678,6 @@ export class RPGEventGenerator {
       });
     }
 
-    // Import rules
     if (data.rules && this.enableRuleEngine) {
       if (!results.rules) {
         results.rules = { success: 0, failed: [] };
@@ -551,7 +692,6 @@ export class RPGEventGenerator {
       });
     }
 
-    // Import NPCs
     if (data.npcs && this.enableRelationships) {
       if (!results.npcs) {
         results.npcs = { success: 0, failed: [] };
@@ -569,7 +709,6 @@ export class RPGEventGenerator {
     return results;
   }
 
-  // Public getters for feature flags (for testing compatibility)
   get enableRuleEngine(): boolean { return this._enableRuleEngine; }
   get enableModifiers(): boolean { return this._enableModifiers; }
   get enableRelationships(): boolean { return this._enableRelationships; }
@@ -611,9 +750,9 @@ export class RPGEventGenerator {
     return {
       timeSystem: this.timeSystem.getState(),
       activeChains,
-      completedEvents: new Set(), // Would need to be tracked separately
-      player: {}, // Would need to be provided
-      gameState: {} // Additional game state
+      completedEvents: new Set(),
+      player: {},
+      gameState: {}
     };
   }
 
@@ -626,9 +765,7 @@ export class RPGEventGenerator {
         this.timeSystem.loadState(gameState.timeSystem);
       }
 
-      // Restore active chains if any
       if (gameState.activeChains) {
-        // Implementation would restore chain states
       }
 
       return true;
@@ -642,10 +779,16 @@ export class RPGEventGenerator {
 
   addTrainingData(texts: string[]): void {
     this.generatorCore.addTrainingData(texts);
+    if (this.options.debug) {
+      console.log(`[RPGEventGenerator] Added ${texts.length} training data entries`);
+    }
   }
 
   addCustomTrainingData(texts: string[], theme?: string): void {
     this.generatorCore.addTrainingData(texts, theme);
+    if (this.options.debug) {
+      console.log(`[RPGEventGenerator] Added ${texts.length} custom training data entries${theme ? ` with theme '${theme}'` : ''}`);
+    }
   }
 
   generateTimeAwareEvent(context: PlayerContext = {}): Event {
@@ -671,9 +814,6 @@ export class RPGEventGenerator {
   registerEventDependency(eventId: string, dependency: any): void {
     if (!this.enableRuleEngine) return;
 
-    // Handle dependency structure correctly
-    // If dependency has operator and conditions, use the conditions directly
-    // Otherwise, treat the dependency as a single condition
     const conditions = dependency.operator && dependency.conditions
       ? dependency.conditions
       : [dependency];
@@ -714,14 +854,14 @@ export class RPGEventGenerator {
    * Scale effects for difficulty (backward compatibility - stub)
    */
   scaleEffectsForDifficulty(effects: any, difficulty: string): any {
-    return effects; // Stub implementation - return effects unchanged
+    return effects;
   }
 
   /**
    * Calculate difficulty tier (backward compatibility - stub)
    */
   calculateDifficultyTier(powerLevel: number): string {
-    return 'normal'; // Stub implementation - return normal
+    return 'normal';
   }
 
   /**
@@ -835,9 +975,7 @@ export class RPGEventGenerator {
   // ===== PARALLEL GENERATION METHODS =====
 
   async generateEventsParallel(count: number, context: PlayerContext = {}, options: { maxWorkers?: number } = {}): Promise<Event[]> {
-    // Check if we're in a Node.js environment that supports workers
     if (!Worker || !osModule) {
-      // Fallback to sequential generation for React Native and other environments
       console.warn('Parallel generation not supported in this environment. Falling back to sequential generation.');
       const events: Event[] = [];
       for (let i = 0; i < count; i++) {
@@ -847,26 +985,35 @@ export class RPGEventGenerator {
       return events;
     }
 
-    const maxWorkers = options.maxWorkers || Math.min(osModule.cpus().length, 4);
-    const eventsPerWorker = Math.ceil(count / maxWorkers);
+    try {
+      const maxWorkers = options.maxWorkers || Math.min(osModule.cpus().length, 4);
+      const eventsPerWorker = Math.ceil(count / maxWorkers);
 
-    const workerPromises: Promise<Event[]>[] = [];
+      const workerPromises: Promise<Event[]>[] = [];
 
-    for (let i = 0; i < maxWorkers; i++) {
-      const startIndex = i * eventsPerWorker;
-      const endIndex = Math.min((i + 1) * eventsPerWorker, count);
-      const workerCount = endIndex - startIndex;
+      for (let i = 0; i < maxWorkers; i++) {
+        const startIndex = i * eventsPerWorker;
+        const endIndex = Math.min((i + 1) * eventsPerWorker, count);
+        const workerCount = endIndex - startIndex;
 
-      if (workerCount > 0) {
-        workerPromises.push(this.spawnEventGenerationWorker(workerCount, context));
+        if (workerCount > 0) {
+          workerPromises.push(this.spawnEventGenerationWorker(workerCount, context));
+        }
       }
+
+      const workerResults = await Promise.all(workerPromises);
+      const allEvents = workerResults.flat();
+
+      return allEvents.slice(0, count);
+    } catch (error) {
+      console.warn('Worker loading failed, falling back to sequential generation:', error instanceof Error ? error.message : String(error));
+      const events: Event[] = [];
+      for (let i = 0; i < count; i++) {
+        const event = await this.generateEvent(context);
+        events.push(event);
+      }
+      return events;
     }
-
-    const workerResults = await Promise.all(workerPromises);
-    const allEvents = workerResults.flat();
-
-    // Return only the requested number of events
-    return allEvents.slice(0, count);
   }
 
   private async spawnEventGenerationWorker(count: number, context: PlayerContext): Promise<Event[]> {
@@ -915,10 +1062,7 @@ export class RPGEventGenerator {
         events.push(event);
       }
 
-      // Optional: Add small delay between batches to prevent blocking
       if (batch < batches - 1) {
-        // In a real implementation, you might want to use setImmediate or similar
-        // For now, we'll just continue synchronously
       }
     }
 
@@ -934,7 +1078,6 @@ export class RPGEventGenerator {
       await this.templateDatabase.initialize(databaseAdapter);
       this.templateSystem.setDatabase(this.templateDatabase);
 
-      // Load existing templates from database
       await this.templateSystem.loadTemplatesFromDatabase();
     } catch (error) {
       console.warn('Database initialization failed, continuing without database:', error);
@@ -945,10 +1088,8 @@ export class RPGEventGenerator {
     try {
       const databaseAdapter = adapter || new MemoryDatabaseAdapter();
       this.templateDatabase = new TemplateDatabase();
-      // For memory adapter, we can do synchronous initialization
       if (databaseAdapter instanceof MemoryDatabaseAdapter) {
         databaseAdapter.connect();
-        // Note: This is still async, but for memory adapter it should work synchronously
         this.templateDatabase.initialize(databaseAdapter).then(() => {
           this.templateSystem.setDatabase(this.templateDatabase!);
           this.templateSystem.loadTemplatesFromDatabase();
@@ -1021,7 +1162,7 @@ export class RPGEventGenerator {
    */
   getOptimalWorkerCount(): number {
     if (!Worker || !osModule) {
-      return 1; // React Native fallback
+      return 1;
     }
     return Math.min(osModule.cpus().length, 4);
   }

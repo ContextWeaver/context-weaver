@@ -26,6 +26,7 @@ export interface GeneratorOptions {
   aiEnhancement?: AIEnhancementOptions;
   enableDatabase?: boolean;
   databaseAdapter?: any;
+  debug?: boolean; // Enable debug logging
 }
 
 // Markov generator types
