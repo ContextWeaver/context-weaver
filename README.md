@@ -207,7 +207,7 @@ const simulation = researchGenerator.generateEvent({
 });
 ```
 
-## 🆕 Latest Features (v3.0.2)
+## 🆕 Latest Features (v3.1.0)
 
 ### Database Integration
 Store and retrieve templates from databases for large-scale applications:

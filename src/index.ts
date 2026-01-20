@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.2 - Main Entry Point
+// RPG Event Generator v3.1.0 - Main Entry Point
 // Clean composition-based architecture with full backward compatibility
 
 import { RPGEventGenerator as ModularRPGEventGenerator } from './RPGEventGenerator';
