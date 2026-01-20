@@ -1,7 +1,7 @@
 // RPG Event Generator v3.0.0 - Environment Compatibility Tests
 // Tests cross-platform compatibility between Node.js and React Native
 
-const { RPGEventGenerator } = require('../dist/index.js');
+const { RPGEventGenerator } = require('../src/RPGEventGenerator');
 
 describe('Environment Compatibility', () => {
   let generator;
@@ -22,7 +22,6 @@ describe('Environment Compatibility', () => {
     });
 
     it('should support parallel event generation in Node.js', async () => {
-      // Should not throw when calling parallel generation
       const events = await generator.generateEventsParallel(2);
       expect(events).toHaveLength(2);
       expect(events.every(event => event.type)).toBe(true);
@@ -43,26 +42,19 @@ describe('Environment Compatibility', () => {
 
   describe('React Native Simulation', () => {
     it('should demonstrate fallback behavior when Node.js modules unavailable', async () => {
-      // Test the fallback logic by calling parallel generation
-      // In a real React Native environment, this would automatically fall back
-      // Here we test that the fallback logic works when called
-
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      // The parallel generation should work (may or may not warn depending on actual env)
       const events = await generator.generateEventsParallel(2);
 
       expect(events).toHaveLength(2);
       expect(events.every(event => event.type)).toBe(true);
 
-      // Restore console
       consoleSpy.mockRestore();
     });
 
     it('should handle template generation correctly', () => {
-      // Test template-based generation
       const event = generator.generateFromTemplate('nonexistent');
-      expect(event).toBeNull(); // Should return null for nonexistent templates
+      expect(event).toBeNull();
     });
 
     it('should support multiple event generation', () => {
@@ -77,7 +69,6 @@ describe('Environment Compatibility', () => {
 
   describe('Cross-platform API Consistency', () => {
     it('should maintain consistent core API across environments', () => {
-      // Core methods should always be available
       expect(typeof generator.generateEvent).toBe('function');
       expect(typeof generator.generateEvents).toBe('function');
       expect(typeof generator.generateFromTemplate).toBe('function');
@@ -94,14 +85,13 @@ describe('Environment Compatibility', () => {
 
       expect(event1).toBeDefined();
       expect(event2).toBeDefined();
-      // Events might be different but should have consistent structure
       expect(event1.type).toBeDefined();
       expect(event2.type).toBeDefined();
     });
 
     it('should support various event types', () => {
       const validTypes = ['ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MYSTERY',
-                         'POLITICAL', 'QUEST', 'SOCIAL', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'];
+      'POLITICAL', 'QUEST', 'SOCIAL', 'SUPERNATURAL', 'TECHNOLOGICAL', 'HORROR'];
 
       for (let i = 0; i < 10; i++) {
         const event = generator.generateEvent();

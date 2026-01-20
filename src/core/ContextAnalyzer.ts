@@ -5,14 +5,44 @@ import { PlayerContext, AnalyzedContext } from '../types';
 import { IContextAnalyzer } from '../interfaces';
 import { DEFAULT_CONTEXT } from '../utils';
 
+export type ContextHandler = (
+  context: PlayerContext,
+  analyzedContext: AnalyzedContext
+) => {
+  difficultyModifier?: number;
+  rewardModifier?: number;
+  eventTypePreferences?: string[];
+  customTags?: string[];
+  [key: string]: any;
+};
+
 export class ContextAnalyzer implements IContextAnalyzer {
+  private customHandlers: Map<string, ContextHandler> = new Map();
+  private knownProperties: Set<string> = new Set([
+    'age', 'gold', 'influence', 'wealth', 'skills', 'level', 'reputation',
+    'power_level', 'career', 'health', 'tags', 'relationships', 'location',
+    'season', 'stress', 'happiness', 'karma', 'faith', 'vices', 'secrets',
+    'ambitions', 'social_standing', 'life_experience', 'knowledge'
+  ]);
+
+  registerHandler(propertyName: string, handler: ContextHandler): void {
+    this.customHandlers.set(propertyName, handler);
+  }
+
+  unregisterHandler(propertyName: string): boolean {
+    return this.customHandlers.delete(propertyName);
+  }
+
+  getHandlers(): string[] {
+    return Array.from(this.customHandlers.keys());
+  }
   /**
    * Analyze and normalize player context
    */
   analyzeContext(playerContext: PlayerContext = {}): AnalyzedContext {
     const ctx = { ...DEFAULT_CONTEXT, ...playerContext };
 
-    return {
+    const analyzed: AnalyzedContext = {
       ...ctx,
       powerLevel: this.calculatePowerLevel(ctx),
       wealthTier: this.determineWealthTier(ctx.gold || 0),
@@ -22,6 +52,8 @@ export class ContextAnalyzer implements IContextAnalyzer {
       careerPath: ctx.career || 'adventurer',
       personality: this.inferPersonality(ctx)
     };
+
+    return analyzed;
   }
 
   /**
@@ -126,27 +158,29 @@ export class ContextAnalyzer implements IContextAnalyzer {
     difficultyModifier: number;
     rewardModifier: number;
     eventTypePreferences: string[];
+    customTags?: string[];
+    [key: string]: any;
   } {
     const { wealthTier, influenceTier, lifeStage, personality } = analyzedContext;
 
     let difficultyModifier = 0;
     let rewardModifier = 1.0;
     const eventTypePreferences: string[] = [];
+    const customTags: string[] = [];
+    const customModifiers: { [key: string]: any } = {};
 
-    // Wealth-based modifiers
     switch (wealthTier) {
       case 'poor':
-        difficultyModifier += 0.2; // Harder events for poor players
-        rewardModifier *= 1.3; // Better rewards
+        difficultyModifier += 0.2;
+        rewardModifier *= 1.3;
         eventTypePreferences.push('ECONOMIC', 'QUEST');
         break;
       case 'rich':
-        difficultyModifier -= 0.1; // Easier events for rich players
+        difficultyModifier -= 0.1;
         eventTypePreferences.push('POLITICAL', 'SOCIAL');
         break;
     }
 
-    // Influence-based modifiers
     switch (influenceTier) {
       case 'elite':
         eventTypePreferences.push('POLITICAL', 'ROYAL');
@@ -156,19 +190,17 @@ export class ContextAnalyzer implements IContextAnalyzer {
         break;
     }
 
-    // Life stage modifiers
     switch (lifeStage) {
       case 'youth':
-        difficultyModifier -= 0.1; // Easier for young
+        difficultyModifier -= 0.1;
         eventTypePreferences.push('ADVENTURE', 'EXPLORATION');
         break;
       case 'elder':
-        difficultyModifier += 0.1; // Harder for elders
+        difficultyModifier += 0.1;
         eventTypePreferences.push('POLITICAL', 'MENTORSHIP');
         break;
     }
 
-    // Personality modifiers
     if (personality.riskTolerance > 0.7) {
       eventTypePreferences.push('COMBAT', 'DANGER');
     }
@@ -176,10 +208,105 @@ export class ContextAnalyzer implements IContextAnalyzer {
       eventTypePreferences.push('SOCIAL', 'DIPLOMACY');
     }
 
+    Object.keys(analyzedContext).forEach(key => {
+      if (!this.knownProperties.has(key) && 
+          !['powerLevel', 'wealthTier', 'influenceTier', 'skillProfile', 'lifeStage', 'careerPath', 'personality'].includes(key)) {
+        const value = analyzedContext[key];
+        
+        if (typeof value === 'number' && value > 0) {
+          const keyLower = key.toLowerCase();
+          if (keyLower.includes('magic') || keyLower.includes('mana') || keyLower.includes('spell')) {
+            eventTypePreferences.push('MAGIC', 'SPELLCASTING');
+            customTags.push(key.toUpperCase());
+          } else if (keyLower.includes('stealth') || keyLower.includes('agility') || keyLower.includes('speed')) {
+            const normalizedValue = Math.min(value / 100, 1);
+            difficultyModifier -= normalizedValue * 0.05;
+            rewardModifier *= (1 + normalizedValue * 0.2);
+            customTags.push(key.toUpperCase());
+          } else if (keyLower.includes('reputation') || keyLower.includes('fame') || keyLower.includes('honor')) {
+            if (value > 50) {
+              eventTypePreferences.push('POLITICAL', 'SOCIAL');
+            } else if (value < -50) {
+              eventTypePreferences.push('UNDERWORLD', 'CRIMINAL');
+            }
+            customTags.push(key.toUpperCase());
+          } else if (keyLower.includes('power') || keyLower.includes('strength') || (keyLower.includes('level') && !keyLower.includes('stealth'))) {
+            const normalizedValue = Math.min(value / 100, 1);
+            difficultyModifier += normalizedValue * 0.1;
+            customTags.push(key.toUpperCase());
+          }
+        } else if (typeof value === 'string' && value.length > 0) {
+          if (key.toLowerCase().includes('class') || key.toLowerCase().includes('race') || key.toLowerCase().includes('profession')) {
+            customTags.push(value.toUpperCase().replace(/\s+/g, '_'));
+            eventTypePreferences.push(value.toUpperCase());
+          } else if (key.toLowerCase().includes('location') || key.toLowerCase().includes('biome') || key.toLowerCase().includes('region')) {
+            customTags.push(value.toUpperCase().replace(/\s+/g, '_'));
+          } else if (key.toLowerCase().includes('weather') || key.toLowerCase().includes('season') || key.toLowerCase().includes('time')) {
+            customTags.push(value.toUpperCase().replace(/\s+/g, '_'));
+          }
+        } else if (Array.isArray(value) && value.length > 0) {
+          if (key.toLowerCase().includes('inventory') || key.toLowerCase().includes('items')) {
+            customTags.push('HAS_ITEMS');
+            value.forEach(item => {
+              if (typeof item === 'string') {
+                customTags.push(item.toUpperCase().replace(/\s+/g, '_'));
+              }
+            });
+          } else if (key.toLowerCase().includes('tags') || key.toLowerCase().includes('labels')) {
+            customTags.push(...value.map(v => String(v).toUpperCase().replace(/\s+/g, '_')));
+          }
+        } else if (typeof value === 'object' && value !== null) {
+          customTags.push(key.toUpperCase());
+          Object.keys(value).forEach(subKey => {
+            const subValue = value[subKey];
+            if (typeof subValue === 'number' && subValue > 0) {
+              customModifiers[`${key}_${subKey}`] = subValue;
+            } else if (typeof subValue === 'string') {
+              customTags.push(`${key}_${subKey}`.toUpperCase().replace(/\s+/g, '_'));
+            }
+          });
+        } else {
+          customTags.push(key.toUpperCase());
+          if (value !== null && value !== undefined) {
+            customModifiers[key] = value;
+          }
+        }
+      }
+    });
+
+    this.customHandlers.forEach((handler, propertyName) => {
+      try {
+        const result = handler(analyzedContext, analyzedContext);
+        
+        if (result.difficultyModifier !== undefined) {
+          difficultyModifier += result.difficultyModifier;
+        }
+        if (result.rewardModifier !== undefined) {
+          rewardModifier *= result.rewardModifier;
+        }
+        if (result.eventTypePreferences) {
+          eventTypePreferences.push(...result.eventTypePreferences);
+        }
+        if (result.customTags) {
+          customTags.push(...result.customTags);
+        }
+        
+        Object.keys(result).forEach(key => {
+          if (!['difficultyModifier', 'rewardModifier', 'eventTypePreferences', 'customTags'].includes(key)) {
+            customModifiers[key] = result[key];
+          }
+        });
+      } catch (error) {
+        console.warn(`Error in custom context handler for ${propertyName}:`, error);
+      }
+    });
+
     return {
       difficultyModifier,
       rewardModifier,
-      eventTypePreferences
+      eventTypePreferences,
+      ...(customTags.length > 0 && { customTags }),
+      ...customModifiers
     };
   }
 

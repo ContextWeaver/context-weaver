@@ -1,4 +1,4 @@
-const { RPGEventGenerator } = require('../dist');
+const { RPGEventGenerator } = require('../src/RPGEventGenerator');
 
 describe('RPG Event Generator', () => {
   let generator;
@@ -89,7 +89,7 @@ describe('RPG Event Generator', () => {
 
   describe('Convenience Functions', () => {
     test('generateRPGEvent should work', () => {
-      const { generateRPGEvent } = require('../dist');
+      const { generateRPGEvent } = require('../src/index');
       const event = generateRPGEvent({
         age: 25,
         gold: 500,
@@ -114,7 +114,6 @@ describe('RPG Event Generator', () => {
 
   describe('Training Data', () => {
     test('should handle training data', () => {
-      // Training data functionality is available through the options
       const genWithData = new RPGEventGenerator({
         trainingData: ['Custom training data']
       });

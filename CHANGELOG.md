@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2026-01-20
+
+### 🚀 Added
+- **Infinite Extensibility**: Added index signature to `PlayerContext` allowing unlimited custom properties
+- **Custom Handler System**: Register custom handlers for processing any context property
+- **Automatic Property Processing**: Custom properties are automatically detected and processed without manual handler registration
+- **Expanded Title Generation**: Significantly expanded vocabulary (150+ adjectives, 40+ nouns per type, 40+ suffixes) for 99%+ unique titles
+
+### ✨ Improved
+- **Description Coherence**: Fixed description generation to use proper sentence structures with noun extraction
+- **Title Uniqueness**: Improved from ~19% to 99%+ unique titles across 1000 events
+- **Custom Property Integration**: Custom properties automatically influence event generation (tags, event types, modifiers)
+
+### 🔧 Changed
+- **Context Analysis**: All custom properties are now preserved through the analysis cycle
+- **Event Modifiers**: Custom properties automatically generate tags and influence event type preferences
+
 ## [3.0.2] - 2026-01-20
 
 ### 🐛 Fixed

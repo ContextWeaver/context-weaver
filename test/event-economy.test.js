@@ -2,14 +2,12 @@ const EventEconomy = require('../dist/scripts/event-economy');
 const fs = require('fs');
 const path = require('path');
 
-// Use a temporary directory for tests
 const testDir = path.join(__dirname, 'temp-economy-test');
 
 describe('EventEconomy', () => {
   let economy;
 
   beforeEach(() => {
-    // Clean up before each test
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true, force: true });
     }
@@ -17,7 +15,6 @@ describe('EventEconomy', () => {
   });
 
   afterEach(() => {
-    // Clean up after each test
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true, force: true });
     }
@@ -38,7 +35,6 @@ describe('EventEconomy', () => {
       expect(fs.existsSync(path.join(customPath, 'rules'))).toBe(true);
       expect(fs.existsSync(path.join(customPath, 'packs'))).toBe(true);
 
-      // Cleanup
       fs.rmSync(customPath, { recursive: true, force: true });
     });
   });
@@ -204,7 +200,6 @@ describe('EventEconomy', () => {
     });
 
     test('should import theme successfully', () => {
-      // Create a theme file to import (in the format that saveTheme outputs)
       const importData = {
         name: 'ImportedTheme',
         version: '1.0.0',
@@ -239,7 +234,6 @@ describe('EventEconomy', () => {
 
   describe('Statistics', () => {
     test('should return correct statistics', () => {
-      // Add some test data
       economy.saveTheme('Theme1', {
         author: 'Author1',
         theme: 'fantasy',
@@ -287,13 +281,12 @@ describe('EventEconomy', () => {
       };
 
       const quality = economy.calculateThemeQuality(highQualityTheme);
-      expect(quality).toBeGreaterThan(30); // Should be reasonably high
+      expect(quality).toBeGreaterThan(30);
     });
   });
 
   describe('CLI Functionality', () => {
     test('should have CLI interface', () => {
-      // Test that the main function exists (can't easily test CLI without mocking process.argv)
       expect(typeof economy.getStatistics).toBe('function');
       expect(typeof economy.listThemes).toBe('function');
     });

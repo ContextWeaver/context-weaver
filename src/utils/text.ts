@@ -23,7 +23,7 @@ export function titleCase(str: string): string {
  */
 export function camelCase(str: string): string {
   return str
-    .replace(/[-_](.)/g, (_, letter) => letter.toUpperCase())
+    .replace(/[\s_-]+(.)/g, (_, letter) => letter.toUpperCase())
     .replace(/^(.)/, (_, letter) => letter.toLowerCase());
 }
 
@@ -32,7 +32,7 @@ export function camelCase(str: string): string {
  */
 export function pascalCase(str: string): string {
   return str
-    .replace(/[-_](.)/g, (_, letter) => letter.toUpperCase())
+    .replace(/[\s_-]+(.)/g, (_, letter) => letter.toUpperCase())
     .replace(/^(.)/, (_, letter) => letter.toUpperCase());
 }
 

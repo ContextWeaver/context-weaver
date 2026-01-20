@@ -24,22 +24,22 @@ export const TIME_CONSTANTS = {
 // Difficulty scaling constants
 export const DIFFICULTY_SETTINGS = {
   easy: {
-    powerRange: [0, 50] as [number, number],
+    powerRange: [0, 39] as [number, number],
     rewardMultiplier: 1.5,
     penaltyMultiplier: 0.7
   },
   normal: {
-    powerRange: [25, 150] as [number, number],
+    powerRange: [40, 79] as [number, number],
     rewardMultiplier: 1.0,
     penaltyMultiplier: 1.0
   },
   hard: {
-    powerRange: [100, 300] as [number, number],
+    powerRange: [80, 94] as [number, number],
     rewardMultiplier: 0.8,
     penaltyMultiplier: 1.3
   },
   legendary: {
-    powerRange: [250, 1000] as [number, number],
+    powerRange: [95, 100] as [number, number],
     rewardMultiplier: 0.6,
     penaltyMultiplier: 1.6
   }

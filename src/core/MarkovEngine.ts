@@ -115,6 +115,40 @@ export class MarkovEngine implements IMarkovEngine {
       filteredData = themeIndices.map(i => this.data[i]).filter(Boolean);
     }
 
+    // Filter by title keywords if provided (for coherence)
+    if (context.titleKeywords && context.titleKeywords.length > 0) {
+      const keywordFiltered = filteredData.filter(text => {
+        const textLower = text.toLowerCase();
+        return context.titleKeywords.some((keyword: string) => 
+          textLower.includes(keyword.toLowerCase())
+        );
+      });
+      
+      // Use keyword-filtered data if we have enough, otherwise mix with original
+      if (keywordFiltered.length >= 3) {
+        filteredData = keywordFiltered;
+      } else if (keywordFiltered.length > 0) {
+        // Mix keyword matches with general data
+        filteredData = [...keywordFiltered, ...filteredData.slice(0, Math.max(5, filteredData.length / 2))];
+      }
+    }
+
+    // Filter by type if provided
+    if (context.type) {
+      const typeFiltered = filteredData.filter(text => {
+        const textLower = text.toLowerCase();
+        const typeLower = context.type.toLowerCase();
+        return textLower.includes(typeLower) || 
+               (typeLower === 'combat' && (textLower.includes('battle') || textLower.includes('fight'))) ||
+               (typeLower === 'social' && (textLower.includes('meet') || textLower.includes('talk'))) ||
+               (typeLower === 'exploration' && (textLower.includes('discover') || textLower.includes('explore')));
+      });
+      
+      if (typeFiltered.length >= 2) {
+        filteredData = typeFiltered;
+      }
+    }
+
     // Weight generation based on context
     if (context.powerLevel > 50) {
       // Higher power level - prefer more complex narratives
@@ -127,7 +161,11 @@ export class MarkovEngine implements IMarkovEngine {
 
     // Temporarily replace data for generation
     const originalData = this.data;
+    const originalChain = new Map(this.chain);
+    
+    // Rebuild chain with filtered data for better contextual generation
     this.data = filteredData;
+    this.buildChain();
 
     try {
       const result = this.generate({
@@ -136,7 +174,9 @@ export class MarkovEngine implements IMarkovEngine {
       });
       return result;
     } finally {
+      // Restore original data and chain
       this.data = originalData;
+      this.chain = originalChain;
     }
   }
 

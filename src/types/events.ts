@@ -42,16 +42,17 @@ export interface PlayerContext {
   relationships?: any;
   location?: any;
   season?: any;
-  stress?: any;
-  happiness?: any;
-  karma?: any;
-  faith?: any;
+  stress?: number;
+  happiness?: number;
+  karma?: number;
+  faith?: number;
   vices?: any;
   secrets?: any;
   ambitions?: any;
   social_standing?: any;
   life_experience?: any;
   knowledge?: any;
+  [key: string]: any;
 }
 
 export interface TimeInfo {
