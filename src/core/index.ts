@@ -5,3 +5,6 @@ export { MarkovEngine, type MarkovOptions, type MarkovResult } from './MarkovEng
 export { ContextAnalyzer } from './ContextAnalyzer';
 export { GeneratorCore, type GeneratorOptions } from './GeneratorCore';
 export { DifficultyScaler, type DifficultyTier, type ScaledChoice, type DifficultyAnalysis } from './DifficultyScaler';
+export { SentenceBuilder, type SentenceComponent, type SentenceStructure } from './SentenceBuilder';
+export { GrammarRulesEngine, type GrammarRule, type EventTypeGrammarConfig } from './GrammarRulesEngine';
+export { DescriptionFragmentLibrary, type Fragment, type FragmentLibrary } from './DescriptionFragmentLibrary';
