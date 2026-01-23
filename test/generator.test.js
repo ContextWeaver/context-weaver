@@ -39,8 +39,8 @@ describe('RPG Event Generator', () => {
     });
 
     test('should use valid event types', () => {
-      const validTypes = ['ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MYSTERY',
-                         'POLITICAL', 'QUEST', 'SOCIAL', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'];
+      const validTypes = ['ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MAGIC', 'MYSTERY',
+                         'POLITICAL', 'QUEST', 'SOCIAL', 'SPELLCASTING', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'];
 
       for (let i = 0; i < 20; i++) {
         const event = generator.generateEvent();

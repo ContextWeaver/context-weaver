@@ -2,7 +2,7 @@
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["src/index.ts"],
   "out": "docs",
-  "name": "RPG Event Generator v3.1.0",
+  "name": "RPG Event Generator v4.0.0",
   "includeVersion": true,
   "exclude": ["**/node_modules/**", "**/dist/**", "**/test/**"],
   "excludePrivate": true,

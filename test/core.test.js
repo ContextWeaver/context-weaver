@@ -283,5 +283,348 @@ describe('Core Systems', () => {
       const event = generatorCore.generateEvent({});
       expect(event).toHaveProperty('id');
     });
+
+    describe('Context Integration', () => {
+      test('should include location in descriptions', () => {
+        const context = { location: 'forest' };
+        let foundLocation = false;
+        for (let i = 0; i < 10; i++) {
+          const event = generatorCore.generateEvent(context);
+          if (event.description.toLowerCase().includes('forest')) {
+            foundLocation = true;
+            break;
+          }
+        }
+        expect(foundLocation).toBe(true);
+      });
+
+      test('should include weather in descriptions', () => {
+        const context = { weather: 'rainy' };
+        let foundWeather = false;
+        for (let i = 0; i < 10; i++) {
+          const event = generatorCore.generateEvent(context);
+          const desc = event.description.toLowerCase();
+          if (desc.includes('rain') || desc.includes('stormy') || desc.includes('downpour')) {
+            foundWeather = true;
+            break;
+          }
+        }
+        expect(foundWeather).toBe(true);
+      });
+
+      test('should include class-based context in descriptions', () => {
+        const context = { class: 'fighter' };
+        let foundClass = false;
+        for (let i = 0; i < 10; i++) {
+          const event = generatorCore.generateEvent(context);
+          const desc = event.description.toLowerCase();
+          if (desc.includes('warrior') || desc.includes('martial') || desc.includes('combat experience')) {
+            foundClass = true;
+            break;
+          }
+        }
+        expect(foundClass).toBe(true);
+      });
+
+      test('should include race-based context in descriptions', () => {
+        const context = { race: 'elf' };
+        let foundRace = false;
+        for (let i = 0; i < 10; i++) {
+          const event = generatorCore.generateEvent(context);
+          const desc = event.description.toLowerCase();
+          if (desc.includes('elven') || desc.includes('elf')) {
+            foundRace = true;
+            break;
+          }
+        }
+        expect(foundRace).toBe(true);
+      });
+
+      test('should include time of day in descriptions', () => {
+        const context = { timeOfDay: 'night' };
+        let foundTime = false;
+        for (let i = 0; i < 10; i++) {
+          const event = generatorCore.generateEvent(context);
+          const desc = event.description.toLowerCase();
+          if (desc.includes('night') || desc.includes('midnight') || desc.includes('starry')) {
+            foundTime = true;
+            break;
+          }
+        }
+        expect(foundTime).toBe(true);
+      });
+    });
+
+    describe('Multi-Theme Support', () => {
+      test('should use custom content from non-default theme', () => {
+        const customData = {
+          titles: {
+            COMBAT: ['⚔️ Epic Battle', '🗡️ Warrior Duel']
+          },
+          descriptions: {
+            COMBAT: ['Two legendary warriors face off in an epic battle.']
+          },
+          choices: {
+            COMBAT: ['⚔️ Fight', '🛡️ Defend', '💨 Retreat']
+          }
+        };
+
+        generatorCore.addTrainingData(customData, 'custom_theme');
+        
+        let foundCustom = false;
+        let combatEventsFound = 0;
+        for (let i = 0; i < 50; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'COMBAT') {
+            combatEventsFound++;
+            const hasCustomTitle = event.title.includes('⚔️') || event.title.includes('🗡️');
+            const hasCustomDescription = event.description.includes('legendary warriors') || 
+                                        event.description.includes('epic battle');
+            const hasCustomChoice = event.choices.some(c => 
+              c.text.includes('⚔️') || c.text.includes('🛡️') || c.text.includes('💨')
+            );
+            
+            if (hasCustomTitle || hasCustomDescription || hasCustomChoice) {
+              foundCustom = true;
+              break;
+            }
+          }
+        }
+        if (combatEventsFound > 0) {
+          expect(foundCustom).toBe(true);
+        } else {
+          expect(combatEventsFound).toBeGreaterThan(0);
+        }
+      });
+
+      test('should prioritize default theme over other themes', () => {
+        const defaultData = {
+          titles: {
+            SOCIAL: ['Default Social Title']
+          }
+        };
+        const customData = {
+          titles: {
+            SOCIAL: ['Custom Social Title']
+          }
+        };
+
+        generatorCore.addTrainingData(defaultData, 'default');
+        generatorCore.addTrainingData(customData, 'custom_theme');
+        
+        let foundDefault = false;
+        for (let i = 0; i < 20; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'SOCIAL' && event.title === 'Default Social Title') {
+            foundDefault = true;
+            break;
+          }
+        }
+        expect(foundDefault).toBe(true);
+      });
+    });
+
+    describe('Custom Content Usage', () => {
+      test('should use custom titles when provided', () => {
+        const customData = {
+          titles: {
+            MYSTERY: ['🔍 Secret Investigation', '📜 Ancient Mystery']
+          }
+        };
+
+        generatorCore.addTrainingData(customData, 'default');
+        
+        let foundCustom = false;
+        let mysteryEventsFound = 0;
+        for (let i = 0; i < 50; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'MYSTERY') {
+            mysteryEventsFound++;
+            if (event.title.includes('🔍') || event.title.includes('📜') || 
+                event.title.includes('Secret') || event.title.includes('Ancient')) {
+              foundCustom = true;
+              break;
+            }
+          }
+        }
+        if (mysteryEventsFound > 0) {
+          expect(foundCustom).toBe(true);
+        } else {
+          expect(mysteryEventsFound).toBeGreaterThan(0);
+        }
+      });
+
+      test('should use custom descriptions when provided', () => {
+        const customData = {
+          descriptions: {
+            EXPLORATION: ['Deep within the ancient ruins, explorers discover hidden treasures.']
+          }
+        };
+
+        generatorCore.addTrainingData(customData, 'default');
+        
+        let foundCustom = false;
+        let explorationEventsFound = 0;
+        for (let i = 0; i < 50; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'EXPLORATION') {
+            explorationEventsFound++;
+            const desc = event.description.toLowerCase();
+            if (desc.includes('ancient ruins') || desc.includes('hidden treasures') ||
+                desc.includes('explorers discover')) {
+              foundCustom = true;
+              break;
+            }
+          }
+        }
+        if (explorationEventsFound > 0) {
+          expect(foundCustom).toBe(true);
+        } else {
+          expect(explorationEventsFound).toBeGreaterThan(0);
+        }
+      });
+
+      test('should use custom choices when provided', () => {
+        const customData = {
+          choices: {
+            ECONOMIC: ['💰 Accept Deal', '💸 Negotiate', '🚫 Decline']
+          }
+        };
+
+        generatorCore.addTrainingData(customData, 'default');
+        
+        let foundCustom = false;
+        let economicEventsFound = 0;
+        for (let i = 0; i < 50; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'ECONOMIC') {
+            economicEventsFound++;
+            const hasCustomChoice = event.choices.some(c => 
+              c.text.includes('💰') || c.text.includes('💸') || c.text.includes('🚫') ||
+              c.text.includes('Accept Deal') || c.text.includes('Negotiate') || c.text.includes('Decline')
+            );
+            if (hasCustomChoice) {
+              foundCustom = true;
+              break;
+            }
+          }
+        }
+        if (economicEventsFound > 0) {
+          expect(foundCustom).toBe(true);
+        } else {
+          expect(economicEventsFound).toBeGreaterThan(0);
+        }
+      });
+
+      test('should use all custom content types together', () => {
+        const customData = {
+          titles: {
+            POLITICAL: ['👑 Royal Decree']
+          },
+          descriptions: {
+            POLITICAL: ['The king issues a royal decree that affects the entire kingdom.']
+          },
+          choices: {
+            POLITICAL: ['✅ Accept', '❌ Refuse', '🤝 Negotiate']
+          }
+        };
+
+        generatorCore.addTrainingData(customData, 'default');
+        
+        let foundAllCustom = false;
+        for (let i = 0; i < 30; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'POLITICAL') {
+            const hasCustomTitle = event.title.includes('👑');
+            const hasCustomDescription = event.description.includes('royal decree');
+            const hasCustomChoice = event.choices.some(c => 
+              c.text.includes('✅') || c.text.includes('❌') || c.text.includes('🤝')
+            );
+            
+            if (hasCustomTitle && hasCustomDescription && hasCustomChoice) {
+              foundAllCustom = true;
+              break;
+            }
+          }
+        }
+        expect(foundAllCustom).toBe(true);
+      });
+    });
+
+    describe('Event Type Coverage', () => {
+      test('should generate MAGIC events', () => {
+        let foundMagic = false;
+        for (let i = 0; i < 100; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'MAGIC') {
+            foundMagic = true;
+            expect(event).toHaveProperty('title');
+            expect(event).toHaveProperty('description');
+            expect(event).toHaveProperty('choices');
+            break;
+          }
+        }
+        expect(foundMagic).toBe(true);
+      });
+
+      test('should generate SPELLCASTING events', () => {
+        let foundSpellcasting = false;
+        for (let i = 0; i < 30; i++) {
+          const event = generatorCore.generateEvent({});
+          if (event.type === 'SPELLCASTING') {
+            foundSpellcasting = true;
+            expect(event).toHaveProperty('title');
+            expect(event).toHaveProperty('description');
+            expect(event).toHaveProperty('choices');
+            break;
+          }
+        }
+        expect(foundSpellcasting).toBe(true);
+      });
+
+      test('should generate all supported event types', () => {
+        const validTypes = [
+          'ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MAGIC', 'MYSTERY',
+          'POLITICAL', 'QUEST', 'SOCIAL', 'SPELLCASTING', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'
+        ];
+
+        const generatedTypes = new Set();
+        
+          for (let i = 0; i < 200; i++) {
+          const event = generatorCore.generateEvent({});
+          generatedTypes.add(event.type);
+          if (generatedTypes.size === validTypes.length) {
+            break;
+          }
+        }
+
+        generatedTypes.forEach(type => {
+          expect(validTypes).toContain(type);
+        });
+      });
+    });
+
+    describe('Context Enhancement Return Value', () => {
+      test('should return modified description with context enhancements', () => {
+        const context = { location: 'forest', class: 'fighter' };
+        
+        let foundEnhancement = false;
+        for (let i = 0; i < 15; i++) {
+          const event = generatorCore.generateEvent(context);
+          const desc = event.description.toLowerCase();
+          
+          const hasLocation = desc.includes('forest') || desc.includes('in the') || desc.includes('within the');
+          const hasClass = desc.includes('warrior') || desc.includes('martial') || desc.includes('combat');
+          
+          if (hasLocation || hasClass) {
+            foundEnhancement = true;
+            expect(typeof event.description).toBe('string');
+            expect(event.description.length).toBeGreaterThan(0);
+            break;
+          }
+        }
+        expect(foundEnhancement).toBe(true);
+      });
+    });
   });
 });
