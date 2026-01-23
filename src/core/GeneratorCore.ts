@@ -116,10 +116,10 @@ export class GeneratorCore implements IGeneratorCore {
   /**
    * Add contextual enhancements to descriptions
    */
-  private addContextualEnhancements(description: string, context: AnalyzedContext): void {
+  private addContextualEnhancements(description: string, context: AnalyzedContext): string {
     const contextEnhancements: string[] = [];
 
-    if (context.location && this.chance.bool({ likelihood: 30 })) {
+    if (context.location && this.chance.bool({ likelihood: 70 })) {
       const locationPrefixes = [
         `In the ${context.location}, `,
         `Deep within the ${context.location}, `,
@@ -135,7 +135,7 @@ export class GeneratorCore implements IGeneratorCore {
       contextEnhancements.push(this.chance.pickone(locationPrefixes));
     }
 
-    if (context.weather && this.chance.bool({ likelihood: 25 })) {
+    if (context.weather && this.chance.bool({ likelihood: 60 })) {
       const weatherPrefixes = {
         sunny: [
           'Under the brilliant sun, ',
@@ -184,7 +184,7 @@ export class GeneratorCore implements IGeneratorCore {
       contextEnhancements.push(this.chance.pickone(weatherOptions));
     }
 
-    if (context.timeOfDay && this.chance.bool({ likelihood: 20 })) {
+    if (context.timeOfDay && this.chance.bool({ likelihood: 50 })) {
       const timePrefixes = {
         dawn: [
           'At the break of dawn, ',
@@ -239,7 +239,7 @@ export class GeneratorCore implements IGeneratorCore {
       contextEnhancements.push(this.chance.pickone(timeOptions));
     }
 
-    if ((context.class || context.race) && this.chance.bool({ likelihood: 15 })) {
+    if ((context.class || context.race) && this.chance.bool({ likelihood: 40 })) {
       if (context.class) {
         const classContexts = {
           fighter: ['As a warrior, ', 'In your martial tradition, ', 'Drawing on your combat experience, '],
@@ -267,6 +267,8 @@ export class GeneratorCore implements IGeneratorCore {
       const selectedEnhancement = this.chance.pickone(contextEnhancements);
       description = selectedEnhancement + description.charAt(0).toLowerCase() + description.slice(1);
     }
+    
+    return description;
   }
 
   /**
@@ -281,9 +283,8 @@ export class GeneratorCore implements IGeneratorCore {
    */
   private selectEventType(context: AnalyzedContext): string {
     const types = [
-      'COMBAT', 'SOCIAL', 'EXPLORATION', 'ECONOMIC',
-      'MYSTERY', 'SUPERNATURAL', 'POLITICAL', 'TECHNOLOGICAL',
-      'FIGHTER', 'GUILD', 'UNDERWORLD', 'NECROMANCER', 'MAGE', 'ROGUE', 'CLERIC'
+      'ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MAGIC', 'MYSTERY',
+      'POLITICAL', 'QUEST', 'SOCIAL', 'SPELLCASTING', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'
     ];
 
     return this.chance.pickone(types);
@@ -305,9 +306,14 @@ export class GeneratorCore implements IGeneratorCore {
    * Generate event title - SIMPLE LOOKUP
    */
   private generateTitle(type: string, context: AnalyzedContext): string {
-    const customThemeTitles = this.customTitles['default'];
-    if (customThemeTitles && customThemeTitles[type] && customThemeTitles[type].length > 0) {
-      return this.chance.pickone(customThemeTitles[type]);
+    // Check all available themes for custom titles, prioritizing 'default'
+    const themesToCheck = ['default', ...Object.keys(this.customTitles).filter(k => k !== 'default')];
+    
+    for (const theme of themesToCheck) {
+      const customThemeTitles = this.customTitles[theme];
+      if (customThemeTitles && customThemeTitles[type] && customThemeTitles[type].length > 0) {
+        return this.chance.pickone(customThemeTitles[type]);
+      }
     }
 
     const titles: { [key: string]: string[] } = {
@@ -680,6 +686,48 @@ export class GeneratorCore implements IGeneratorCore {
         'Meditation Practice', 'Contemplation', 'Spiritual Reflection', 'Mindful Prayer',
         'Sacrificial Offering', 'Divine Gift', 'Holy Sacrifice', 'Sacred Donation',
         'Divine Judgment', 'Righteous Verdict', 'Holy Justice', 'Sacred Law'
+      ],
+      ADVENTURE: [
+        'Heroic Quest', 'Epic Journey', 'Legendary Expedition', 'Grand Adventure',
+        'Daring Exploration', 'Brave Expedition', 'Courageous Quest', 'Valiant Journey',
+        'Treasure Hunt', 'Wealth Discovery', 'Fortune Quest', 'Riches Expedition',
+        'Ancient Mystery', 'Forgotten Secret', 'Lost Knowledge', 'Hidden Wisdom',
+        'Monster Slaying', 'Beast Hunting', 'Creature Tracking', 'Wildlife Expedition',
+        'Lost Civilization', 'Ancient Ruins', 'Forgotten Empire', 'Buried Kingdom',
+        'Magical Artifact', 'Enchanted Relic', 'Mystical Treasure', 'Arcane Discovery',
+        'Dragon Lair', 'Monster Den', 'Beast Habitat', 'Creature Domain',
+        'Forbidden Temple', 'Sacred Shrine', 'Holy Sanctuary', 'Divine Chamber',
+        'Underwater City', 'Sunken Kingdom', 'Aquatic Empire', 'Submerged Civilization',
+        'Sky Castle', 'Floating Citadel', 'Aerial Fortress', 'Cloud Palace',
+        'Time Portal', 'Chronal Gateway', 'Temporal Passage', 'Age Rift',
+        'Dimension Door', 'Reality Gate', 'Planar Portal', 'World Bridge',
+        'Legendary Weapon', 'Heroic Blade', 'Mythical Sword', 'Epic Artifact',
+        'Ancient Prophecy', 'Fateful Prediction', 'Destined Quest', 'Chosen Journey',
+        'Guardian Challenge', 'Protector Trial', 'Defender Quest', 'Sentinel Mission',
+        'Elemental Trial', 'Nature Test', 'Force Challenge', 'Power Quest',
+        'Spirit Journey', 'Soul Quest', 'Essence Expedition', 'Life Force Mission'
+      ],
+      QUEST: [
+        'Sacred Mission', 'Divine Task', 'Holy Quest', 'Blessed Journey',
+        'Royal Assignment', 'King\'s Command', 'Monarch\'s Request', 'Sovereign Mission',
+        'Guild Contract', 'Professional Assignment', 'Trade Guild Quest', 'Craft Mission',
+        'Personal Vendetta', 'Revenge Quest', 'Justice Mission', 'Retribution Journey',
+        'Rescue Operation', 'Save Mission', 'Recovery Quest', 'Liberation Journey',
+        'Investigation Task', 'Inquiry Mission', 'Research Quest', 'Discovery Journey',
+        'Delivery Assignment', 'Transport Mission', 'Courier Quest', 'Delivery Journey',
+        'Escort Duty', 'Protection Mission', 'Guardian Quest', 'Safeguard Journey',
+        'Treasure Recovery', 'Artifact Retrieval', 'Relic Quest', 'Treasure Journey',
+        'Monster Hunt', 'Beast Slaying', 'Creature Quest', 'Monster Journey',
+        'Bandit Clearing', 'Outlaw Hunt', 'Criminal Quest', 'Thief Journey',
+        'Diplomatic Mission', 'Peace Quest', 'Alliance Journey', 'Negotiation Task',
+        'Spy Assignment', 'Intelligence Mission', 'Espionage Quest', 'Secret Journey',
+        'Healing Pilgrimage', 'Cure Quest', 'Restoration Journey', 'Recovery Mission',
+        'Knowledge Seeking', 'Wisdom Quest', 'Learning Journey', 'Education Mission',
+        'Artifact Collection', 'Relic Gathering', 'Treasure Quest', 'Collection Journey',
+        'Time-Sensitive Task', 'Urgent Mission', 'Deadline Quest', 'Rush Journey',
+        'Multi-Stage Mission', 'Complex Quest', 'Extended Journey', 'Epic Mission',
+        'Faction Alliance', 'Group Quest', 'Team Journey', 'Party Mission',
+        'Solo Challenge', 'Personal Quest', 'Individual Journey', 'Lone Mission'
       ]
     };
 
@@ -696,18 +744,23 @@ export class GeneratorCore implements IGeneratorCore {
     type: string,
     context: AnalyzedContext
   ): string {
-    const customThemeDescriptions = this.customDescriptions['default'] || this.customDescriptions['default'];
-    if (customThemeDescriptions && customThemeDescriptions[type] && customThemeDescriptions[type].length > 0) {
-      let description = this.chance.pickone(customThemeDescriptions[type]);
+    // Check all available themes for custom descriptions, prioritizing 'default'
+    const themesToCheck = ['default', ...Object.keys(this.customDescriptions).filter(k => k !== 'default')];
+    
+    for (const theme of themesToCheck) {
+      const customThemeDescriptions = this.customDescriptions[theme];
+      if (customThemeDescriptions && customThemeDescriptions[type] && customThemeDescriptions[type].length > 0) {
+        let description = this.chance.pickone(customThemeDescriptions[type]);
 
-      this.addContextualEnhancements(description, context);
+        description = this.addContextualEnhancements(description, context);
 
-      description = description.trim();
-      if (!/[.!?]$/.test(description)) {
-        description += '.';
+        description = description.trim();
+        if (!/[.!?]$/.test(description)) {
+          description += '.';
+        }
+
+        return description;
       }
-
-      return description;
     }
 
     const descriptions: { [key: string]: string[] } = {
@@ -1271,6 +1324,70 @@ export class GeneratorCore implements IGeneratorCore {
         'Faith healing soothes mind and body, their priests addressing spiritual causes of physical ailments.',
         'Temple politics navigate divine hierarchies, their priests managing relationships between gods and mortals.',
         'Divine magic research explores god-given powers, their scholars pushing boundaries of faith and magic.'
+      ],
+      ADVENTURE: [
+        'The call of adventure beckons as ancient maps reveal forgotten paths leading to legendary destinations where heroes are forged and legends are born.',
+        'Mysterious ruins emerge from the mists of time, their weathered stones whispering secrets of civilizations long lost to the sands of history.',
+        'A legendary artifact pulses with otherworldly energy, promising unimaginable power to those brave enough to claim it from its ancient guardians.',
+        'The wilderness calls with untamed fury, offering both peril and glory to those who dare venture into its uncharted depths and hidden wonders.',
+        'Ancient prophecies speak of a chosen hero destined to undertake a journey that will reshape the world and define the course of history.',
+        'Forgotten temples rise from jungle vines, their sacred chambers containing artifacts of power that could change the balance of nations.',
+        'The ocean depths hide sunken cities of unimaginable wealth, guarded by creatures of nightmare and treasures beyond mortal comprehension.',
+        'Skyward spires pierce the clouds, home to winged beings and floating citadels where the laws of physics bend to magical will.',
+        'Time itself fractures in these ancient lands, creating pockets where past, present, and future collide in spectacular and dangerous ways.',
+        'Elemental forces manifest as living entities, offering alliances, challenges, and powers that could tip the scales of any conflict.',
+        'Spirit realms overlap with the mortal world in these sacred places, allowing communion with beings of pure thought and emotion.',
+        'The very fabric of reality thins here, creating opportunities for planar travel and encounters with entities from other dimensions.',
+        'Legendary beasts roam these wild lands, their hides containing materials that could forge weapons capable of slaying gods.',
+        'Ancient curses and blessings intertwine in these locations, offering power at the cost of destiny and free will.',
+        'The landscape itself seems alive, with trees that whisper secrets and stones that remember the touch of ancient heroes.',
+        'Portals to other worlds shimmer in the air, offering shortcuts to distant lands or pathways to realms of unimaginable danger.',
+        'Sacred groves contain the essence of nature itself, where druids and shamans can commune with the primal forces of creation.',
+        'Volcanic forges in mountain hearts contain metals that can be shaped into artifacts of devastating power and beauty.',
+        'Frozen wastes hide crystal caverns where time crystals allow glimpses of future events and alternate realities.',
+        'Desert sands conceal buried pyramids containing mummies, treasures, and curses that have waited millennia for the unwary.',
+        'Thunderstorms rage eternally in these storm-wracked peaks, where cloud giants hoard lightning-forged weapons of legend.',
+        'Subterranean networks of caves connect the surface world to underworld realms, home to dwarves, dragons, and darker things.',
+        'Floating islands drift through endless skies, containing gardens, castles, and creatures that have never touched the earth.',
+        'Mirror lakes reflect not just the physical world, but alternate realities where different choices led to different fates.',
+        'Crystal formations grow like living sculptures, their structures containing the accumulated wisdom of geological ages.',
+        'Eternal flames burn in sacred hearths, their fires containing the essence of creation and capable of forging divine artifacts.',
+        'Whispering winds carry messages from distant lands, speaking of opportunities, dangers, and destinies yet to be fulfilled.',
+        'Ancient standing stones align with celestial events, creating moments when the barriers between worlds grow thin.',
+        'Living forests contain trees that have witnessed the rise and fall of empires, their bark etched with the stories of ages.',
+        'Coral castles rise from ocean depths, their chambers containing pearls that grant visions of the future and past.'
+      ],
+      QUEST: [
+        'A royal decree summons you to undertake a perilous quest that could determine the fate of the kingdom and its people.',
+        'The guild master presents a contract of legendary difficulty, promising wealth and glory to those who can complete its demands.',
+        'An ancient prophecy foretells your role in a grand quest that will span continents and challenge the very gods themselves.',
+        'A personal tragedy drives you to undertake a quest for vengeance, justice, or redemption that will test your limits.',
+        'Diplomatic negotiations hinge on your ability to complete a dangerous quest that could prevent or ignite a war.',
+        'A loved one\'s life depends on successfully completing this quest, adding emotional weight to every decision and action.',
+        'The fate of an entire village rests on your shoulders as you undertake a quest to save them from impending doom.',
+        'Arcane forces compel you to undertake a quest that could unravel the mysteries of magic itself.',
+        'A legendary artifact can only be obtained through a quest of such difficulty that few have even attempted it.',
+        'Time itself seems to run short as you undertake a quest with a deadline that could doom entire civilizations.',
+        'Multiple factions compete to have you undertake their quest, each offering different rewards and complications.',
+        'A dream visitation from a deity compels you to undertake a sacred quest that could elevate you to legendary status.',
+        'The black market offers a quest of such profitability that it attracts adventurers from across the known world.',
+        'A scholarly pursuit leads to a quest for knowledge so dangerous that it has claimed the lives of previous seekers.',
+        'Environmental disasters can only be averted through a quest to find and activate ancient protective mechanisms.',
+        'Rival adventurers challenge you to quests of increasing difficulty, turning the entire endeavor into a competition.',
+        'A series of connected quests unfolds like a grand tapestry, each completion revealing the next piece of the puzzle.',
+        'The quest requires assembling a team of specialists, each bringing unique skills to overcome different challenges.',
+        'What begins as a simple task evolves into a complex quest spanning multiple continents and cultures.',
+        'The quest\'s true nature is hidden, revealing itself gradually through clues, betrayals, and unexpected alliances.',
+        'Ancient guardians test your worthiness at each stage of the quest, demanding wisdom as much as strength.',
+        'The quest spans generations, requiring you to pass on knowledge and artifacts to ensure its completion.',
+        'Multiple paths exist to complete the quest, each with different risks, rewards, and moral implications.',
+        'The quest requires mastering new skills and abilities, transforming you as much as achieving the goal.',
+        'Political intrigue complicates the quest, with various factions attempting to influence or sabotage your efforts.',
+        'The natural world itself seems to oppose or aid your quest, with weather and wildlife playing crucial roles.',
+        'Technological marvels encountered during the quest offer shortcuts but also present new dangers and temptations.',
+        'The quest requires balancing multiple objectives, forcing difficult choices between competing priorities.',
+        'Supernatural elements weave through the quest, blurring the lines between the physical and spiritual worlds.',
+        'The quest\'s completion promises not just material rewards, but fundamental changes to your character and destiny.'
       ]
     };
 
@@ -1284,7 +1401,7 @@ export class GeneratorCore implements IGeneratorCore {
 
     let description = this.chance.pickone(typeDescriptions);
 
-    this.addContextualEnhancements(description, context);
+    description = this.addContextualEnhancements(description, context);
 
     description = description.trim();
     if (!/[.!?]$/.test(description)) {
@@ -1298,16 +1415,21 @@ export class GeneratorCore implements IGeneratorCore {
    * Generate event choices - SIMPLE VERSION
    */
   private generateChoices(type: string, difficulty: string, context: AnalyzedContext): Choice[] {
-    const customThemeChoices = this.customChoices['default'] || this.customChoices['default'];
-    if (customThemeChoices && customThemeChoices[type] && customThemeChoices[type].length > 0) {
-      const texts = customThemeChoices[type];
-      const choiceCount = Math.min(4, texts.length);
-      const selectedTexts = this.chance.pickset(texts, choiceCount);
+    // Check all available themes for custom choices, prioritizing 'default'
+    const themesToCheck = ['default', ...Object.keys(this.customChoices).filter(k => k !== 'default')];
+    
+    for (const theme of themesToCheck) {
+      const customThemeChoices = this.customChoices[theme];
+      if (customThemeChoices && customThemeChoices[type] && customThemeChoices[type].length > 0) {
+        const texts = customThemeChoices[type];
+        const choiceCount = Math.min(4, texts.length);
+        const selectedTexts = this.chance.pickset(texts, choiceCount);
 
-      return selectedTexts.map((text, index) => ({
-        text,
-        effect: this.generateChoiceEffect(type, difficulty, index)
-      }));
+        return selectedTexts.map((text, index) => ({
+          text,
+          effect: this.generateChoiceEffect(type, difficulty, index)
+        }));
+      }
     }
 
     const choiceTexts: { [key: string]: string[] } = {
@@ -1805,6 +1927,70 @@ export class GeneratorCore implements IGeneratorCore {
         'Confront evil', 'Face darkness', 'Oppose corruption', 'Battle malevolence',
         'Bring hope', 'Offer salvation', 'Provide redemption', 'Deliver deliverance',
         'Witness miracle', 'Observe divine act', 'Experience holy wonder', 'Encounter sacred marvel'
+      ],
+      ADVENTURE: [
+        'Embark on the journey', 'Begin the expedition', 'Start the adventure', 'Commence the quest',
+        'Gather supplies first', 'Prepare thoroughly', 'Stock up on equipment', 'Acquire provisions',
+        'Recruit companions', 'Find allies', 'Assemble a team', 'Gather followers',
+        'Study ancient maps', 'Research the route', 'Examine old charts', 'Review historical records',
+        'Consult local experts', 'Seek knowledgeable guides', 'Find experienced mentors', 'Ask for advice',
+        'Scout the area first', 'Reconnaissance mission', 'Survey the surroundings', 'Assess the terrain',
+        'Set up a base camp', 'Establish headquarters', 'Create a safe haven', 'Build a forward position',
+        'Follow mysterious clues', 'Pursue hidden leads', 'Chase enigmatic hints', 'Track secret signs',
+        'Face the first challenge', 'Confront initial obstacle', 'Overcome opening trial', 'Surmount first barrier',
+        'Discover hidden treasure', 'Unearth secret riches', 'Find concealed wealth', 'Locate buried fortune',
+        'Battle legendary creatures', 'Fight mythical beasts', 'Combat ancient monsters', 'Confront primal horrors',
+        'Solve ancient puzzles', 'Decipher forgotten riddles', 'Unravel mystic enigmas', 'Crack timeless codes',
+        'Form unlikely alliances', 'Create unexpected partnerships', 'Forge strange friendships', 'Build odd coalitions',
+        'Navigate treacherous terrain', 'Cross dangerous landscapes', 'Traverse perilous paths', 'Journey through hazards',
+        'Harness elemental powers', 'Control natural forces', 'Master primal energies', 'Command elemental might',
+        'Communicate with spirits', 'Speak to ethereal beings', 'Converse with otherworldly entities', 'Dialogue with ghosts',
+        'Access hidden dimensions', 'Enter secret realms', 'Visit concealed worlds', 'Journey to parallel planes',
+        'Forge legendary weapons', 'Craft mythical artifacts', 'Create epic equipment', 'Build heroic tools',
+        'Fulfill ancient prophecies', 'Complete fateful predictions', 'Achieve destined outcomes', 'Realize legendary fates',
+        'Challenge powerful guardians', 'Test mighty protectors', 'Confront ancient sentinels', 'Face legendary wardens',
+        'Master new abilities', 'Learn powerful skills', 'Acquire mighty techniques', 'Gain legendary capabilities',
+        'Transform through experience', 'Evolve through trials', 'Change through challenges', 'Grow through adversity',
+        'Return as a legend', 'Come back as a hero', 'Return transformed', 'Come back changed',
+        'Share the discoveries', 'Reveal the findings', 'Disclose the secrets', 'Publish the knowledge',
+        'Protect the sacred sites', 'Safeguard holy places', 'Defend mystical locations', 'Shield magical areas',
+        'Establish trade routes', 'Create commercial paths', 'Open economic avenues', 'Develop merchant highways',
+        'Build monuments', 'Construct memorials', 'Erect lasting tributes', 'Create eternal markers',
+        'Inspire future generations', 'Motivate coming heroes', 'Encourage future adventurers', 'Spark new legends'
+      ],
+      QUEST: [
+        'Accept the quest immediately', 'Embrace the mission eagerly', 'Take on the task willingly', 'Accept the challenge gladly',
+        'Negotiate better terms', 'Bargain for improved conditions', 'Haggle for better rewards', 'Discuss enhanced compensation',
+        'Request time to prepare', 'Ask for preparation period', 'Demand setup time', 'Require planning phase',
+        'Seek additional information', 'Request more details', 'Ask for clarification', 'Demand further explanation',
+        'Consult trusted advisors', 'Seek wise counsel', 'Ask for expert advice', 'Request knowledgeable guidance',
+        'Gather necessary resources', 'Collect required materials', 'Acquire essential supplies', 'Obtain needed equipment',
+        'Assemble a capable team', 'Recruit skilled companions', 'Form an effective group', 'Build a competent party',
+        'Research the quest history', 'Study the mission background', 'Investigate the task origins', 'Examine the quest context',
+        'Plan the approach carefully', 'Strategize the method thoroughly', 'Devise a detailed plan', 'Create a comprehensive strategy',
+        'Set intermediate goals', 'Establish milestone objectives', 'Define progress markers', 'Create achievement checkpoints',
+        'Prepare contingency plans', 'Develop backup strategies', 'Create emergency responses', 'Form alternative approaches',
+        'Begin the first phase', 'Start the initial stage', 'Commence the opening act', 'Initiate the first step',
+        'Overcome initial obstacles', 'Surmount opening challenges', 'Conquer starting difficulties', 'Master beginning trials',
+        'Solve the first puzzle', 'Crack the initial riddle', 'Unravel the opening mystery', 'Decode the first enigma',
+        'Defeat early enemies', 'Overcome initial foes', 'Conquer starting adversaries', 'Master beginning opponents',
+        'Acquire crucial information', 'Obtain vital intelligence', 'Gain essential knowledge', 'Secure important data',
+        'Form key alliances', 'Create important partnerships', 'Establish crucial connections', 'Build vital relationships',
+        'Navigate political complications', 'Handle diplomatic challenges', 'Manage political obstacles', 'Address governmental issues',
+        'Survive environmental hazards', 'Endure natural dangers', 'Withstand elemental threats', 'Resist environmental perils',
+        'Master new skills', 'Learn essential abilities', 'Acquire necessary techniques', 'Gain required competencies',
+        'Adapt to unexpected changes', 'Adjust to unforeseen circumstances', 'Modify for unexpected developments', 'Flex for surprise elements',
+        'Maintain team morale', 'Keep group spirits high', 'Preserve party motivation', 'Sustain team enthusiasm',
+        'Manage limited resources', 'Handle scarce supplies', 'Administer constrained materials', 'Control restricted assets',
+        'Make difficult moral choices', 'Face ethical dilemmas', 'Confront moral quandaries', 'Address philosophical decisions',
+        'Push through exhaustion', 'Endure fatigue', 'Continue despite weariness', 'Persist through tiredness',
+        'Celebrate small victories', 'Acknowledge minor successes', 'Recognize incremental achievements', 'Value partial accomplishments',
+        'Adjust strategy dynamically', 'Modify approach flexibly', 'Change tactics adaptively', 'Evolve methods responsively',
+        'Protect team members', 'Safeguard companions', 'Defend party members', 'Shield group allies',
+        'Complete the quest successfully', 'Achieve quest objectives', 'Fulfill mission requirements', 'Accomplish quest goals',
+        'Claim well-earned rewards', 'Receive deserved compensation', 'Accept rightful payment', 'Obtain earned prizes',
+        'Share the glory', 'Distribute the fame', 'Spread the recognition', 'Broadcast the achievement',
+        'Reflect on the journey', 'Contemplate the experience', 'Consider the adventure', 'Meditate on the quest'
       ]
     };
 

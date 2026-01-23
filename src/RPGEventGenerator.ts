@@ -227,14 +227,14 @@ export class RPGEventGenerator {
         // Fall back to core generation if no template matched
         event = this.generatorCore.generateEvent(playerContext);
         if (this.options.debug) {
-          console.log('[RPGEventGenerator] Generated event using core generator (Markov chain)');
+          console.log('[RPGEventGenerator] Generated event using core generator (content library)');
         }
       }
     } else {
       // Use core generation directly
       event = this.generatorCore.generateEvent(playerContext);
       if (this.options.debug) {
-        console.log('[RPGEventGenerator] Generated event using core generator (Markov chain)');
+        console.log('[RPGEventGenerator] Generated event using core generator (content library)');
       }
     }
 

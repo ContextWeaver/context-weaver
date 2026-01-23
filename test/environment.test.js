@@ -90,8 +90,8 @@ describe('Environment Compatibility', () => {
     });
 
     it('should support various event types', () => {
-      const validTypes = ['ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MYSTERY',
-      'POLITICAL', 'QUEST', 'SOCIAL', 'SUPERNATURAL', 'TECHNOLOGICAL', 'HORROR'];
+      const validTypes = ['ADVENTURE', 'COMBAT', 'ECONOMIC', 'EXPLORATION', 'GUILD', 'MAGIC', 'MYSTERY',
+      'POLITICAL', 'QUEST', 'SOCIAL', 'SPELLCASTING', 'SUPERNATURAL', 'TECHNOLOGICAL', 'UNDERWORLD'];
 
       for (let i = 0; i < 10; i++) {
         const event = generator.generateEvent();
