@@ -3,7 +3,7 @@
 const { RPGEventGenerator } = require('./dist/index.js');
 
 const DEMO_CONFIG = {
-  version: '3.0.2',
+  version: '4.0.0',
   showErrors: true,
   pauseBetweenDemos: false
 };
