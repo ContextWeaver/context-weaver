@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Validation Utilities
+// RPG Event Generator v4.0.0 - Validation Utilities
 // Centralized input validation and error checking
 
 import { VALIDATION_CONSTANTS } from './constants';

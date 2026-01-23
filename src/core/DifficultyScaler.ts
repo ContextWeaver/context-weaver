@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Difficulty Scaler
+// RPG Event Generator v4.0.0 - Difficulty Scaler
 // Manages dynamic difficulty scaling based on player power and context
 
 import { PlayerContext, Choice, Effect } from '../types';

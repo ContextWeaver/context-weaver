@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Rule Engine
+// RPG Event Generator v4.0.0 - Rule Engine
 // Advanced conditional logic system for dynamic event modification
 
 import { PlayerContext, Event, Effect } from '../types';

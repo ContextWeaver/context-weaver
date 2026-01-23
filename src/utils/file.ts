@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - File System Utilities
+// RPG Event Generator v4.0.0 - File System Utilities
 // Centralized file I/O operations and pathModule management
 
 // Conditional imports for Node.js environment

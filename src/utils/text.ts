@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Text Processing Utilities
+// RPG Event Generator v4.0.0 - Text Processing Utilities
 // Centralized text manipulation and processing functions
 
 /**

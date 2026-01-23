@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Constants and Configuration
+// RPG Event Generator v4.0.0 - Constants and Configuration
 // This file contains all magic numbers, default values, and configuration constants
 
 // Core generation constants

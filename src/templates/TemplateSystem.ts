@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Template System
+// RPG Event Generator v4.0.0 - Template System
 // Manages template loading, registration, and generation
 
 // Conditional imports for Node.js environment

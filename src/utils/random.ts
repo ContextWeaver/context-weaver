@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Random Utility Functions
+// RPG Event Generator v4.0.0 - Random Utility Functions
 // Centralized random number generation and probability helpers
 
 import { Chance } from 'chance';

@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Rules Module Index
+// RPG Event Generator v4.0.0 - Rules Module Index
 // Central export point for rule engine components
 
 export {

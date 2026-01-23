@@ -363,6 +363,7 @@ This will demonstrate event generation, chains, time progression, customization,
 ### 📖 Documentation
 - **Wiki Available**: Comprehensive guides, tutorials, and examples available on the [GitHub Wiki](https://github.com/ContextWeaver/context-weaver/wiki)
 - **API Documentation**: Complete TypeDoc reference available on [GitHub Pages](https://contextweaver.github.io/context-weaver/)
+- **Migration Guide**: See [MIGRATION.md](MIGRATION.md) for upgrading from v3.x to v4.0.0
 
 ### 🛠️ Development & Testing
 - Run `npm run demo` to see all 30+ features in action

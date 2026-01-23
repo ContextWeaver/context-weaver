@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Markov Chain Engine
+// RPG Event Generator v4.0.0 - Markov Chain Engine
 // Core text generation using Markov chains
 
 import { GENERATION_DEFAULTS } from '../utils';

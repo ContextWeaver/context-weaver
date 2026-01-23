@@ -1,8 +1,9 @@
-// RPG Event Generator v3.0.0 - Main Orchestrator Class
+// RPG Event Generator v4.0.0 - Main Orchestrator Class
 // Composition-based architecture using dependency injection
 // This replaces the monolithic index.ts with a clean orchestration layer
 
 import { Chance } from 'chance';
+import { VERSION } from './utils/version';
 import {
   Event,
   PlayerContext,
@@ -718,7 +719,7 @@ export class RPGEventGenerator {
    */
   getSystemStatus(): any {
     return {
-      version: '2.0.0',
+      version: VERSION,
       language: this.localizationSystem.getCurrentLanguage(),
       availableLanguages: this.localizationSystem.getAvailableLanguages(),
       modifiersEnabled: this._enableModifiers,
@@ -974,15 +975,25 @@ export class RPGEventGenerator {
 
   // ===== PARALLEL GENERATION METHODS =====
 
+  /**
+   * Generate multiple events in parallel using Web Workers (if available)
+   * 
+   * Falls back to sequential generation if:
+   * - Web Workers are not supported in the environment
+   * - Worker spawning fails
+   * 
+   * @param count - Number of events to generate
+   * @param context - Player context for event generation
+   * @param options - Options including maxWorkers (defaults to min of CPU count and 4)
+   * @returns Promise resolving to array of generated events
+   * @throws Never throws; always falls back to sequential generation on error
+   */
   async generateEventsParallel(count: number, context: PlayerContext = {}, options: { maxWorkers?: number } = {}): Promise<Event[]> {
     if (!Worker || !osModule) {
-      console.warn('Parallel generation not supported in this environment. Falling back to sequential generation.');
-      const events: Event[] = [];
-      for (let i = 0; i < count; i++) {
-        const event = await this.generateEvent(context);
-        events.push(event);
+      if (this.options.debug) {
+        console.warn('[RPGEventGenerator] Parallel generation not supported in this environment. Falling back to sequential generation.');
       }
-      return events;
+      return this.generateEventsSequential(count, context);
     }
 
     try {
@@ -1006,14 +1017,27 @@ export class RPGEventGenerator {
 
       return allEvents.slice(0, count);
     } catch (error) {
-      console.warn('Worker loading failed, falling back to sequential generation:', error instanceof Error ? error.message : String(error));
-      const events: Event[] = [];
-      for (let i = 0; i < count; i++) {
-        const event = await this.generateEvent(context);
-        events.push(event);
+      if (this.options.debug) {
+        console.warn('[RPGEventGenerator] Worker loading failed, falling back to sequential generation:', error instanceof Error ? error.message : String(error));
       }
-      return events;
+      return this.generateEventsSequential(count, context);
     }
+  }
+
+  /**
+   * Generate multiple events sequentially
+   * 
+   * @param count - Number of events to generate
+   * @param context - Player context for event generation
+   * @returns Promise resolving to array of generated events
+   */
+  private generateEventsSequential(count: number, context: PlayerContext): Promise<Event[]> {
+    const events: Event[] = [];
+    for (let i = 0; i < count; i++) {
+      const event = this.generateEvent(context);
+      events.push(event);
+    }
+    return Promise.resolve(events);
   }
 
   private async spawnEventGenerationWorker(count: number, context: PlayerContext): Promise<Event[]> {

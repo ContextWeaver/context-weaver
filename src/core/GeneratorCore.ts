@@ -108,13 +108,31 @@ export class GeneratorCore implements IGeneratorCore {
 
   /**
    * Process raw training texts for backward compatibility
+   * 
+   * @deprecated This method is a no-op for backward compatibility. The v4.0.0 architecture
+   * uses structured content (titles, descriptions, choices) instead of raw text strings.
+   * Use addTrainingData with structured options instead.
+   * 
+   * @param texts - Array of raw training text strings (not used)
+   * @param theme - Theme identifier (not used)
    */
   private processRawTrainingTexts(texts: string[], theme: string): void {
-    console.log(`Received ${texts.length} training texts for theme '${theme}' - processing not yet implemented`);
+    // No-op: v4.0.0 uses structured content (titles, descriptions, choices)
+    // This method exists only for backward compatibility with the old API
+    if (this.options.debug) {
+      console.warn(`[GeneratorCore] Raw training texts are not supported in v4.0.0. Use structured content (titles, descriptions, choices) instead. Received ${texts.length} texts for theme '${theme}' which will be ignored.`);
+    }
   }
 
   /**
-   * Add contextual enhancements to descriptions
+   * Add contextual enhancements to descriptions based on player context
+   * 
+   * Adds prefixes for location (70% chance), weather (60%), time of day (50%),
+   * and class/race (40%) to make descriptions more immersive.
+   * 
+   * @param description - Base description to enhance
+   * @param context - Analyzed player context containing location, weather, timeOfDay, class, race
+   * @returns Enhanced description with contextual prefixes when applicable
    */
   private addContextualEnhancements(description: string, context: AnalyzedContext): string {
     const contextEnhancements: string[] = [];
@@ -279,7 +297,10 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Select appropriate event type
+   * Select appropriate event type based on context
+   * 
+   * @param context - Analyzed player context (currently all types are equally likely)
+   * @returns A randomly selected event type from the available types
    */
   private selectEventType(context: AnalyzedContext): string {
     const types = [
@@ -291,7 +312,10 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Calculate event difficulty
+   * Calculate event difficulty based on player power level
+   * 
+   * @param context - Analyzed player context containing powerLevel
+   * @returns Difficulty level: 'easy', 'moderate', 'hard', or 'extreme'
    */
   private calculateDifficulty(context: AnalyzedContext): string {
     const powerLevel = context.powerLevel || 50;
@@ -303,7 +327,11 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Generate event title - SIMPLE LOOKUP
+   * Generate event title from content library or custom themes
+   * 
+   * @param type - Event type (e.g., 'COMBAT', 'SOCIAL', 'MAGIC')
+   * @param context - Analyzed player context for potential customization
+   * @returns A randomly selected title matching the event type
    */
   private generateTitle(type: string, context: AnalyzedContext): string {
     // Check all available themes for custom titles, prioritizing 'default'
@@ -738,6 +766,14 @@ export class GeneratorCore implements IGeneratorCore {
   /**
    * Generate event description - SIMPLE AND RELIABLE
    * Direct mapping from event type to meaningful descriptions
+   */
+  /**
+   * Generate event description with contextual enhancements
+   * 
+   * @param title - The event title (currently unused, reserved for future use)
+   * @param type - Event type (e.g., 'COMBAT', 'SOCIAL', 'MAGIC')
+   * @param context - Analyzed player context for contextual enhancements
+   * @returns A description with optional location, weather, time, and class/race context
    */
   private generateDescription(
     title: string,
@@ -1412,7 +1448,12 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Generate event choices - SIMPLE VERSION
+   * Generate event choices matching the event type and difficulty
+   * 
+   * @param type - Event type (e.g., 'COMBAT', 'SOCIAL', 'MAGIC')
+   * @param difficulty - Difficulty level ('easy', 'moderate', 'hard', 'extreme')
+   * @param context - Analyzed player context (currently unused, reserved for future use)
+   * @returns Array of 2-4 choices with appropriate effects based on difficulty
    */
   private generateChoices(type: string, difficulty: string, context: AnalyzedContext): Choice[] {
     // Check all available themes for custom choices, prioritizing 'default'
@@ -2007,6 +2048,14 @@ export class GeneratorCore implements IGeneratorCore {
   /**
    * Generate effect for a choice
    */
+  /**
+   * Generate effect for a choice based on its index
+   * 
+   * @param type - Event type (currently unused, reserved for future use)
+   * @param difficulty - Difficulty level (currently unused, reserved for future use)
+   * @param index - Choice index (0-3) determines which effect type to use
+   * @returns Effect object with gold, health, experience, or reputation changes
+   */
   private generateChoiceEffect(type: string, difficulty: string, index: number): Effect {
     const effects: Effect[] = [
       { gold: this.chance.integer({ min: -10, max: 50 }) },
@@ -2019,7 +2068,11 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Generate tags
+   * Generate tags for the event based on type and context
+   * 
+   * @param type - Event type (e.g., 'COMBAT', 'SOCIAL', 'MAGIC')
+   * @param context - Analyzed player context for wealth tier tag
+   * @returns Array of tag strings (always includes type, optionally includes wealth tier)
    */
   private generateTags(type: string, context: AnalyzedContext): string[] {
     const tags = [type.toLowerCase()];

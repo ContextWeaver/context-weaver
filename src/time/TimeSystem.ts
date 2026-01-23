@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Time System
+// RPG Event Generator v4.0.0 - Time System
 // Manages game time, seasons, and time-based events
 
 import { Chance } from 'chance';

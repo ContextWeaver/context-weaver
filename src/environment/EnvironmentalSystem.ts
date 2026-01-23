@@ -1,4 +1,4 @@
-// RPG Event Generator v3.0.0 - Environmental System
+// RPG Event Generator v4.0.0 - Environmental System
 // Manages weather, seasonal, and environmental modifiers
 
 import { Chance } from 'chance';
