@@ -11,10 +11,21 @@ export interface GeneratorOptions {
   debug?: boolean;
 }
 
+export interface TrainingDataOptions {
+  titles?: { [eventType: string]: string[] };
+  descriptions?: { [eventType: string]: string[] };
+  choices?: { [eventType: string]: string[] };
+  texts?: string[];
+}
+
 export class GeneratorCore implements IGeneratorCore {
   private chance: Chance.Chance;
   private contextAnalyzer: ContextAnalyzer;
   private options: GeneratorOptions;
+
+  private customTitles: { [theme: string]: { [type: string]: string[] } } = {};
+  private customDescriptions: { [theme: string]: { [type: string]: string[] } } = {};
+  private customChoices: { [theme: string]: { [type: string]: string[] } } = {};
 
   constructor(options: GeneratorOptions = {}) {
     this.options = options;
@@ -61,10 +72,201 @@ export class GeneratorCore implements IGeneratorCore {
   }
 
   /**
-   * Add training data (placeholder for interface compatibility)
+   * Add training data - allows users to extend the generator with custom content
+   * Supports both simple text training and structured custom content
    */
-  addTrainingData(texts: string[], theme?: string): void {
-    // Not implemented in this simple version
+  addTrainingData(data: string[] | TrainingDataOptions, theme: string = 'default'): void {
+    if (typeof data === 'object' && !Array.isArray(data)) {
+      const options = data as TrainingDataOptions;
+
+      if (options.titles) {
+        if (!this.customTitles[theme]) this.customTitles[theme] = {};
+        Object.assign(this.customTitles[theme], options.titles);
+      }
+
+      if (options.descriptions) {
+        if (!this.customDescriptions[theme]) this.customDescriptions[theme] = {};
+        Object.assign(this.customDescriptions[theme], options.descriptions);
+      }
+
+      if (options.choices) {
+        if (!this.customChoices[theme]) this.customChoices[theme] = {};
+        Object.assign(this.customChoices[theme], options.choices);
+      }
+
+      if (options.texts) {
+        this.processRawTrainingTexts(options.texts, theme);
+      }
+
+      return;
+    }
+
+    if (Array.isArray(data)) {
+      this.processRawTrainingTexts(data, theme);
+    }
+  }
+
+  /**
+   * Process raw training texts for backward compatibility
+   */
+  private processRawTrainingTexts(texts: string[], theme: string): void {
+    console.log(`Received ${texts.length} training texts for theme '${theme}' - processing not yet implemented`);
+  }
+
+  /**
+   * Add contextual enhancements to descriptions
+   */
+  private addContextualEnhancements(description: string, context: AnalyzedContext): void {
+    const contextEnhancements: string[] = [];
+
+    if (context.location && this.chance.bool({ likelihood: 30 })) {
+      const locationPrefixes = [
+        `In the ${context.location}, `,
+        `Deep within the ${context.location}, `,
+        `From the heart of the ${context.location}, `,
+        `At the edge of the ${context.location}, `,
+        `Beneath the ${context.location}, `,
+        `Above the ${context.location}, `,
+        `Within the shadows of the ${context.location}, `,
+        `Amidst the ruins of the ${context.location}, `,
+        `At the center of the ${context.location}, `,
+        `Surrounded by the ${context.location}, `
+      ];
+      contextEnhancements.push(this.chance.pickone(locationPrefixes));
+    }
+
+    if (context.weather && this.chance.bool({ likelihood: 25 })) {
+      const weatherPrefixes = {
+        sunny: [
+          'Under the brilliant sun, ',
+          'Beneath clear blue skies, ',
+          'In the warm sunlight, ',
+          'Bathed in golden daylight, '
+        ],
+        rainy: [
+          'Through the pouring rain, ',
+          'Amidst the stormy downpour, ',
+          'In the relentless rain, ',
+          'Under darkening clouds, '
+        ],
+        cloudy: [
+          'Beneath overcast skies, ',
+          'In the gloomy overcast, ',
+          'Under clouded heavens, ',
+          'Within the misty clouds, '
+        ],
+        snowy: [
+          'Through the falling snow, ',
+          'In the winter blizzard, ',
+          'Amidst the snowstorm, ',
+          'Under snow-laden skies, '
+        ],
+        stormy: [
+          'During the raging storm, ',
+          'Amidst thunder and lightning, ',
+          'In the heart of the tempest, ',
+          'Beneath storm-tossed skies, '
+        ],
+        foggy: [
+          'Within the thick fog, ',
+          'Through the mysterious mist, ',
+          'In the enveloping haze, ',
+          'Amidst the foggy shroud, '
+        ],
+        windy: [
+          'Against the howling wind, ',
+          'In the gusting breeze, ',
+          'Amidst the windy gale, ',
+          'Under blustering skies, '
+        ]
+      };
+      const weatherOptions = weatherPrefixes[context.weather as keyof typeof weatherPrefixes] || ['In this weather, '];
+      contextEnhancements.push(this.chance.pickone(weatherOptions));
+    }
+
+    if (context.timeOfDay && this.chance.bool({ likelihood: 20 })) {
+      const timePrefixes = {
+        dawn: [
+          'At the break of dawn, ',
+          'In the early morning light, ',
+          'As the sun first rises, ',
+          'During the dawn hours, '
+        ],
+        morning: [
+          'In the morning hours, ',
+          'During the bright morning, ',
+          'Under the morning sun, ',
+          'In the early daylight, '
+        ],
+        noon: [
+          'At the height of noon, ',
+          'Under the midday sun, ',
+          'In the noon heat, ',
+          'During midday brightness, '
+        ],
+        afternoon: [
+          'In the afternoon light, ',
+          'During the waning afternoon, ',
+          'Under the afternoon sun, ',
+          'In the late daylight, '
+        ],
+        dusk: [
+          'As dusk approaches, ',
+          'In the fading light, ',
+          'During the evening twilight, ',
+          'At dusk\'s edge, '
+        ],
+        evening: [
+          'In the evening hours, ',
+          'During the gathering darkness, ',
+          'Under evening skies, ',
+          'In the night\'s approach, '
+        ],
+        night: [
+          'Deep in the night, ',
+          'Under starry skies, ',
+          'In the midnight hour, ',
+          'During the dark night, '
+        ],
+        midnight: [
+          'At the stroke of midnight, ',
+          'In the dead of night, ',
+          'During midnight darkness, ',
+          'At the midnight hour, '
+        ]
+      };
+      const timeOptions = timePrefixes[context.timeOfDay as keyof typeof timePrefixes] || ['At this hour, '];
+      contextEnhancements.push(this.chance.pickone(timeOptions));
+    }
+
+    if ((context.class || context.race) && this.chance.bool({ likelihood: 15 })) {
+      if (context.class) {
+        const classContexts = {
+          fighter: ['As a warrior, ', 'In your martial tradition, ', 'Drawing on your combat experience, '],
+          mage: ['With your arcane knowledge, ', 'Using your magical insight, ', 'Through your spellcasting wisdom, '],
+          rogue: ['With your cunning instincts, ', 'Using your stealthy experience, ', 'Drawing on your shadowy skills, '],
+          cleric: ['Through your divine connection, ', 'With your spiritual guidance, ', 'Using your holy wisdom, '],
+          necromancer: ['With your deathly arts, ', 'Through your necrotic knowledge, ', 'Using your dark magic, ']
+        };
+        const classOptions = classContexts[context.class as keyof typeof classContexts] || [`As a ${context.class}, `];
+        contextEnhancements.push(this.chance.pickone(classOptions));
+      } else if (context.race) {
+        const raceContexts = {
+          human: ['In the human tradition, ', 'Drawing on human ingenuity, ', 'With human determination, '],
+          elf: ['With elven grace, ', 'Using elven wisdom, ', 'Through elven perception, '],
+          dwarf: ['With dwarven strength, ', 'Using dwarven craftsmanship, ', 'Through dwarven endurance, '],
+          halfling: ['With halfling luck, ', 'Using halfling cunning, ', 'Through halfling resourcefulness, '],
+          orc: ['With orcish fury, ', 'Using orcish strength, ', 'Through orcish determination, ']
+        };
+        const raceOptions = raceContexts[context.race as keyof typeof raceContexts] || [`As a ${context.race}, `];
+        contextEnhancements.push(this.chance.pickone(raceOptions));
+      }
+    }
+
+    if (contextEnhancements.length > 0) {
+      const selectedEnhancement = this.chance.pickone(contextEnhancements);
+      description = selectedEnhancement + description.charAt(0).toLowerCase() + description.slice(1);
+    }
   }
 
   /**
@@ -103,6 +305,11 @@ export class GeneratorCore implements IGeneratorCore {
    * Generate event title - SIMPLE LOOKUP
    */
   private generateTitle(type: string, context: AnalyzedContext): string {
+    const customThemeTitles = this.customTitles['default'];
+    if (customThemeTitles && customThemeTitles[type] && customThemeTitles[type].length > 0) {
+      return this.chance.pickone(customThemeTitles[type]);
+    }
+
     const titles: { [key: string]: string[] } = {
       COMBAT: [
         'Dangerous Encounter', 'Hostile Confrontation', 'Violent Clash', 'Deadly Battle',
@@ -489,7 +696,20 @@ export class GeneratorCore implements IGeneratorCore {
     type: string,
     context: AnalyzedContext
   ): string {
-    // Direct type-to-description mapping with meaningful content
+    const customThemeDescriptions = this.customDescriptions['default'] || this.customDescriptions['default'];
+    if (customThemeDescriptions && customThemeDescriptions[type] && customThemeDescriptions[type].length > 0) {
+      let description = this.chance.pickone(customThemeDescriptions[type]);
+
+      this.addContextualEnhancements(description, context);
+
+      description = description.trim();
+      if (!/[.!?]$/.test(description)) {
+        description += '.';
+      }
+
+      return description;
+    }
+
     const descriptions: { [key: string]: string[] } = {
       COMBAT: [
         'The clash of steel echoes through the air as a heavily armed mercenary steps forward, eyes gleaming with battle lust and gold coins jingling in his purse.',
@@ -1054,7 +1274,6 @@ export class GeneratorCore implements IGeneratorCore {
       ]
     };
 
-    // Get descriptions for this type, fallback to generic
     const typeDescriptions = descriptions[type] || [
       'A significant event occurs that requires your attention.',
       'You encounter a situation that demands consideration.',
@@ -1063,167 +1282,10 @@ export class GeneratorCore implements IGeneratorCore {
       'A meaningful opportunity or challenge appears before you.'
     ];
 
-    // Select a random description
     let description = this.chance.pickone(typeDescriptions);
 
-    // Add contextual details if available and relevant
-    const contextEnhancements = [];
+    this.addContextualEnhancements(description, context);
 
-    // Location-based prefixes (30% chance)
-    if (context.location && this.chance.bool({ likelihood: 30 })) {
-      const locationPrefixes = [
-        `In the ${context.location}, `,
-        `Deep within the ${context.location}, `,
-        `From the heart of the ${context.location}, `,
-        `At the edge of the ${context.location}, `,
-        `Beneath the ${context.location}, `,
-        `Above the ${context.location}, `,
-        `Within the shadows of the ${context.location}, `,
-        `Amidst the ruins of the ${context.location}, `,
-        `At the center of the ${context.location}, `,
-        `Surrounded by the ${context.location}, `
-      ];
-      contextEnhancements.push(this.chance.pickone(locationPrefixes));
-    }
-
-    // Weather-based prefixes (25% chance)
-    if (context.weather && this.chance.bool({ likelihood: 25 })) {
-      const weatherPrefixes = {
-        sunny: [
-          'Under the brilliant sun, ',
-          'Beneath clear blue skies, ',
-          'In the warm sunlight, ',
-          'Bathed in golden daylight, '
-        ],
-        rainy: [
-          'Through the pouring rain, ',
-          'Amidst the stormy downpour, ',
-          'In the relentless rain, ',
-          'Under darkening clouds, '
-        ],
-        cloudy: [
-          'Beneath overcast skies, ',
-          'In the gloomy overcast, ',
-          'Under clouded heavens, ',
-          'Within the misty clouds, '
-        ],
-        snowy: [
-          'Through the falling snow, ',
-          'In the winter blizzard, ',
-          'Amidst the snowstorm, ',
-          'Under snow-laden skies, '
-        ],
-        stormy: [
-          'During the raging storm, ',
-          'Amidst thunder and lightning, ',
-          'In the heart of the tempest, ',
-          'Beneath storm-tossed skies, '
-        ],
-        foggy: [
-          'Within the thick fog, ',
-          'Through the mysterious mist, ',
-          'In the enveloping haze, ',
-          'Amidst the foggy shroud, '
-        ],
-        windy: [
-          'Against the howling wind, ',
-          'In the gusting breeze, ',
-          'Amidst the windy gale, ',
-          'Under blustering skies, '
-        ]
-      };
-      const weatherOptions = weatherPrefixes[context.weather as keyof typeof weatherPrefixes] || ['In this weather, '];
-      contextEnhancements.push(this.chance.pickone(weatherOptions));
-    }
-
-    // Time-based prefixes (20% chance)
-    if (context.timeOfDay && this.chance.bool({ likelihood: 20 })) {
-      const timePrefixes = {
-        dawn: [
-          'At the break of dawn, ',
-          'In the early morning light, ',
-          'As the sun first rises, ',
-          'During the dawn hours, '
-        ],
-        morning: [
-          'In the morning hours, ',
-          'During the bright morning, ',
-          'Under the morning sun, ',
-          'In the early daylight, '
-        ],
-        noon: [
-          'At the height of noon, ',
-          'Under the midday sun, ',
-          'In the noon heat, ',
-          'During midday brightness, '
-        ],
-        afternoon: [
-          'In the afternoon light, ',
-          'During the waning afternoon, ',
-          'Under the afternoon sun, ',
-          'In the late daylight, '
-        ],
-        dusk: [
-          'As dusk approaches, ',
-          'In the fading light, ',
-          'During the evening twilight, ',
-          'At dusk\'s edge, '
-        ],
-        evening: [
-          'In the evening hours, ',
-          'During the gathering darkness, ',
-          'Under evening skies, ',
-          'In the night\'s approach, '
-        ],
-        night: [
-          'Deep in the night, ',
-          'Under starry skies, ',
-          'In the midnight hour, ',
-          'During the dark night, '
-        ],
-        midnight: [
-          'At the stroke of midnight, ',
-          'In the dead of night, ',
-          'During midnight darkness, ',
-          'At the midnight hour, '
-        ]
-      };
-      const timeOptions = timePrefixes[context.timeOfDay as keyof typeof timePrefixes] || ['At this hour, '];
-      contextEnhancements.push(this.chance.pickone(timeOptions));
-    }
-
-    // Player class/race contextual prefixes (15% chance)
-    if ((context.class || context.race) && this.chance.bool({ likelihood: 15 })) {
-      if (context.class) {
-        const classContexts = {
-          fighter: ['As a warrior, ', 'In your martial tradition, ', 'Drawing on your combat experience, '],
-          mage: ['With your arcane knowledge, ', 'Using your magical insight, ', 'Through your spellcasting wisdom, '],
-          rogue: ['With your cunning instincts, ', 'Using your stealthy experience, ', 'Drawing on your shadowy skills, '],
-          cleric: ['Through your divine connection, ', 'With your spiritual guidance, ', 'Using your holy wisdom, '],
-          necromancer: ['With your deathly arts, ', 'Through your necrotic knowledge, ', 'Using your dark magic, ']
-        };
-        const classOptions = classContexts[context.class as keyof typeof classContexts] || [`As a ${context.class}, `];
-        contextEnhancements.push(this.chance.pickone(classOptions));
-      } else if (context.race) {
-        const raceContexts = {
-          human: ['In the human tradition, ', 'Drawing on human ingenuity, ', 'With human determination, '],
-          elf: ['With elven grace, ', 'Using elven wisdom, ', 'Through elven perception, '],
-          dwarf: ['With dwarven strength, ', 'Using dwarven craftsmanship, ', 'Through dwarven endurance, '],
-          halfling: ['With halfling luck, ', 'Using halfling cunning, ', 'Through halfling resourcefulness, '],
-          orc: ['With orcish fury, ', 'Using orcish strength, ', 'Through orcish determination, ']
-        };
-        const raceOptions = raceContexts[context.race as keyof typeof raceContexts] || [`As a ${context.race}, `];
-        contextEnhancements.push(this.chance.pickone(raceOptions));
-      }
-    }
-
-    // Apply one random contextual enhancement if any are available
-    if (contextEnhancements.length > 0) {
-      const selectedEnhancement = this.chance.pickone(contextEnhancements);
-      description = selectedEnhancement + description.charAt(0).toLowerCase() + description.slice(1);
-    }
-
-    // Ensure proper punctuation
     description = description.trim();
     if (!/[.!?]$/.test(description)) {
       description += '.';
@@ -1236,6 +1298,18 @@ export class GeneratorCore implements IGeneratorCore {
    * Generate event choices - SIMPLE VERSION
    */
   private generateChoices(type: string, difficulty: string, context: AnalyzedContext): Choice[] {
+    const customThemeChoices = this.customChoices['default'] || this.customChoices['default'];
+    if (customThemeChoices && customThemeChoices[type] && customThemeChoices[type].length > 0) {
+      const texts = customThemeChoices[type];
+      const choiceCount = Math.min(4, texts.length);
+      const selectedTexts = this.chance.pickset(texts, choiceCount);
+
+      return selectedTexts.map((text, index) => ({
+        text,
+        effect: this.generateChoiceEffect(type, difficulty, index)
+      }));
+    }
+
     const choiceTexts: { [key: string]: string[] } = {
       COMBAT: [
         'Charge into battle', 'Fight bravely', 'Stand your ground', 'Press the attack',
